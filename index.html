@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion · GES-CB</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <div class="page-connexion">
+    <div class="logo">
+      <div class="sigle">GES<span>-CB</span></div>
+      <div class="sous-titre">Gestion des Entrées &amp; Sorties · Camp Biblique</div>
+    </div>
+
+    <div class="carte" style="width: min(94vw, 400px);">
+      <h2 style="text-align:center;">Connexion</h2>
+
+      <form id="form-connexion" autocomplete="off">
+        <div class="form-groupe">
+          <label class="champ-label" for="champ-nom">Nom complet</label>
+          <input type="text" id="champ-nom" required />
+        </div>
+
+        <div class="form-groupe">
+          <label class="champ-label" for="champ-mdp">Mot de passe</label>
+          <input type="password" id="champ-mdp" placeholder="••••••••" required />
+        </div>
+
+        <button type="submit" class="btn">Se connecter</button>
+      </form>
+
+      <p id="msg-erreur" style="display:none; color:#FF8A8A; text-align:center; margin-top:12px; font-weight:700;">
+        Nom ou mot de passe incorrect.
+      </p>
+
+      <p style="margin-top:18px; font-size:12px; color:#666; text-align:center;">
+        Accès réservé au personnel du camp.
+      </p>
+    </div>
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    (function () {
+      // Si deja connecte, aller direct au menu
+      if (DB.estConnecte()) {
+        window.location.replace("accueil.html");
+        return;
+      }
+
+      document.getElementById("form-connexion").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const nom = document.getElementById("champ-nom").value.trim();
+        const mdp = document.getElementById("champ-mdp").value;
+
+        const compte = AUTH.essayerConnexion(nom, mdp);
+        if (compte) {
+          window.location.replace("accueil.html");
+        } else {
+          document.getElementById("msg-erreur").style.display = "block";
+          UI.toast("Nom ou mot de passe incorrect.", "erreur");
+          UI.bip(false);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

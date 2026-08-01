@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Statistiques · GES-CB</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <div class="conteneur">
+
+    <div id="zone-alertes"></div>
+
+    <div class="grille-stats">
+      <div class="carte-stat">
+        <div class="valeur" id="stat-moniteurs">0</div>
+        <div class="libelle">Moniteurs présents</div>
+      </div>
+      <div class="carte-stat">
+        <div class="valeur" id="stat-enfants">0</div>
+        <div class="libelle">Enfants présents</div>
+      </div>
+      <div class="carte-stat">
+        <div class="valeur" id="stat-visiteurs">0</div>
+        <div class="libelle">Visiteurs sur site</div>
+      </div>
+      <div class="carte-stat danger">
+        <div class="valeur" id="stat-dehors">0</div>
+        <div class="libelle">Total EN DEHORS</div>
+      </div>
+    </div>
+
+    <div class="carte">
+      <h2>🚨 Personnes actuellement EN DEHORS du camp</h2>
+      <div id="liste-dehors"></div>
+    </div>
+
+    <div class="carte">
+      <h2>📜 Journal des mouvements du jour</h2>
+      <div id="liste-journal"></div>
+    </div>
+
+    <div class="carte" style="text-align:center;">
+      <h2>🖨️ Urgence &amp; Évacuation</h2>
+      <p style="color:#888; font-size:14px; margin-bottom:14px;">
+        Génère la liste des personnes actuellement présentes dans le camp.
+      </p>
+      <button id="btn-imprimer" class="btn" style="max-width:420px; margin:0 auto;">
+        Exporter la liste des présents (PDF / Impression)
+      </button>
+    </div>
+
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/statistiques.js"></script>
+</body>
+</html>

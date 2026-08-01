@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enfants · GES-CB</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <div class="conteneur">
+
+    <div id="zone-alertes"></div>
+
+    <div class="deux-colonnes">
+
+      <!-- COLONNE 1 : NOUVEL ENFANT -->
+      <div class="carte">
+        <h2>🆕 Nouvel enfant (Création + Sortie)</h2>
+
+        <div class="form-groupe">
+          <label class="champ-label" for="nom-enfant">Nom et Prénom de l'enfant</label>
+          <input type="text" id="nom-enfant" />
+        </div>
+
+        <div class="form-groupe">
+          <label class="champ-label" for="motif-enfant">Motif de la sortie</label>
+          <select id="motif-enfant">
+            <option value="">— Choisir un motif —</option>
+            <option value="Départ définitif">Départ définitif</option>
+            <option value="RDV Médical">RDV Médical</option>
+            <option value="Sortie avec parents">Sortie avec parents</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+
+        <div class="form-groupe">
+          <label class="champ-label" for="accompagnant-enfant">Parent / Accompagnateur (optionnel)</label>
+          <input type="text" id="accompagnant-enfant" />
+        </div>
+
+        <button id="btn-nouvel-enfant" class="btn">Valider et sortir l'enfant</button>
+      </div>
+
+      <!-- COLONNE 2 : ENFANT EXISTANT -->
+      <div class="carte">
+        <h2>🔍 Enfant existant</h2>
+
+        <div class="barre-recherche">
+          <span class="loupe">🔍</span>
+          <input type="search" id="recherche-enfant" placeholder="Taper le nom ou prénom..." autocomplete="off" />
+        </div>
+        <div class="suggestion" id="suggestions"></div>
+
+        <div id="fiche-enfant" style="display:none;">
+          <div class="form-groupe" style="margin-top:12px;">
+            <div id="statut-enfant"></div>
+          </div>
+          <div id="form-nouvelle-sortie" style="display:none;">
+            <div class="form-groupe">
+              <label class="champ-label" for="motif-existant">Nouveau motif</label>
+              <select id="motif-existant">
+                <option value="">— Choisir un motif —</option>
+                <option value="Départ définitif">Départ définitif</option>
+                <option value="RDV Médical">RDV Médical</option>
+                <option value="Sortie avec parents">Sortie avec parents</option>
+                <option value="Autre">Autre</option>
+              </select>
+            </div>
+            <button id="btn-nouvelle-sortie" class="btn">Marquer une nouvelle sortie</button>
+          </div>
+          <div id="zone-retour" style="display:none;">
+            <button id="btn-retour-enfant" class="btn btn-vert">Marquer le retour</button>
+          </div>
+        </div>
+
+        <div id="liste-enfants" style="margin-top:16px;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/enfants.js"></script>
+</body>
+</html>

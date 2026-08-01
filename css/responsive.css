@@ -1,0 +1,72 @@
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 10px 12px;
+  }
+
+  .topbar .titre {
+    font-size: 15px;
+  }
+
+  .horloge {
+    font-size: 15px;
+  }
+
+  nav.menu a {
+    padding: 10px 12px;
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
+    min-width: 44%;
+  }
+
+  .grille-personnes {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .carte-personne {
+    padding: 10px 6px;
+  }
+
+  .carte-personne .initiale {
+    font-size: 18px;
+  }
+
+  .btn {
+    padding: 15px 14px;
+    font-size: 15px;
+  }
+
+  .conteneur {
+    padding: 14px 12px 80px;
+  }
+
+  .carte-stat .valeur {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 420px) {
+  .grille-menu {
+    grid-template-columns: 1fr;
+  }
+
+  .logo h1 {
+    font-size: 21px;
+  }
+}
+
+/* Orientation paysage smartphone : compact */
+@media (max-width: 900px) and (orientation: landscape) {
+  .topbar {
+    position: static;
+  }
+}
+
+/* Aides pour grand écran tactile */
+@media (min-width: 1024px) {
+  .btn {
+    cursor: pointer;
+  }
+}
