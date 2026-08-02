@@ -3,7 +3,7 @@
    ===================================================== */
 
 const DB = (function () {
-  const VERSION = 4;
+  const VERSION = 5;
   const CLE_VERSION = "ges_cb_version";
 
   const CLES = {
@@ -47,11 +47,6 @@ const DB = (function () {
       nom: "Tantine Nadicha Minga",
       motDePasse: "Camp26",
       role: "ADMIN",
-    },
-    superAdmin: {
-      nom: "Tonton Israel Salumu",
-      motDePasse: "Camp123",
-      role: "SUPER_ADMIN",
     },
   };
 

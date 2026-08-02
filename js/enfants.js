@@ -9,6 +9,8 @@
 
   const nomEnfant = document.getElementById("nom-enfant");
   const motifEnfant = document.getElementById("motif-enfant");
+  const blocAutreEnfant = document.getElementById("bloc-autre-enfant");
+  const motifAutreEnfant = document.getElementById("motif-autre-enfant");
   const accompagnantEnfant = document.getElementById("accompagnant-enfant");
   const btnNouvelEnfant = document.getElementById("btn-nouvel-enfant");
 
@@ -18,6 +20,8 @@
   const statutEnfant = document.getElementById("statut-enfant");
   const formNouvelleSortie = document.getElementById("form-nouvelle-sortie");
   const motifExistant = document.getElementById("motif-existant");
+  const blocAutreExistant = document.getElementById("bloc-autre-existant");
+  const motifAutreExistant = document.getElementById("motif-autre-existant");
   const btnNouvelleSortie = document.getElementById("btn-nouvelle-sortie");
   const zoneRetour = document.getElementById("zone-retour");
   const btnRetourEnfant = document.getElementById("btn-retour-enfant");
@@ -26,18 +30,37 @@
 
   let enfantSelectionne = null;
 
+  /* Motif : "Autre..." ouvre une case de texte libre ; sinon vide autorisé */
+  function gererChampAutre(select, autre, bloc) {
+    select.addEventListener("change", function () {
+      const estAutre = select.value === "Autre";
+      bloc.style.display = estAutre ? "block" : "none";
+      if (!estAutre) autre.value = "";
+    });
+  }
+
+  function valeurMotif(select, autre) {
+    if (select.value === "Autre") return autre.value.trim();
+    return select.value;
+  }
+
+  function reinitialiserMotif(select, autre, bloc) {
+    select.value = "";
+    autre.value = "";
+    bloc.style.display = "none";
+  }
+
+  gererChampAutre(motifEnfant, motifAutreEnfant, blocAutreEnfant);
+  gererChampAutre(motifExistant, motifAutreExistant, blocAutreExistant);
+
   /* ----- Nouvel enfant ----- */
   btnNouvelEnfant.addEventListener("click", function () {
     const nom = nomEnfant.value.trim();
-    const motif = motifEnfant.value;
+    const motif = valeurMotif(motifEnfant, motifAutreEnfant);
     const accompagnant = accompagnantEnfant.value.trim();
 
     if (!nom) {
       UI.toast("Le nom de l'enfant est obligatoire.", "erreur");
-      return;
-    }
-    if (!motif) {
-      UI.toast("Choisissez un motif de sortie.", "erreur");
       return;
     }
 
@@ -55,8 +78,8 @@
     UI.toast("Enfant créé et sorti · " + nom, "ok");
 
     nomEnfant.value = "";
-    motifEnfant.value = "";
     accompagnantEnfant.value = "";
+    reinitialiserMotif(motifEnfant, motifAutreEnfant, blocAutreEnfant);
     rafraichirListe();
   });
 
@@ -126,10 +149,8 @@
   });
 
   btnNouvelleSortie.addEventListener("click", function () {
-    if (!enfantSelectionne || !motifExistant.value) {
-      UI.toast("Choisissez un motif pour la nouvelle sortie.", "erreur");
-      return;
-    }
+    if (!enfantSelectionne) return;
+    const motif = valeurMotif(motifExistant, motifAutreExistant);
     const e = enfantSelectionne;
     DB.mettreAJourEnfant(e.id, { statut: "DEHORS" });
     DB.ajouterMouvement({
@@ -137,12 +158,12 @@
       personne_id: e.id,
       nom_personne: e.nom_prenom,
       type_action: "SORTIE",
-      motif: motifExistant.value,
+      motif: motif,
     });
     UI.bip(true);
     UI.flash("SORTIE");
-    UI.toast("SORTIE enregistrée · " + e.nom_prenom + " · " + motifExistant.value, "ok");
-    motifExistant.value = "";
+    UI.toast("SORTIE enregistrée · " + e.nom_prenom, "ok");
+    reinitialiserMotif(motifExistant, motifAutreExistant, blocAutreExistant);
     enfantSelectionne = null;
     ficheEnfant.style.display = "none";
     rafraichirListe();
@@ -201,7 +222,7 @@
       div.className = "alerte-longue";
       div.innerHTML =
         "⏰ <span>" + d.personne.nom_prenom + " est dehors depuis <strong>" + dur +
-        "</strong> — " + d.sortie.motif + "</span>";
+        "</strong> — " + (d.sortie.motif || "") + "</span>";
       zoneAlertes.appendChild(div);
     });
   }

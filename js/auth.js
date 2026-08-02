@@ -1,16 +1,19 @@
 /* =====================================================
-   GES-CB - Authentification et contrôle des rôles
+   GES-CB - Authentification (compte unique : Tantine Nadicha)
    ===================================================== */
 
 const AUTH = (function () {
   const ROLES = {
     ADMIN: {
       label: "Administrateur",
-      pages: ["accueil.html", "moniteurs.html", "enfants.html", "visiteurs.html"],
-    },
-    SUPER_ADMIN: {
-      label: "Super Administrateur",
-      pages: ["accueil.html", "statistiques.html"],
+      pages: [
+        "accueil.html",
+        "moniteurs.html",
+        "aides.html",
+        "enfants.html",
+        "visiteurs.html",
+        "statistiques.html",
+      ],
     },
   };
 
@@ -37,24 +40,13 @@ const AUTH = (function () {
     return true;
   }
 
-  /* Verifie que le role connecte peut acceder a la page courante */
+  /* Verifie que la page est accessible (toutes le sont pour le compte unique) */
   function verifierAccesPage() {
-    const role = DB.roleActuel();
-    const page = pageCourante();
-    if (!role) {
+    if (!DB.estConnecte()) {
       window.location.replace("index.html");
       return false;
     }
-    const pagesAutorisees = ROLES[role].pages;
-    if (!pagesAutorisees.includes(page)) {
-      window.location.replace("accueil.html");
-      return false;
-    }
     return true;
-  }
-
-  function estSuperAdmin() {
-    return DB.roleActuel() === "SUPER_ADMIN";
   }
 
   function seDeconnecter() {
@@ -67,7 +59,6 @@ const AUTH = (function () {
     essayerConnexion,
     exigerSession,
     verifierAccesPage,
-    estSuperAdmin,
     seDeconnecter,
   };
 })();

@@ -5,7 +5,9 @@
 (function () {
   if (!AUTH.exigerSession()) return;
   AUTH.verifierAccesPage();
-  UI.installerNavbar("moniteurs.html");
+
+  const PAGE = window.PAGE_MONITEURS || { actif: "moniteurs.html", filtreRole: null, titre: "Moniteurs" };
+  UI.installerNavbar(PAGE.actif);
 
   const grilleSortie = document.getElementById("grille-sortie");
   const grilleRetour = document.getElementById("grille-retour");
@@ -120,12 +122,22 @@
 
   motifSortie.addEventListener("input", majBoutonSortie);
 
+  /* Liste filtrée selon la page (Moniteurs ou Aides-Moniteurs) */
+  function listeDuProfil() {
+    return DB.moniteurs().filter(function (m) {
+      return PAGE.filtreRole ? m.role === PAGE.filtreRole : true;
+    });
+  }
+
   function rafraichirAlertes() {
-    const dehors = DB.personnesDehors();
+    const listes = listeDuProfil();
+    const ids = listes.map(function (m) { return m.id; });
+    const dehors = DB.personnesDehors().filter(function (d) {
+      return d.type_profil === "MONITEUR" && ids.indexOf(d.personne.id) !== -1;
+    });
     const longs = dehors.filter(function (d) {
       return (
         d.sortie &&
-        d.type_profil === "MONITEUR" &&
         DB.dureeSortie(d.sortie.heure_mouvement) >= DB.SEUIL_ALERTE_SEC
       );
     });
@@ -138,13 +150,13 @@
       div.innerHTML =
         "⏰ <span>" + d.personne.nom_prenom + " (" + d.personne.initials +
         ") est dehors depuis <strong>" + dur +
-        "</strong> — " + d.sortie.motif + "</span>";
+        "</strong> — " + (d.sortie.motif || "") + "</span>";
       zoneAlertes.appendChild(div);
     });
   }
 
   function rafraichir() {
-    const moniteurs = DB.moniteurs();
+    const moniteurs = listeDuProfil();
 
     grilleSortie.innerHTML = "";
     moniteurs
@@ -158,7 +170,7 @@
     if (dehors.length === 0) {
       grilleRetour.innerHTML =
         '<p style="color:#888; text-align:center; grid-column:1/-1; padding:16px;">' +
-        "Aucun moniteur dehors pour le moment ✅</p>";
+        "Aucun membre dehors pour le moment ✅</p>";
     }
     dehors.forEach(function (m) {
       grilleRetour.appendChild(cartePersonne(m, false));

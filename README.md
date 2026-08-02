@@ -6,28 +6,28 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 
 ---
 
-## 🔐 Comptes de connexion
+## 🔐 Compte de connexion
 
 | Rôle | Nom | Mot de passe | Accès |
 |---|---|---|---|
-| **Administrateur** (agent de porte) | Tantine Nadicha Minga | `Camp26` | Moniteurs · Enfants · Visiteurs |
-| **Super Administrateur** (direction) | Tonton Israel Salumu | `Camp123` | Statistiques uniquement |
+| **Administrateur** | Tantine Nadicha Minga | `Camp26` | Toutes les pages (Moniteurs, Aides, Enfants, Visiteurs, Statistiques) |
 
 ---
 
 ## 🚀 Utilisation
 
 1. Ouvrir le dossier dans un navigateur (Chrome, Edge, Firefox...) et ouvrir le fichier **`index.html`**.
-2. Se connecter avec l'un des deux comptes ci-dessus.
-3. Le menu affiche les pages autorisées selon le rôle.
+2. Se connecter avec le compte **Tantine Nadicha Minga** / `Camp26`.
+3. Le menu donne accès à toutes les pages.
 
-### Agent de porte (Admin)
+### Agent de porte
 - **Moniteurs** : cliquer sur l'initiale du moniteur, saisir le motif de sortie, puis [Enregistrer la sortie]. Au retour, cliquer sur le moniteur "DEHORS" puis [Valider le retour]. *Double-clic sur un nom → historique de la journée.*
-- **Enfants** : créer + sortir un nouvel enfant, ou rechercher un enfant existant (retour / nouvelle sortie).
+- **Aides-Moniteurs** : mêmes actions pour les aides.
+- **Enfants** : créer + sortir un nouvel enfant (motif optionnel : RDV médical, Cours, Formation, Autre...), ou rechercher un enfant existant (retour / nouvelle sortie).
 - **Visiteurs** : enregistrer les arrivées et les départs.
 
-### Direction (Super Admin)
-- **Statistiques** : compteurs temps réel, liste des personnes dehors, journal des mouvements du jour, **export imprimable de la liste des présents** (appel d'urgence / évacuation).
+### Direction
+- **Statistiques** : rapport du jour (moniteurs, aides, enfants, visiteurs), personnes dehors séparées par catégorie, journal des mouvements du jour, **impression du rapport quotidien** pour les réunions d'évaluation.
 
 ---
 
@@ -38,7 +38,7 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 - ⏰ Alerte rouge clignotante si une personne reste dehors plus de **3 heures**
 - 📖 Psaume du jour affiché à l'agent de porte à chaque connexion
 - 🔔 Bip sonore + flash vert (sortie) / rouge (retour) à chaque validation
-- 🖨️ Export imprimable de la liste des présents en cas d'urgence
+- 🖨️ Impression du **rapport quotidien** (statistiques + journal) pour les réunions d'évaluation
 - 📊 Statistiques en temps réel pour la direction
 
 ---
@@ -56,11 +56,12 @@ Le schéma SQL se trouve dans `database/schema.sql`.
 ```
 GES-CB/
 ├── index.html           # Page de connexion
-├── accueil.html         # Menu principal (selon le rôle)
-├── moniteurs.html       # Moniteurs & Aides-Moniteurs
+├── accueil.html         # Menu principal
+├── moniteurs.html       # Moniteurs
+├── aides.html           # Aides-Moniteurs
 ├── enfants.html         # Enfants
 ├── visiteurs.html       # Visiteurs
-├── statistiques.html    # Statistiques (Super Admin)
+├── statistiques.html    # Statistiques
 ├── css/                 # style, components, responsive
 ├── js/                  # db, auth, ui, moniteurs, enfants, visiteurs, statistiques, sqlite_export
 └── database/

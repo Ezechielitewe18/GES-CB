@@ -7,9 +7,10 @@ const UI = (function () {
   const PAGES = [
     { href: "accueil.html", label: "Accueil", role: "TOUS" },
     { href: "moniteurs.html", label: "Moniteurs", role: "ADMIN" },
+    { href: "aides.html", label: "Aides", role: "ADMIN" },
     { href: "enfants.html", label: "Enfants", role: "ADMIN" },
     { href: "visiteurs.html", label: "Visiteurs", role: "ADMIN" },
-    { href: "statistiques.html", label: "Statistiques", role: "SUPER_ADMIN" },
+    { href: "statistiques.html", label: "Statistiques", role: "ADMIN" },
   ];
 
   /* ----- Barre superieure + navigation ----- */

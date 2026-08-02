@@ -13,42 +13,81 @@
 
     <div id="zone-alertes"></div>
 
-    <div class="grille-stats">
-      <div class="carte-stat">
-        <div class="valeur" id="stat-moniteurs">0</div>
-        <div class="libelle">Moniteurs présents</div>
-      </div>
-      <div class="carte-stat">
-        <div class="valeur" id="stat-enfants">0</div>
-        <div class="libelle">Enfants présents</div>
-      </div>
-      <div class="carte-stat">
-        <div class="valeur" id="stat-visiteurs">0</div>
-        <div class="libelle">Visiteurs sur site</div>
-      </div>
-      <div class="carte-stat danger">
-        <div class="valeur" id="stat-dehors">0</div>
-        <div class="libelle">Total EN DEHORS</div>
-      </div>
-    </div>
-
+    <!-- RAPPORT DU JOUR -->
     <div class="carte">
-      <h2>🚨 Personnes actuellement EN DEHORS du camp</h2>
-      <div id="liste-dehors"></div>
+      <h2>📋 Rapport du jour</h2>
+      <div class="grille-stats">
+        <div class="carte-stat">
+          <div class="valeur" id="rpt-moniteurs">0</div>
+          <div class="libelle">Moniteurs sortis</div>
+        </div>
+        <div class="carte-stat">
+          <div class="valeur" id="rpt-aides">0</div>
+          <div class="libelle">Aides sortis</div>
+        </div>
+        <div class="carte-stat">
+          <div class="valeur" id="rpt-enfants">0</div>
+          <div class="libelle">Enfants sortis</div>
+        </div>
+        <div class="carte-stat">
+          <div class="valeur" id="rpt-visiteurs">0</div>
+          <div class="libelle">Visiteurs reçus</div>
+        </div>
+        <div class="carte-stat danger">
+          <div class="valeur" id="rpt-total">0</div>
+          <div class="libelle">Total sorties</div>
+        </div>
+      </div>
     </div>
 
+    <!-- ACTUELLEMENT DEHORS (séparés) -->
+    <div class="deux-colonnes">
+      <div class="carte">
+        <h2>🚨 Moniteurs DEHORS</h2>
+        <div id="liste-moniteurs-dehors"></div>
+      </div>
+      <div class="carte">
+        <h2>🚨 Aides-Moniteurs DEHORS</h2>
+        <div id="liste-aides-dehors"></div>
+      </div>
+    </div>
+
+    <div class="deux-colonnes">
+      <div class="carte">
+        <h2>🧒 Enfants DEHORS</h2>
+        <div id="liste-enfants-dehors"></div>
+      </div>
+      <div class="carte">
+        <h2>🤝 Visiteurs sur site</h2>
+        <div id="liste-visiteurs"></div>
+      </div>
+    </div>
+
+    <!-- JOURNAL (séparé par catégorie) -->
     <div class="carte">
       <h2>📜 Journal des mouvements du jour</h2>
-      <div id="liste-journal"></div>
+
+      <h3 style="margin-top:12px;">Moniteurs</h3>
+      <div id="journal-moniteurs"></div>
+
+      <h3 style="margin-top:12px;">Aides-Moniteurs</h3>
+      <div id="journal-aides"></div>
+
+      <h3 style="margin-top:12px;">Enfants</h3>
+      <div id="journal-enfants"></div>
+
+      <h3 style="margin-top:12px;">Visiteurs</h3>
+      <div id="journal-visiteurs"></div>
     </div>
 
+    <!-- RAPPORT A IMPRIMER -->
     <div class="carte" style="text-align:center;">
-      <h2>🖨️ Urgence &amp; Évacuation</h2>
+      <h2>🖨️ Rapport quotidien</h2>
       <p style="color:#888; font-size:14px; margin-bottom:14px;">
-        Génère la liste des personnes actuellement présentes dans le camp.
+        Imprime les statistiques et le journal du jour pour la réunion d'évaluation.
       </p>
-      <button id="btn-imprimer" class="btn" style="max-width:420px; margin:0 auto;">
-        Exporter la liste des présents (PDF / Impression)
+      <button id="btn-imprimer" class="btn" style="max-width:460px; margin:0 auto;">
+        Imprimer le rapport du jour (PDF / Impression)
       </button>
     </div>
 

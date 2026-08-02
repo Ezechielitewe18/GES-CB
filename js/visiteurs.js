@@ -10,6 +10,7 @@
   const nomVisiteur = document.getElementById("nom-visiteur");
   const telVisiteur = document.getElementById("tel-visiteur");
   const motifVisiteur = document.getElementById("motif-visiteur");
+  const pourQuiVisiteur = document.getElementById("pourqui-visiteur");
   const btnArrivee = document.getElementById("btn-arrivee");
   const listeDepart = document.getElementById("liste-depart");
 
@@ -20,16 +21,22 @@
       return;
     }
 
+    const objet = motifVisiteur.value.trim();
+    const pourQui = pourQuiVisiteur.value.trim();
+
     const v = DB.ajouterVisiteur({
       nom_prenom: nom,
       telephone: telVisiteur.value.trim(),
+      pour_qui: pourQui,
     });
     DB.ajouterMouvement({
       type_profil: "VISITEUR",
       personne_id: v.id,
       nom_personne: nom,
       type_action: "ENTREE",
-      motif: motifVisiteur.value.trim() || "Visite",
+      motif:
+        (objet || "Visite") +
+        (pourQui ? " · Pour qui : " + pourQui : ""),
     });
 
     UI.bip(true);
@@ -39,6 +46,7 @@
     nomVisiteur.value = "";
     telVisiteur.value = "";
     motifVisiteur.value = "";
+    pourQuiVisiteur.value = "";
     rafraichir();
   });
 
@@ -55,12 +63,13 @@
 
     listeDepart.innerHTML =
       '<div class="tableau-enveloppe"><table class="tableau"><thead><tr>' +
-      "<th>Visiteur</th><th>Téléphone</th><th>Action</th></tr></thead><tbody>";
+      "<th>Visiteur</th><th>Téléphone</th><th>Pour qui</th><th>Action</th></tr></thead><tbody>";
 
     surSite.forEach(function (v) {
       listeDepart.innerHTML +=
         "<tr><td><strong>" + v.nom_prenom + "</strong></td>" +
         "<td>" + (v.telephone || "—") + "</td>" +
+        "<td>" + (v.pour_qui || "—") + "</td>" +
         '<td><button class="btn btn-danger btn-petit" data-depart="' + v.id + '">Départ</button></td></tr>';
     });
 

@@ -28,38 +28,24 @@
       if (!AUTH.exigerSession()) return;
       UI.installerNavbar("accueil.html");
 
-      const role = DB.roleActuel();
       const grille = document.getElementById("grille-menu");
 
-      // Psaume du jour : visible pour l'agent de porte (Tantine Nadicha)
-      if (role === "ADMIN") {
-        const psaume = DB.psaumeDuJour();
-        document.getElementById("psaume-du-jour").innerHTML =
-          '<div class="psaume">' +
-          '<div class="psaume-titre">📖 Psaume du jour</div>' +
-          '<div class="psaume-texte">« ' + psaume.texte + ' »</div>' +
-          '<div class="psaume-ref">— ' + psaume.reference + " —</div>" +
-          "</div>";
-      }
+      // Psaume du jour : visible pour Tantine Nadicha
+      const psaume = DB.psaumeDuJour();
+      document.getElementById("psaume-du-jour").innerHTML =
+        '<div class="psaume">' +
+        '<div class="psaume-titre">📖 Psaume du jour</div>' +
+        '<div class="psaume-texte">« ' + psaume.texte + ' »</div>' +
+        '<div class="psaume-ref">— ' + psaume.reference + " —</div>" +
+        "</div>";
 
-      const cartes = [];
-      if (role === "ADMIN") {
-        cartes.push(
-          { href: "moniteurs.html", icone: "🎓", titre: "Moniteurs & Aides", desc: "Sorties et retours des moniteurs" },
-          { href: "enfants.html", icone: "🧒", titre: "Enfants", desc: "Mouvements des enfants" },
-          { href: "visiteurs.html", icone: "🤝", titre: "Visiteurs", desc: "Arrivées et départs" }
-        );
-      }
-      if (role === "SUPER_ADMIN") {
-        cartes.push(
-          { href: "statistiques.html", icone: "📊", titre: "Statistiques", desc: "Présences en temps réel" }
-        );
-      }
-
-      if (cartes.length === 0) {
-        grille.innerHTML = '<p style="color:#888; text-align:center;">Aucun accès disponible.</p>';
-        return;
-      }
+      const cartes = [
+        { href: "moniteurs.html", icone: "🎓", titre: "Moniteurs", desc: "Sorties et retours des moniteurs" },
+        { href: "aides.html", icone: "🤝", titre: "Aides-Moniteurs", desc: "Sorties et retours des aides" },
+        { href: "enfants.html", icone: "🧒", titre: "Enfants", desc: "Mouvements des enfants" },
+        { href: "visiteurs.html", icone: "🚪", titre: "Visiteurs", desc: "Arrivées et départs" },
+        { href: "statistiques.html", icone: "📊", titre: "Statistiques", desc: "Présences en temps réel" },
+      ];
 
       grille.innerHTML = cartes
         .map(function (c) {

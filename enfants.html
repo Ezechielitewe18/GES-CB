@@ -25,14 +25,19 @@
         </div>
 
         <div class="form-groupe">
-          <label class="champ-label" for="motif-enfant">Motif de la sortie</label>
+          <label class="champ-label" for="motif-enfant">Motif de la sortie (optionnel)</label>
           <select id="motif-enfant">
-            <option value="">— Choisir un motif —</option>
-            <option value="Départ définitif">Départ définitif</option>
-            <option value="RDV Médical">RDV Médical</option>
-            <option value="Sortie avec parents">Sortie avec parents</option>
-            <option value="Autre">Autre</option>
+            <option value="">— Laisser vide —</option>
+            <option value="RDV médical">RDV médical</option>
+            <option value="Cours">Cours</option>
+            <option value="Formation">Formation</option>
+            <option value="Autre">Autre...</option>
           </select>
+        </div>
+
+        <div class="form-groupe" id="bloc-autre-enfant" style="display:none;">
+          <label class="champ-label" for="motif-autre-enfant">Préciser le motif</label>
+          <input type="text" id="motif-autre-enfant" />
         </div>
 
         <div class="form-groupe">
@@ -59,14 +64,18 @@
           </div>
           <div id="form-nouvelle-sortie" style="display:none;">
             <div class="form-groupe">
-              <label class="champ-label" for="motif-existant">Nouveau motif</label>
+              <label class="champ-label" for="motif-existant">Motif de la sortie (optionnel)</label>
               <select id="motif-existant">
-                <option value="">— Choisir un motif —</option>
-                <option value="Départ définitif">Départ définitif</option>
-                <option value="RDV Médical">RDV Médical</option>
-                <option value="Sortie avec parents">Sortie avec parents</option>
-                <option value="Autre">Autre</option>
+                <option value="">— Laisser vide —</option>
+                <option value="RDV médical">RDV médical</option>
+                <option value="Cours">Cours</option>
+                <option value="Formation">Formation</option>
+                <option value="Autre">Autre...</option>
               </select>
+            </div>
+            <div class="form-groupe" id="bloc-autre-existant" style="display:none;">
+              <label class="champ-label" for="motif-autre-existant">Préciser le motif</label>
+              <input type="text" id="motif-autre-existant" />
             </div>
             <button id="btn-nouvelle-sortie" class="btn">Marquer une nouvelle sortie</button>
           </div>

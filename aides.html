@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Moniteurs · GES-CB</title>
+  <title>Aides-Moniteurs · GES-CB</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/responsive.css" />
@@ -19,11 +19,11 @@
       <div class="carte">
         <h2>🚪 Déclarer une SORTIE</h2>
 
-        <label class="champ-label">Sélectionner le moniteur</label>
+        <label class="champ-label">Sélectionner l'aide-moniteur</label>
         <div id="grille-sortie" class="grille-personnes"></div>
 
         <div class="form-groupe" style="margin-top:14px;">
-          <label class="champ-label" for="motif-sortie">Motif de la sortie (raison donnée par le moniteur)</label>
+          <label class="champ-label" for="motif-sortie">Motif de la sortie (raison donnée par l'aide)</label>
           <input type="text" id="motif-sortie" placeholder="Nadicha, écrivez la raison ici..." />
         </div>
 
@@ -36,7 +36,7 @@
       <div class="carte">
         <h2>🏠 Déclarer un RETOUR</h2>
         <p style="color:#888; font-size:13px; margin-bottom:12px;">
-          Moniteurs actuellement <strong style="color:#E74C3C;">DEHORS</strong> :
+          Aides-Moniteurs actuellement <strong style="color:#E74C3C;">DEHORS</strong> :
         </p>
         <div id="grille-retour" class="grille-personnes"></div>
         <button id="btn-retour" class="btn btn-vert" disabled>Valider le retour</button>
@@ -50,7 +50,7 @@
   <script src="js/auth.js"></script>
   <script src="js/ui.js"></script>
   <script>
-    window.PAGE_MONITEURS = { actif: "moniteurs.html", filtreRole: "Moniteur", titre: "Moniteurs" };
+    window.PAGE_MONITEURS = { actif: "aides.html", filtreRole: "Aide-Moniteur", titre: "Aides-Moniteurs" };
   </script>
   <script src="js/moniteurs.js"></script>
 </body>
