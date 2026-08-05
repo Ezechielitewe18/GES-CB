@@ -132,10 +132,20 @@ const UI = (function () {
   }
 
   /* ----- Modale historique d'une personne (idee 3) ----- */
-  function ouvrirHistorique(typeProfil, personneId, nomPersonne) {
+  function ouvrirHistorique(typeProfil, personneId, nomPersonne, details) {
     const mouvements = DB.mouvementsPersonne(typeProfil, personneId);
     const fond = document.createElement("div");
     fond.className = "modale-fond visible";
+
+    let entete = "";
+    if (details && details.length) {
+      entete = '<p class="details-personne">';
+      details.forEach(function (d) {
+        entete +=
+          '<span><strong>' + d.label + " :</strong> " + d.value + "</span> ";
+      });
+      entete += "</p>";
+    }
 
     let lignes = "";
     if (mouvements.length === 0) {
@@ -161,6 +171,7 @@ const UI = (function () {
       '<div class="modale">' +
       '<button class="fermer" onclick="this.closest(\'.modale-fond\').remove()">✕</button>' +
       "<h3>Historique · " + nomPersonne + "</h3>" +
+      entete +
       lignes +
       "</div>";
 

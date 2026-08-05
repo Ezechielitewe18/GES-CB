@@ -3,7 +3,7 @@
    ===================================================== */
 
 const DB = (function () {
-  const VERSION = 5;
+  const VERSION = 6;
   const CLE_VERSION = "ges_cb_version";
 
   const CLES = {
@@ -313,8 +313,98 @@ const DB = (function () {
     return val;
   }
 
-  /* ----- Initialisation : liste des moniteurs et enfants VIDE -----
-     (les noms seront fournis par la direction) */
+  /* ----- Liste définitive des MONITEURS (fournie par la direction) ----- */
+  const MONITEURS_BASE = [
+    { nom_prenom: "Alistair MINGA SHANGA", sexe: "M", telephone: "0817892936", commission: "Communication" },
+    { nom_prenom: "Anael BUANDA SUKADI", sexe: "F", telephone: "0906354770", commission: "Protocole" },
+    { nom_prenom: "Angélique NTUMBA KABITAMBISHI", sexe: "F", telephone: "0840387988", commission: "Enseignement" },
+    { nom_prenom: "Anne SHIMBA NGOY", sexe: "F", telephone: "", commission: "Enseignement" },
+    { nom_prenom: "Arnold MUTOMBO KADIMA", sexe: "M", telephone: "0819360012", commission: "Sport" },
+    { nom_prenom: "Benedicte BOLINGO BOFEKO", sexe: "F", telephone: "0826404493", commission: "Cuisine" },
+    { nom_prenom: "Benel KASONGA MASENGU", sexe: "F", telephone: "0828383336", commission: "Sport" },
+    { nom_prenom: "Bénie KATULANSONI MAYA", sexe: "F", telephone: "0815406115", commission: "Loisirs" },
+    { nom_prenom: "Bérénice KABULO MUKANDA", sexe: "F", telephone: "0812963415", commission: "Enseignement" },
+    { nom_prenom: "Bodmie MPANYA KAZADI", sexe: "F", telephone: "0812849538", commission: "Spirituel" },
+    { nom_prenom: "Cécile KINGUNA MUKETER", sexe: "F", telephone: "0813793284", commission: "" },
+    { nom_prenom: "Christelle MAKWABALA", sexe: "F", telephone: "0998656577", commission: "Coordination" },
+    { nom_prenom: "Christian KILULA KONDO", sexe: "M", telephone: "0841537757", commission: "Discipline" },
+    { nom_prenom: "Christian NGOYI", sexe: "M", telephone: "", commission: "Protocole" },
+    { nom_prenom: "Claudette PELENGE MINGA", sexe: "F", telephone: "0815157256", commission: "Médicale" },
+    { nom_prenom: "Claudine DIASONAMA", sexe: "F", telephone: "0816516312", commission: "" },
+    { nom_prenom: "Consel SUAMUNU BASADILA", sexe: "F", telephone: "0856236132", commission: "Cuisine" },
+    { nom_prenom: "Deborah MBUAYA ILUNGA", sexe: "F", telephone: "0812948180", commission: "" },
+    { nom_prenom: "Defi MUSHENI MANZIMI", sexe: "F", telephone: "0998608776", commission: "Protocole" },
+    { nom_prenom: "Diamante BUBIONGO NSUKU", sexe: "F", telephone: "0843475646", commission: "Protocole" },
+    { nom_prenom: "Difi SAIDI", sexe: "F", telephone: "0894253885", commission: "Cuisine" },
+    { nom_prenom: "Divin BASILWANGO", sexe: "M", telephone: "", commission: "Logistique" },
+    { nom_prenom: "Divine BANGWENO MUMIE", sexe: "F", telephone: "0990851607", commission: "" },
+    { nom_prenom: "Divine NKOMBO BEYANA", sexe: "F", telephone: "0814451070", commission: "" },
+    { nom_prenom: "Eliezer MUTSHI MANDE", sexe: "M", telephone: "0818571738", commission: "Spirituel" },
+    { nom_prenom: "Elise MANGENZI TELA", sexe: "F", telephone: "", commission: "Cuisine" },
+    { nom_prenom: "Emmanuel WANJA WAMPE", sexe: "M", telephone: "0839333714", commission: "Logistique" },
+    { nom_prenom: "Esperance", sexe: "F", telephone: "0853719093", commission: "" },
+    { nom_prenom: "Esperance NKULU MALOBA", sexe: "F", telephone: "0814734608", commission: "" },
+    { nom_prenom: "Esther KALUBI KADIMA", sexe: "F", telephone: "0828757540", commission: "Protocole" },
+    { nom_prenom: "Esther SHIMBA MWEMA", sexe: "F", telephone: "0998101623", commission: "Enseignement" },
+    { nom_prenom: "Eunice KAYOWA MANDA", sexe: "F", telephone: "0832711390", commission: "Protocole" },
+    { nom_prenom: "Exauce BOLINGO MPUTU", sexe: "M", telephone: "0823939556", commission: "Logistique" },
+    { nom_prenom: "Exauce BULENGHA LUKASU", sexe: "M", telephone: "0820988740", commission: "Protocole" },
+    { nom_prenom: "Fanny MUTEMBA IRUNG", sexe: "F", telephone: "0810827401", commission: "" },
+    { nom_prenom: "Florence MAMPENDO NGOMBOLO", sexe: "F", telephone: "0810851960", commission: "" },
+    { nom_prenom: "François MUKANDILA BEYA", sexe: "M", telephone: "0899574304", commission: "Communication" },
+    { nom_prenom: "Gabriella", sexe: "F", telephone: "0895923903", commission: "" },
+    { nom_prenom: "Gauthier MPIANA MINGA", sexe: "M", telephone: "0820078266", commission: "Enseignement" },
+    { nom_prenom: "Gisele", sexe: "F", telephone: "", commission: "" },
+    { nom_prenom: "Ida LOKONI NYANZANGO", sexe: "F", telephone: "0999987740", commission: "Enseignement" },
+    { nom_prenom: "Irene KASENGELA KAZADI", sexe: "F", telephone: "0999335053", commission: "Discipline" },
+    { nom_prenom: "Israël KONDO NKUNKU", sexe: "M", telephone: "0822422990", commission: "Loisirs" },
+    { nom_prenom: "Israël SALUMU BIRINGANINE", sexe: "M", telephone: "0826259538", commission: "Coordination" },
+    { nom_prenom: "Jack NKONKWE MBAYO", sexe: "M", telephone: "0978119169", commission: "Protocole" },
+    { nom_prenom: "Jedidja KAMWANYA MASEVO", sexe: "F", telephone: "0982751545", commission: "Protocole" },
+    { nom_prenom: "Jemima MPAMBU MBUZI", sexe: "F", telephone: "0848687079", commission: "" },
+    { nom_prenom: "Jessyca BUSHA ANTUIL", sexe: "F", telephone: "0814584762", commission: "Communication" },
+    { nom_prenom: "Jocelyne KAKUDJI KISULA", sexe: "F", telephone: "0822854669", commission: "Loisirs" },
+    { nom_prenom: "Joella MUANDA MATONDO", sexe: "F", telephone: "0817466117", commission: "Protocole" },
+    { nom_prenom: "Joseph LUBOYA LUNGONZO", sexe: "M", telephone: "0822805616", commission: "Cuisine" },
+    { nom_prenom: "Josué TSHULA OKOMA", sexe: "M", telephone: "0854342690", commission: "Logistique" },
+    { nom_prenom: "Joy TSHITOKO N'ZITA", sexe: "M", telephone: "0830438374", commission: "Logistique" },
+    { nom_prenom: "Lorsel MOTEADE MONINGA", sexe: "F", telephone: "0974208637", commission: "Loisirs" },
+    { nom_prenom: "Mamie IKIESE SAKABENI", sexe: "F", telephone: "0814676604", commission: "" },
+    { nom_prenom: "Manassé TSHITOKO MINGA", sexe: "M", telephone: "0825483876", commission: "" },
+    { nom_prenom: "Marie Céline AMBOKO VIVUYA", sexe: "F", telephone: "0893690151", commission: "Loisirs" },
+    { nom_prenom: "Marie-Claver KUNUMANA PWA", sexe: "F", telephone: "0818364469", commission: "Cuisine" },
+    { nom_prenom: "Marthe", sexe: "F", telephone: "0982646225", commission: "" },
+    { nom_prenom: "Matthieu LUAPANYA MULUNGU", sexe: "M", telephone: "0821357747", commission: "" },
+    { nom_prenom: "Merveille BOMOLO BONTSUTSU", sexe: "M", telephone: "0833097960", commission: "Cuisine" },
+    { nom_prenom: "Mirvi BUDIONGO NSILULU", sexe: "M", telephone: "0994207248", commission: "Communication" },
+    { nom_prenom: "Modestie TEDIKA NSIMBA", sexe: "M", telephone: "0819792870", commission: "" },
+    { nom_prenom: "Moise KANDOLO", sexe: "M", telephone: "0816915114", commission: "" },
+    { nom_prenom: "Nadicha MUSUAMBA MINGA", sexe: "F", telephone: "0820142656", commission: "Protocole" },
+    { nom_prenom: "Nancy MUJIKE", sexe: "F", telephone: "0811827556", commission: "Cuisine" },
+    { nom_prenom: "Nella KIFULUKA TOSHA Léa", sexe: "F", telephone: "0812195812", commission: "Médicale" },
+    { nom_prenom: "Noémie NDALAMBA", sexe: "F", telephone: "", commission: "" },
+    { nom_prenom: "Patrick KAMBAMBA", sexe: "M", telephone: "", commission: "" },
+    { nom_prenom: "Pierre UTSHUDI NKOY", sexe: "M", telephone: "0999987740", commission: "" },
+    { nom_prenom: "Plamedi BELOKO LESENGE", sexe: "F", telephone: "0976741536", commission: "Loisirs" },
+    { nom_prenom: "Prisca KALULA", sexe: "F", telephone: "0811263235", commission: "" },
+    { nom_prenom: "Rami TAMBWE", sexe: "F", telephone: "0819983240", commission: "Cuisine" },
+    { nom_prenom: "Richesse MANIALA MUKANDILA", sexe: "M", telephone: "0812570212", commission: "Logistique" },
+    { nom_prenom: "Rose MUZALIWA N'ANCHA", sexe: "F", telephone: "0828706024", commission: "Finance" },
+    { nom_prenom: "Shaloom MALALA", sexe: "M", telephone: "0829999262", commission: "Coordination" },
+    { nom_prenom: "Tegra BELOKO N'KIRAWE", sexe: "M", telephone: "0990657869", commission: "Spirituel" },
+    { nom_prenom: "Thomas BANDUKA PANZU", sexe: "M", telephone: "0826305861", commission: "Cuisine" },
+    { nom_prenom: "Voldis LOYKO WA LOYKO", sexe: "M", telephone: "0814981388", commission: "Communication" },
+  ];
+
+  /* Initiales = première lettre du prénom + première lettre du nom (dernier mot) */
+  function initialesDe(nom) {
+    const mots = nom.trim().split(/\s+/);
+    const debut = mots[0].charAt(0);
+    const fin = mots[mots.length - 1].charAt(0);
+    return (debut + fin).toUpperCase();
+  }
+
+  /* ----- Initialisation : liste définitive des moniteurs ----- */
   function initialiser() {
     if (localStorage.getItem(CLE_VERSION) !== String(VERSION)) {
       Object.values(CLES).forEach(function (c) {
@@ -324,18 +414,19 @@ const DB = (function () {
     }
 
     if (!localStorage.getItem(CLES.moniteurs)) {
-      sauverMoniteurs([
-        { id: 1, nom_prenom: "Tegra Beloko", initials: "TB", role: "Moniteur", statut: "PRESENT" },
-        { id: 2, nom_prenom: "Plamedie Beloko", initials: "PB", role: "Moniteur", statut: "PRESENT" },
-        { id: 3, nom_prenom: "Divine Bangweno", initials: "DB", role: "Aide-Moniteur", statut: "PRESENT" },
-        { id: 4, nom_prenom: "Alistair Minga", initials: "AM", role: "Moniteur", statut: "PRESENT" },
-        { id: 5, nom_prenom: "Celina Amboko", initials: "CA", role: "Moniteur", statut: "PRESENT" },
-        { id: 6, nom_prenom: "Richesse Maniala", initials: "RM", role: "Aide-Moniteur", statut: "PRESENT" },
-        { id: 7, nom_prenom: "Mirac Tambwe", initials: "MT", role: "Aide-Moniteur", statut: "PRESENT" },
-        { id: 8, nom_prenom: "Emmanuel Wandja", initials: "EW", role: "Aide-Moniteur", statut: "PRESENT" },
-        { id: 9, nom_prenom: "Voldis Loyko", initials: "VL", role: "Moniteur", statut: "PRESENT" },
-        { id: 10, nom_prenom: "Exauce Bolingo", initials: "EB", role: "Moniteur", statut: "PRESENT" },
-      ]);
+      const liste = MONITEURS_BASE.map(function (m, i) {
+        return {
+          id: i + 1,
+          nom_prenom: m.nom_prenom,
+          initials: initialesDe(m.nom_prenom),
+          role: "Moniteur",
+          statut: "PRESENT",
+          sexe: m.sexe,
+          telephone: m.telephone,
+          commission: m.commission,
+        };
+      });
+      sauverMoniteurs(liste);
     }
     if (!localStorage.getItem(CLES.enfants)) sauverEnfants([]);
     if (!localStorage.getItem(CLES.visiteurs)) sauverVisiteurs([]);

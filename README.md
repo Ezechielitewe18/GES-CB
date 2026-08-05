@@ -70,17 +70,86 @@ GES-CB/
 
 ---
 
-## 👥 Moniteurs & Aides-Moniteurs
+## 👥 Moniteurs (liste officielle)
 
-| Initiales | Nom | Rôle |
-|---|---|---|
-| TB | Tegra Beloko | Moniteur |
-| PB | Plamedie Beloko | Moniteur |
-| DB | Divine Bangweno | Aide-Moniteur |
-| AM | Alistair Minga | Moniteur |
-| CA | Celina Amboko | Moniteur |
-| RM | Richesse Maniala | Aide-Moniteur |
-| MT | Mirac Tambwe | Aide-Moniteur |
-| EW | Emmanuel Wandja | Aide-Moniteur |
-| VL | Voldis Loyko | Moniteur |
-| EB | Exauce Bolingo | Moniteur |
+| Initiales | Nom | Sexe | Téléphone | Commission |
+|---|---|---|---|---|
+| AM | Alistair MINGA SHANGA | M | 0817892936 | Communication |
+| AB | Anael BUANDA SUKADI | F | 0906354770 | Protocole |
+| AN | Angélique NTUMBA KABITAMBISHI | F | 0840387988 | Enseignement |
+| AN | Anne SHIMBA NGOY | F | — | Enseignement |
+| AK | Arnold MUTOMBO KADIMA | M | 0819360012 | Sport |
+| BB | Benedicte BOLINGO BOFEKO | F | 0826404493 | Cuisine |
+| BM | Benel KASONGA MASENGU | F | 0828383336 | Sport |
+| BM | Bénie KATULANSONI MAYA | F | 0815406115 | Loisirs |
+| BM | Bérénice KABULO MUKANDA | F | 0812963415 | Enseignement |
+| BK | Bodmie MPANYA KAZADI | F | 0812849538 | Spirituel |
+| CK | Cécile KINGUNA MUKETER | F | 0813793284 | — |
+| CM | Christelle MAKWABALA | F | 0998656577 | Coordination |
+| CK | Christian KILULA KONDO | M | 0841537757 | Discipline |
+| CN | Christian NGOYI | M | — | Protocole |
+| CM | Claudette PELENGE MINGA | F | 0815157256 | Médicale |
+| CD | Claudine DIASONAMA | F | 0816516312 | — |
+| CB | Consel SUAMUNU BASADILA | F | 0856236132 | Cuisine |
+| DI | Deborah MBUAYA ILUNGA | F | 0812948180 | — |
+| DM | Defi MUSHENI MANZIMI | F | 0998608776 | Protocole |
+| DN | Diamante BUBIONGO NSUKU | F | 0843475646 | Protocole |
+| DS | Difi SAIDI | F | 0894253885 | Cuisine |
+| DB | Divin BASILWANGO | M | — | Logistique |
+| DM | Divine BANGWENO MUMIE | F | 0990851607 | — |
+| DB | Divine NKOMBO BEYANA | F | 0814451070 | — |
+| EM | Eliezer MUTSHI MANDE | M | 0818571738 | Spirituel |
+| ET | Elise MANGENZI TELA | F | — | Cuisine |
+| EW | Emmanuel WANJA WAMPE | M | 0839333714 | Logistique |
+| EE | Esperance | F | 0853719093 | — |
+| EM | Esperance NKULU MALOBA | F | 0814734608 | — |
+| EK | Esther KALUBI KADIMA | F | 0828757540 | Protocole |
+| EM | Esther SHIMBA MWEMA | F | 0998101623 | Enseignement |
+| EM | Eunice KAYOWA MANDA | F | 0832711390 | Protocole |
+| EM | Exauce BOLINGO MPUTU | M | 0823939556 | Logistique |
+| EL | Exauce BULENGHA LUKASU | M | 0820988740 | Protocole |
+| FI | Fanny MUTEMBA IRUNG | F | 0810827401 | — |
+| FN | Florence MAMPENDO NGOMBOLO | F | 0810851960 | — |
+| FB | François MUKANDILA BEYA | M | 0899574304 | Communication |
+| GG | Gabriella | F | 0895923903 | — |
+| GM | Gauthier MPIANA MINGA | M | 0820078266 | Enseignement |
+| GG | Gisele | F | — | — |
+| IN | Ida LOKONI NYANZANGO | F | 0999987740 | Enseignement |
+| IK | Irene KASENGELA KAZADI | F | 0999335053 | Discipline |
+| IN | Israël KONDO NKUNKU | M | 0822422990 | Loisirs |
+| IB | Israël SALUMU BIRINGANINE | M | 0826259538 | Coordination |
+| JM | Jack NKONKWE MBAYO | M | 0978119169 | Protocole |
+| JM | Jedidja KAMWANYA MASEVO | F | 0982751545 | Protocole |
+| JM | Jemima MPAMBU MBUZI | F | 0848687079 | — |
+| JA | Jessyca BUSHA ANTUIL | F | 0814584762 | Communication |
+| JK | Jocelyne KAKUDJI KISULA | F | 0822854669 | Loisirs |
+| JM | Joella MUANDA MATONDO | F | 0817466117 | Protocole |
+| JL | Joseph LUBOYA LUNGONZO | M | 0822805616 | Cuisine |
+| JO | Josué TSHULA OKOMA | M | 0854342690 | Logistique |
+| JN | Joy TSHITOKO N'ZITA | M | 0830438374 | Logistique |
+| LM | Lorsel MOTEADE MONINGA | F | 0974208637 | Loisirs |
+| MS | Mamie IKIESE SAKABENI | F | 0814676604 | — |
+| MM | Manassé TSHITOKO MINGA | M | 0825483876 | — |
+| MV | Marie Céline AMBOKO VIVUYA | F | 0893690151 | Loisirs |
+| MP | Marie-Claver KUNUMANA PWA | F | 0818364469 | Cuisine |
+| MM | Marthe | F | 0982646225 | — |
+| MM | Matthieu LUAPANYA MULUNGU | M | 0821357747 | — |
+| MB | Merveille BOMOLO BONTSUTSU | M | 0833097960 | Cuisine |
+| BN | Mirvi BUDIONGO NSILULU | M | 0994207248 | Communication |
+| MN | Modestie TEDIKA NSIMBA | M | 0819792870 | — |
+| MK | Moise KANDOLO | M | 0816915114 | — |
+| NM | Nadicha MUSUAMBA MINGA | F | 0820142656 | Protocole |
+| NM | Nancy MUJIKE | F | 0811827556 | Cuisine |
+| NL | Nella KIFULUKA TOSHA Léa | F | 0812195812 | Médicale |
+| NN | Noémie NDALAMBA | F | — | — |
+| PK | Patrick KAMBAMBA | M | — | — |
+| PN | Pierre UTSHUDI NKOY | M | 0999987740 | — |
+| PL | Plamedi BELOKO LESENGE | F | 0976741536 | Loisirs |
+| PK | Prisca KALULA | F | 0811263235 | — |
+| RT | Rami TAMBWE | F | 0819983240 | Cuisine |
+| RM | Richesse MANIALA MUKANDILA | M | 0812570212 | Logistique |
+| RN | Rose MUZALIWA N'ANCHA | F | 0828706024 | Finance |
+| SM | Shaloom MALALA | M | 0829999262 | Coordination |
+| TN | Tegra BELOKO N'KIRAWE | M | 0990657869 | Spirituel |
+| BP | Thomas BANDUKA PANZU | M | 0826305861 | Cuisine |
+| VL | Voldis LOYKO WA LOYKO | M | 0814981388 | Communication |

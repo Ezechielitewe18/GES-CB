@@ -27,7 +27,7 @@
     div.innerHTML =
       '<span class="initiale">' + m.initials + "</span>" +
       '<span class="nom">' + m.nom_prenom + "</span>" +
-      '<span class="role">' + m.role + "</span>";
+      '<span class="role">' + (m.commission || m.role) + "</span>";
 
     div.addEventListener("click", function () {
       if (pourSortie) {
@@ -47,11 +47,15 @@
       }
     });
 
-    // Bouton historique (idee 3) sur double-clic sur le nom
+    // Bouton historique + coordonnées (idee 3) sur double-clic sur le nom
     const nomEl = div.querySelector(".nom");
-    nomEl.title = "Double-cliquer pour voir l'historique";
+    nomEl.title = "Double-cliquer pour voir les coordonnées et l'historique";
     nomEl.addEventListener("dblclick", function () {
-      UI.ouvrirHistorique("MONITEUR", m.id, m.nom_prenom + " (" + m.initials + ")");
+      UI.ouvrirHistorique("MONITEUR", m.id, m.nom_prenom + " (" + m.initials + ")", [
+        { label: "Sexe", value: m.sexe === "M" ? "Masculin" : "Féminin" },
+        { label: "Téléphone", value: m.telephone || "—" },
+        { label: "Commission", value: m.commission || "—" },
+      ]);
     });
 
     return div;
