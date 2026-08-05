@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Statistiques · GES-CB</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/responsive.css" />
@@ -11,11 +13,24 @@
 <body>
   <div class="conteneur">
 
+    <div class="en-tete-page">
+      <span class="en-tete-icone">
+        <svg class="icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 16v-5"/><path d="M13 16V8"/><path d="M18 16v-3"/></svg>
+      </span>
+      <div>
+        <h1>Statistiques</h1>
+        <p>Présences en temps réel, rapport du jour et journal des mouvements.</p>
+      </div>
+    </div>
+
     <div id="zone-alertes"></div>
 
     <!-- RAPPORT DU JOUR -->
     <div class="carte">
-      <h2>📋 Rapport du jour</h2>
+      <h2>
+        <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        Rapport du jour
+      </h2>
       <div class="grille-stats">
         <div class="carte-stat">
           <div class="valeur" id="rpt-moniteurs">0</div>
@@ -43,29 +58,44 @@
     <!-- ACTUELLEMENT DEHORS (séparés) -->
     <div class="deux-colonnes">
       <div class="carte">
-        <h2>🚨 Moniteurs DEHORS</h2>
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 1.5 21h21z"/><path d="M12 10v5"/><path d="M12 18h.01"/></svg>
+          Moniteurs DEHORS
+        </h2>
         <div id="liste-moniteurs-dehors"></div>
       </div>
       <div class="carte">
-        <h2>🚨 Aides-Moniteurs DEHORS</h2>
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 1.5 21h21z"/><path d="M12 10v5"/><path d="M12 18h.01"/></svg>
+          Aides-Moniteurs DEHORS
+        </h2>
         <div id="liste-aides-dehors"></div>
       </div>
     </div>
 
     <div class="deux-colonnes">
       <div class="carte">
-        <h2>🧒 Enfants DEHORS</h2>
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="6" r="3"/><path d="M9 9.5 12 11l3-1.5"/><path d="M12 11v5"/><path d="M9 21l1.5-5h3L15 21"/></svg>
+          Enfants DEHORS
+        </h2>
         <div id="liste-enfants-dehors"></div>
       </div>
       <div class="carte">
-        <h2>🤝 Visiteurs sur site</h2>
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21V3l8 2v16"/><path d="M17 21H7"/><path d="M12 12h.01"/></svg>
+          Visiteurs sur site
+        </h2>
         <div id="liste-visiteurs"></div>
       </div>
     </div>
 
     <!-- JOURNAL (séparé par catégorie) -->
     <div class="carte">
-      <h2>📜 Journal des mouvements du jour</h2>
+      <h2>
+        <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 3"/></svg>
+        Journal des mouvements du jour
+      </h2>
 
       <h3 style="margin-top:12px;">Moniteurs</h3>
       <div id="journal-moniteurs"></div>
@@ -82,7 +112,10 @@
 
     <!-- RAPPORT A IMPRIMER -->
     <div class="carte" style="text-align:center;">
-      <h2>🖨️ Rapport quotidien</h2>
+      <h2>
+        <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg>
+        Rapport quotidien
+      </h2>
       <p style="color:#888; font-size:14px; margin-bottom:14px;">
         Imprime les statistiques et le journal du jour pour la réunion d'évaluation.
       </p>
@@ -95,6 +128,7 @@
 
   <script src="js/db.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/icons.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/statistiques.js"></script>
 </body>

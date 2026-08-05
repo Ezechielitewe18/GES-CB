@@ -5,12 +5,12 @@
 
 const UI = (function () {
   const PAGES = [
-    { href: "accueil.html", label: "Accueil", role: "TOUS" },
-    { href: "moniteurs.html", label: "Moniteurs", role: "ADMIN" },
-    { href: "aides.html", label: "Aides", role: "ADMIN" },
-    { href: "enfants.html", label: "Enfants", role: "ADMIN" },
-    { href: "visiteurs.html", label: "Visiteurs", role: "ADMIN" },
-    { href: "statistiques.html", label: "Statistiques", role: "ADMIN" },
+    { href: "accueil.html", label: "Accueil", icone: "home", role: "TOUS" },
+    { href: "moniteurs.html", label: "Moniteurs", icone: "users", role: "ADMIN" },
+    { href: "aides.html", label: "Aides", icone: "helpers", role: "ADMIN" },
+    { href: "enfants.html", label: "Enfants", icone: "child", role: "ADMIN" },
+    { href: "visiteurs.html", label: "Visiteurs", icone: "door", role: "ADMIN" },
+    { href: "statistiques.html", label: "Statistiques", icone: "chart", role: "ADMIN" },
   ];
 
   /* ----- Barre superieure + navigation ----- */
@@ -46,7 +46,7 @@ const UI = (function () {
       if (p.role !== "TOUS" && p.role !== role) return;
       const a = document.createElement("a");
       a.href = p.href;
-      a.textContent = p.label;
+      a.innerHTML = ICONES(p.icone, 17) + ' <span class="menu-label">' + p.label + "</span>";
       if (p.href === actif) a.className = "active";
       nav.appendChild(a);
     });

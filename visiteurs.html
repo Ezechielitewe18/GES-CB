@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Visiteurs · GES-CB</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/responsive.css" />
@@ -11,11 +13,24 @@
 <body>
   <div class="conteneur">
 
+    <div class="en-tete-page">
+      <span class="en-tete-icone">
+        <svg class="icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21V3l8 2v16"/><path d="M17 21H7"/><path d="M12 12h.01"/></svg>
+      </span>
+      <div>
+        <h1>Visiteurs</h1>
+        <p>Enregistrez les arrivées et les départs des visiteurs du camp.</p>
+      </div>
+    </div>
+
     <div class="deux-colonnes">
 
       <!-- COLONNE 1 : ARRIVEE -->
       <div class="carte">
-        <h2>👋 Enregistrer un VISITEUR</h2>
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 8l-4 4 4 4"/><path d="M20 12H6"/><path d="M6 4v16"/></svg>
+          Enregistrer un VISITEUR
+        </h2>
 
         <div class="form-groupe">
           <label class="champ-label" for="nom-visiteur">Nom et Prénom</label>
@@ -42,7 +57,10 @@
 
       <!-- COLONNE 2 : DEPART -->
       <div class="carte">
-        <h2>🏠 Départ d'un visiteur</h2>
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8l4 4-4 4"/><path d="M4 12h14"/><path d="M18 4v16"/></svg>
+          Départ d'un visiteur
+        </h2>
         <p style="color:#888; font-size:13px; margin-bottom:12px;">
           Visiteurs actuellement <strong style="color:#E67E22;">SUR LE SITE</strong> :
         </p>
@@ -54,6 +72,7 @@
 
   <script src="js/db.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/icons.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/visiteurs.js"></script>
 </body>

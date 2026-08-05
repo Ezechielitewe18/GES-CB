@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Moniteurs · GES-CB</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/responsive.css" />
@@ -11,16 +13,31 @@
 <body>
   <div class="conteneur">
 
+    <div class="en-tete-page">
+      <span class="en-tete-icone">
+        <svg class="icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      <div>
+        <h1>Moniteurs</h1>
+        <p>Sélectionnez un moniteur, saisissez le motif, puis enregistrez la sortie ou le retour.</p>
+      </div>
+    </div>
+
     <div id="zone-alertes"></div>
 
     <div class="deux-colonnes">
 
       <!-- COLONNE 1 : SORTIE -->
       <div class="carte">
-        <h2>🚪 Déclarer une SORTIE</h2>
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8l4 4-4 4"/><path d="M4 12h14"/><path d="M18 4v16"/></svg>
+          Déclarer une SORTIE
+        </h2>
 
         <div class="barre-recherche">
-          <span class="loupe">🔍</span>
+          <span class="loupe">
+            <svg class="icone" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          </span>
           <input type="text" id="recherche-moniteur" placeholder="Rechercher un moniteur (nom, numéro, commission...)" />
         </div>
 
@@ -50,7 +67,10 @@
 
       <!-- COLONNE 2 : RETOUR -->
       <div class="carte">
-        <h2>🏠 Déclarer un RETOUR</h2>
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 8l-4 4 4 4"/><path d="M20 12H6"/><path d="M6 4v16"/></svg>
+          Déclarer un RETOUR
+        </h2>
         <p style="color:#888; font-size:13px; margin-bottom:12px;">
           Moniteurs actuellement <strong style="color:#E74C3C;">DEHORS</strong> :
         </p>
@@ -76,6 +96,7 @@
 
   <script src="js/db.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/icons.js"></script>
   <script src="js/ui.js"></script>
   <script>
     window.PAGE_MONITEURS = { actif: "moniteurs.html", filtreRole: "Moniteur", titre: "Moniteurs" };

@@ -25,10 +25,7 @@ body {
 }
 
 .en-tete .croix {
-  font-size: 26px;
-  color: #b8962e;
-  display: block;
-  margin-bottom: 6px;
+  display: none;
 }
 
 .en-tete h1 {

@@ -211,7 +211,6 @@
         '<link rel="stylesheet" href="' + feuillePrint + '"/>' +
         "</head><body>" +
         '<div class="en-tete">' +
-        '<span class="croix">✝</span>' +
         "<h1>Camp Biblique</h1>" +
         '<div class="camp">Rapport du Jour</div>' +
         '<div class="sous">Gestion des Entrées &amp; Sorties · ' + dateJour + "</div>" +

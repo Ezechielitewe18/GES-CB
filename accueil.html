@@ -4,15 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accueil · GES-CB</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body>
+  <div id="splash" class="splash">
+    <div class="splash-sigle">GES<span>-CB</span></div>
+    <div class="splash-ligne"></div>
+    <div class="splash-sous">Camp Biblique</div>
+    <div class="splash-bienvenue">Bienvenue</div>
+  </div>
+
   <div class="conteneur">
-    <div class="logo" style="margin-top:10px;">
-      <div class="sigle">GES<span>-CB</span></div>
-      <div class="sous-titre">Camp Biblique · Menu principal</div>
+
+    <div class="en-tete-page">
+      <span class="en-tete-icone">
+        <svg class="icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/><path d="M10 21v-6h4v6"/></svg>
+      </span>
+      <div>
+        <h1>Accueil</h1>
+        <p>Camp Biblique · Menu principal</p>
+      </div>
     </div>
 
     <div id="psaume-du-jour"></div>
@@ -23,6 +38,7 @@
   <script src="js/db.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/ui.js"></script>
+  <script src="js/icons.js"></script>
   <script>
     (function () {
       if (!AUTH.exigerSession()) return;
@@ -34,30 +50,45 @@
       const psaume = DB.psaumeDuJour();
       document.getElementById("psaume-du-jour").innerHTML =
         '<div class="psaume">' +
-        '<div class="psaume-titre">📖 Psaume du jour</div>' +
+        '<div class="psaume-titre">' +
+        '<svg class="icone" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>' +
+        " Psaume du jour</div>" +
         '<div class="psaume-texte">« ' + psaume.texte + ' »</div>' +
         '<div class="psaume-ref">— ' + psaume.reference + " —</div>" +
         "</div>";
 
       const cartes = [
-        { href: "moniteurs.html", icone: "🎓", titre: "Moniteurs", desc: "Sorties et retours des moniteurs" },
-        { href: "aides.html", icone: "🤝", titre: "Aides-Moniteurs", desc: "Sorties et retours des aides" },
-        { href: "enfants.html", icone: "🧒", titre: "Enfants", desc: "Mouvements des enfants" },
-        { href: "visiteurs.html", icone: "🚪", titre: "Visiteurs", desc: "Arrivées et départs" },
-        { href: "statistiques.html", icone: "📊", titre: "Statistiques", desc: "Présences en temps réel" },
+        { href: "moniteurs.html", icone: "users", titre: "Moniteurs", desc: "Sorties et retours des moniteurs" },
+        { href: "aides.html", icone: "helpers", titre: "Aides-Moniteurs", desc: "Sorties et retours des aides" },
+        { href: "enfants.html", icone: "child", titre: "Enfants", desc: "Mouvements des enfants" },
+        { href: "visiteurs.html", icone: "door", titre: "Visiteurs", desc: "Arrivées et départs" },
+        { href: "statistiques.html", icone: "chart", titre: "Statistiques", desc: "Présences en temps réel" },
       ];
 
       grille.innerHTML = cartes
-        .map(function (c) {
+        .map(function (c, i) {
           return (
-            '<a class="carte-menu" href="' + c.href + '">' +
-            '<div class="icone">' + c.icone + "</div>" +
+            '<a class="carte-menu animer" style="animation-delay:' + (0.15 + i * 0.08) + 's" href="' + c.href + '">' +
+            '<div class="icone">' + ICONES(c.icone, 34) + "</div>" +
             "<h3>" + c.titre + "</h3>" +
             "<p>" + c.desc + "</p>" +
             "</a>"
           );
         })
         .join("");
+
+      // Splash de bienvenue : s'estompe après 1,4s (ou au clic)
+      const splash = document.getElementById("splash");
+      function fermerSplash() {
+        if (!splash) return;
+        splash.classList.add("sortie");
+        setTimeout(function () {
+          splash.remove();
+          document.body.classList.add("revele");
+        }, 550);
+      }
+      splash.addEventListener("click", fermerSplash);
+      setTimeout(fermerSplash, 1400);
     })();
   </script>
 </body>

@@ -4,46 +4,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connexion · GES-CB</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body>
   <div class="page-connexion">
-    <div class="logo">
-      <div class="sigle">GES<span>-CB</span></div>
-      <div class="sous-titre">Gestion des Entrées &amp; Sorties · Camp Biblique</div>
-    </div>
 
-    <div class="carte" style="width: min(94vw, 400px);">
-      <h2 style="text-align:center;">Connexion</h2>
+    <div class="panneau-connexion">
 
-      <form id="form-connexion" autocomplete="off">
-        <div class="form-groupe">
-          <label class="champ-label" for="champ-nom">Nom complet</label>
-          <input type="text" id="champ-nom" required />
+      <!-- PANNEAU GAUCHE : identité du camp -->
+      <div class="panneau-gauche">
+        <div class="logo">
+          <div class="sigle">GES<span>-CB</span></div>
+          <div class="sous-titre">Camp Biblique · Gestion des Entrées &amp; Sorties</div>
         </div>
 
-        <div class="form-groupe">
-          <label class="champ-label" for="champ-mdp">Mot de passe</label>
-          <input type="password" id="champ-mdp" placeholder="••••••••" required />
+        <div class="accroche">
+          <h1>Une gestion claire,<br />un camp serein.</h1>
+          <p>
+            Suivez en temps réel les allées et venues des moniteurs, aides,
+            enfants et visiteurs — et imprimez le rapport du jour pour chaque
+            réunion d'évaluation.
+          </p>
         </div>
 
-        <button type="submit" class="btn">Se connecter</button>
-      </form>
+        <ul class="points-forts">
+          <li>
+            <svg class="icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8l4 4-4 4"/><path d="M4 12h14"/><path d="M18 4v16"/></svg>
+            Entrées &amp; sorties enregistrées en un clic
+          </li>
+          <li>
+            <svg class="icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 1.5 21h21z"/><path d="M12 10v5"/><path d="M12 18h.01"/></svg>
+            Alerte automatique après 3 heures dehors
+          </li>
+          <li>
+            <svg class="icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg>
+            Rapport quotidien imprimable pour la direction
+          </li>
+        </ul>
 
-      <p id="msg-erreur" style="display:none; color:#FF8A8A; text-align:center; margin-top:12px; font-weight:700;">
-        Nom ou mot de passe incorrect.
-      </p>
+        <div class="pied-gauche">GES-CB · © 2026</div>
+      </div>
 
-      <p style="margin-top:18px; font-size:12px; color:#666; text-align:center;">
-        Accès réservé au personnel du camp.
-      </p>
+      <!-- PANNEAU DROIT : formulaire -->
+      <div class="panneau-droit">
+        <div class="carte connexion-carte">
+          <h2 style="text-align:center; border:none; padding-bottom:0;">Connexion</h2>
+
+          <form id="form-connexion" autocomplete="off">
+            <div class="form-groupe">
+              <label class="champ-label" for="champ-nom">Nom complet</label>
+              <input type="text" id="champ-nom" required />
+            </div>
+
+            <div class="form-groupe">
+              <label class="champ-label" for="champ-mdp">Mot de passe</label>
+              <input type="password" id="champ-mdp" placeholder="••••••••" required />
+            </div>
+
+            <button type="submit" class="btn">Se connecter</button>
+          </form>
+
+          <p id="msg-erreur" style="display:none; color:#FF8A8A; text-align:center; margin-top:12px; font-weight:700;">
+            Nom ou mot de passe incorrect.
+          </p>
+
+          <p style="margin-top:18px; font-size:12px; color:#6A7890; text-align:center;">
+            Accès réservé au personnel du camp.
+          </p>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script src="js/db.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/icons.js"></script>
   <script src="js/ui.js"></script>
   <script>
     (function () {
