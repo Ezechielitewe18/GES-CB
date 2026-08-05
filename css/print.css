@@ -1,0 +1,153 @@
+/* =====================================================
+   GES-CB — Impression du Rapport du Jour
+   Mise en page sobre, élégante et lisible sur papier.
+   ===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #1a1a1a;
+  background: #ffffff;
+  margin: 0;
+  padding: 32px 40px;
+  line-height: 1.5;
+}
+
+/* ----- En-tête du camp ----- */
+.en-tete {
+  text-align: center;
+  border-bottom: 3px double #b8962e;
+  padding-bottom: 14px;
+  margin-bottom: 22px;
+}
+
+.en-tete .croix {
+  font-size: 26px;
+  color: #b8962e;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.en-tete h1 {
+  font-size: 26px;
+  letter-spacing: 1px;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.en-tete .camp {
+  font-size: 15px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #b8962e;
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+.en-tete .sous {
+  font-size: 13px;
+  color: #555;
+  margin-top: 8px;
+}
+
+/* ----- Sections ----- */
+h2 {
+  color: #8a6d1a;
+  font-size: 16px;
+  margin: 26px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #d8d8d8;
+  padding-bottom: 4px;
+}
+
+/* ----- Tableaux ----- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+
+th, td {
+  border: 1px solid #bbb;
+  padding: 7px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f0ead8;
+  color: #5c4a12;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+tr:nth-child(even) td {
+  background: #faf7ef;
+}
+
+/* ----- Statistiques en encadré ----- */
+.stats-box {
+  border: 2px solid #b8962e;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 8px;
+  background: #fffdf6;
+}
+
+.stats-box table {
+  border: none;
+}
+
+.stats-box th, .stats-box td {
+  border: none;
+  border-bottom: 1px solid #e4dcc4;
+  font-size: 14px;
+}
+
+.stats-box th {
+  background: transparent;
+  text-align: left;
+  font-family: Georgia, serif;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 15px;
+  color: #1a1a1a;
+  font-weight: normal;
+}
+
+.stats-box tr:last-child th,
+.stats-box tr:last-child td {
+  border-bottom: none;
+}
+
+.stats-box td {
+  text-align: right;
+  font-weight: bold;
+  font-size: 16px;
+  color: #5c4a12;
+}
+
+/* ----- Pied ----- */
+.pied {
+  margin-top: 34px;
+  border-top: 1px solid #d8d8d8;
+  padding-top: 10px;
+  font-size: 12px;
+  color: #777;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+}

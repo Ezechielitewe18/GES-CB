@@ -197,30 +197,34 @@
     const nbVisiteurs = arriveesVisiteurs.length;
 
     const maintenant = new Date().toLocaleString("fr-FR");
+    const dateJour = new Date().toLocaleDateString("fr-FR", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    const feuillePrint = new URL("css/print.css", window.location.href).href;
 
     const contenu = [
       "<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/>" +
         "<title>Rapport du jour · GES-CB</title>" +
-        "<style>" +
-        "body{font-family:Arial,sans-serif;padding:24px;color:#111;}" +
-        "h1{text-align:center;border-bottom:3px double #D4AF37;padding-bottom:8px;}" +
-        ".sous{text-align:center;color:#555;margin-bottom:24px;}" +
-        "h2{color:#8a6d1a;margin-top:20px;border-bottom:1px solid #ccc;padding-bottom:4px;}" +
-        "table{width:100%;border-collapse:collapse;margin-top:6px;}" +
-        "th,td{border:1px solid #999;padding:6px 10px;text-align:left;font-size:13px;}" +
-        "th{background:#eee;}" +
-        ".stats td{font-weight:bold;font-size:15px;}" +
-        "</style></head><body>" +
-        "<h1>Camp Biblique · Rapport du Jour</h1>" +
+        '<link rel="stylesheet" href="' + feuillePrint + '"/>' +
+        "</head><body>" +
+        '<div class="en-tete">' +
+        '<span class="croix">✝</span>' +
+        "<h1>Camp Biblique</h1>" +
+        '<div class="camp">Rapport du Jour</div>' +
+        '<div class="sous">Gestion des Entrées &amp; Sorties · ' + dateJour + "</div>" +
         '<div class="sous">Imprimé le ' + maintenant + "</div>" +
+        "</div>" +
         "<h2>Statistiques du jour</h2>" +
-        '<table class="stats"><tbody>' +
-        "<tr><td>Moniteurs sortis</td><td>" + nbMoniteurs + "</td></tr>" +
-        "<tr><td>Aides-Moniteurs sortis</td><td>" + nbAides + "</td></tr>" +
-        "<tr><td>Enfants sortis</td><td>" + nbEnfants + "</td></tr>" +
-        "<tr><td>Visiteurs reçus</td><td>" + nbVisiteurs + "</td></tr>" +
-        "<tr><td>Total des sorties</td><td>" + sorties.length + "</td></tr>" +
-        "</tbody></table>" +
+        '<div class="stats-box"><table>' +
+        "<tr><th>Moniteurs sortis</th><td>" + nbMoniteurs + "</td></tr>" +
+        "<tr><th>Aides-Moniteurs sortis</th><td>" + nbAides + "</td></tr>" +
+        "<tr><th>Enfants sortis</th><td>" + nbEnfants + "</td></tr>" +
+        "<tr><th>Visiteurs reçus</th><td>" + nbVisiteurs + "</td></tr>" +
+        "<tr><th>Total des sorties</th><td>" + sorties.length + "</td></tr>" +
+        "</table></div>" +
         "<h2>Journal — Moniteurs</h2>" +
         journalHtml(journal.filter(function (m) {
           return m.type_profil === "MONITEUR" && roleMouvement(m) === ROLE_MONITEUR;
@@ -233,6 +237,8 @@
         journalHtml(journal.filter(function (m) { return m.type_profil === "ENFANT"; })) +
         "<h2>Journal — Visiteurs</h2>" +
         journalHtml(journal.filter(function (m) { return m.type_profil === "VISITEUR"; })) +
+        '<div class="pied"><span>GES-CB · Camp Biblique</span>' +
+        '<span>Document officiel de la réunion d\'évaluation</span></div>' +
         "</body></html>",
     ].join("");
 

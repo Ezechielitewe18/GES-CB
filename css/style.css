@@ -1,16 +1,21 @@
 :root {
-  --noir: #111111;
-  --noir-2: #1A1A1A;
-  --noir-3: #242424;
+  /* Palette Royal — bleu nuit & or */
+  --bleu-nuit: #0A1220;
+  --bleu-nuit-2: #0F1B30;
+  --bleu-nuit-3: #182940;
+  --bleu-nuit-4: #223652;
   --or: #D4AF37;
-  --or-fonce: #C5A059;
+  --or-clair: #E9D078;
+  --or-fonce: #B8962E;
   --blanc: #FFFFFF;
-  --texte: #F8F9FA;
-  --texte-muet: #A6A6A6;
-  --vert: #27AE60;
+  --texte: #F2EFE7;
+  --texte-muet: #93A6C4;
+  --vert: #2ECC71;
   --rouge: #E74C3C;
   --orange: #E67E22;
   --danger-bg: #3A1414;
+  --serif: Georgia, "Palatino Linotype", "Book Antiqua", Times, serif;
+  --sans: "Segoe UI", "Roboto", Arial, sans-serif;
 }
 
 * {
@@ -24,11 +29,48 @@ html, body {
 }
 
 body {
-  font-family: "Segoe UI", "Roboto", Arial, sans-serif;
-  background: var(--noir);
+  font-family: var(--sans);
   color: var(--texte);
   min-height: 100vh;
   line-height: 1.5;
+  background:
+    radial-gradient(1100px 520px at 50% -10%, rgba(56, 88, 140, 0.55) 0%, transparent 60%),
+    linear-gradient(180deg, var(--bleu-nuit) 0%, #060B14 100%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--or);
+  color: var(--bleu-nuit);
+}
+
+/* Barre de défilement */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bleu-nuit);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bleu-nuit-4);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--or-fonce);
+}
+
+/* Apparition douce des pages */
+body {
+  animation: apparition 0.4s ease-out;
+}
+
+@keyframes apparition {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* FLASH ECRAN POUR VALIDATION (idee 4) */
@@ -36,7 +78,7 @@ body.flash-sortie::after {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(39, 174, 96, 0.25);
+  background: rgba(46, 204, 113, 0.28);
   pointer-events: none;
   animation: flashFade 0.6s ease-out forwards;
   z-index: 9999;
@@ -46,7 +88,7 @@ body.flash-retour::after {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(231, 76, 60, 0.25);
+  background: rgba(231, 76, 60, 0.28);
   pointer-events: none;
   animation: flashFade 0.6s ease-out forwards;
   z-index: 9999;
@@ -65,26 +107,50 @@ body.flash-retour::after {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  position: relative;
+}
+
+/* Emblème du camp : croix stylisée au-dessus du sigle */
+.page-connexion .logo::before {
+  content: "✝";
+  display: block;
+  font-size: 30px;
+  color: var(--or);
+  line-height: 1;
+  margin-bottom: 10px;
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
+  animation: lueur 3s ease-in-out infinite;
+}
+
+@keyframes lueur {
+  0%, 100% { text-shadow: 0 0 14px rgba(212, 175, 55, 0.4); }
+  50% { text-shadow: 0 0 26px rgba(212, 175, 55, 0.8); }
 }
 
 .logo {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .logo .sigle {
-  font-size: 46px;
+  font-family: var(--serif);
+  font-size: 52px;
   font-weight: 900;
   letter-spacing: 2px;
-  color: var(--blanc);
+  color: var(--texte);
   line-height: 1;
+  background: linear-gradient(180deg, var(--or-clair), var(--or-fonce));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .logo .sigle span {
-  color: var(--or);
+  -webkit-text-fill-color: var(--or);
 }
 
 .logo h1 {
+  font-family: var(--serif);
   font-size: 26px;
   margin-top: 8px;
   letter-spacing: 1px;
@@ -93,20 +159,22 @@ body.flash-retour::after {
 .logo .sous-titre {
   color: var(--texte-muet);
   font-size: 14px;
-  margin-top: 4px;
+  margin-top: 6px;
+  letter-spacing: 0.5px;
 }
 
 /* HORLOGE */
 .horloge {
   font-family: "Consolas", monospace;
   font-size: 20px;
-  color: var(--or);
+  color: var(--or-clair);
   letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
 }
 
 /* HEADER + NAVIGATION */
 .topbar {
-  background: var(--noir-2);
+  background: linear-gradient(180deg, rgba(24, 41, 64, 0.95), rgba(15, 27, 48, 0.97));
   border-bottom: 2px solid var(--or);
   padding: 12px 16px;
   display: flex;
@@ -117,11 +185,14 @@ body.flash-retour::after {
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
 }
 
 .topbar .titre {
-  font-size: 18px;
+  font-family: var(--serif);
+  font-size: 19px;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .topbar .titre span {
@@ -134,23 +205,24 @@ body.flash-retour::after {
 }
 
 .topbar .utilisateur strong {
-  color: var(--or);
+  color: var(--or-clair);
 }
 
 nav.menu {
-  background: var(--noir-2);
+  background: rgba(10, 18, 32, 0.92);
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   padding: 10px 16px;
-  border-bottom: 1px solid var(--noir-3);
+  border-bottom: 1px solid var(--bleu-nuit-3);
+  backdrop-filter: blur(4px);
 }
 
 nav.menu a {
   color: var(--texte);
   text-decoration: none;
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   border: 1px solid transparent;
@@ -158,13 +230,15 @@ nav.menu a {
 }
 
 nav.menu a:hover {
-  background: var(--noir-3);
-  color: var(--or);
+  background: var(--bleu-nuit-3);
+  color: var(--or-clair);
 }
 
 nav.menu a.active {
-  background: var(--or);
-  color: var(--noir);
+  background: linear-gradient(180deg, var(--or-clair), var(--or-fonce));
+  color: var(--bleu-nuit);
+  font-weight: 800;
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
 }
 
 .conteneur {
@@ -175,7 +249,7 @@ nav.menu a.active {
 
 /* ALERTE SORTIE LONGUE (idee 2) */
 .alerte-longue {
-  background: var(--danger-bg);
+  background: linear-gradient(180deg, #451616, var(--danger-bg));
   border: 2px solid var(--rouge);
   color: #FFB3B3;
   border-radius: 10px;
@@ -195,74 +269,100 @@ nav.menu a.active {
 
 /* CARTES MENU ACCUEIL */
 .psaume {
-  background: var(--noir-2);
+  background:
+    linear-gradient(180deg, rgba(24, 41, 64, 0.8), rgba(15, 27, 48, 0.9)),
+    radial-gradient(400px 120px at 50% 0%, rgba(212, 175, 55, 0.15), transparent 70%);
   border: 2px solid var(--or);
-  border-radius: 12px;
-  padding: 18px 22px;
+  border-radius: 14px;
+  padding: 22px 26px;
   text-align: center;
   margin: 18px auto 0;
   max-width: 640px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 0 40px rgba(212, 175, 55, 0.04);
 }
 
 .psaume-titre {
-  color: var(--or);
+  color: var(--or-clair);
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   font-size: 13px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .psaume-texte {
-  font-size: 18px;
+  font-family: var(--serif);
+  font-size: 20px;
   font-style: italic;
   line-height: 1.6;
+  color: var(--texte);
 }
 
 .psaume-ref {
-  color: var(--texte-muet);
+  color: var(--or);
   font-size: 14px;
-  margin-top: 10px;
+  margin-top: 12px;
+  letter-spacing: 0.5px;
 }
 
 @media (max-width: 768px) {
   .psaume-texte {
-    font-size: 16px;
+    font-size: 17px;
   }
 }
-
 
 .grille-menu {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .carte-menu {
-  background: var(--noir-2);
-  border: 1px solid var(--noir-3);
-  border-radius: 12px;
-  padding: 24px;
+  background: linear-gradient(180deg, var(--bleu-nuit-2), var(--bleu-nuit));
+  border: 1px solid var(--bleu-nuit-3);
+  border-radius: 14px;
+  padding: 26px 20px;
   text-align: center;
   text-decoration: none;
   color: var(--texte);
-  transition: all 0.15s;
+  transition: all 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+
+.carte-menu::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--or), transparent);
+  opacity: 0;
+  transition: opacity 0.18s;
 }
 
 .carte-menu:hover {
   border-color: var(--or);
-  transform: translateY(-3px);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.carte-menu:hover::before {
+  opacity: 1;
 }
 
 .carte-menu .icone {
-  font-size: 36px;
-  margin-bottom: 10px;
+  font-size: 38px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
 }
 
 .carte-menu h3 {
-  color: var(--or);
-  font-size: 18px;
+  color: var(--or-clair);
+  font-family: var(--serif);
+  font-size: 19px;
 }
 
 .carte-menu p {

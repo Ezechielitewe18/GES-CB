@@ -19,8 +19,24 @@
       <div class="carte">
         <h2>🚪 Déclarer une SORTIE</h2>
 
-        <label class="champ-label">Sélectionner le moniteur</label>
-        <div id="grille-sortie" class="grille-personnes"></div>
+        <div class="barre-recherche">
+          <span class="loupe">🔍</span>
+          <input type="text" id="recherche-moniteur" placeholder="Rechercher un moniteur (nom, numéro, commission...)" />
+        </div>
+
+        <div class="tableau-enveloppe">
+          <table class="tableau" id="table-sortie">
+            <thead>
+              <tr>
+                <th>Nom complet</th>
+                <th>Sexe</th>
+                <th>Téléphone</th>
+                <th>Commission</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
 
         <div class="form-groupe" style="margin-top:14px;">
           <label class="champ-label" for="motif-sortie">Motif de la sortie (raison donnée par le moniteur)</label>
@@ -38,7 +54,19 @@
         <p style="color:#888; font-size:13px; margin-bottom:12px;">
           Moniteurs actuellement <strong style="color:#E74C3C;">DEHORS</strong> :
         </p>
-        <div id="grille-retour" class="grille-personnes"></div>
+        <div class="tableau-enveloppe">
+          <table class="tableau" id="table-retour">
+            <thead>
+              <tr>
+                <th>Nom complet</th>
+                <th>Sexe</th>
+                <th>Téléphone</th>
+                <th>Commission</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
         <button id="btn-retour" class="btn btn-vert" disabled>Valider le retour</button>
         <div id="recap-retour" class="recap-zone"></div>
       </div>

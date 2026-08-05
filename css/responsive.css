@@ -20,19 +20,6 @@
     min-width: 44%;
   }
 
-  .grille-personnes {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 8px;
-  }
-
-  .carte-personne {
-    padding: 10px 6px;
-  }
-
-  .carte-personne .initiale {
-    font-size: 18px;
-  }
-
   .btn {
     padding: 15px 14px;
     font-size: 15px;
