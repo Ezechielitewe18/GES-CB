@@ -12,6 +12,7 @@ const UI = (function () {
     { href: "visiteurs.html", label: "Visiteurs", icone: "door", role: "ADMIN" },
     { href: "statistiques.html", label: "Statistiques", icone: "chart", role: "ADMIN" },
     { href: "sauvegarde.html", label: "Sauvegarde", icone: "download", role: "ADMIN" },
+    { href: "guide.html", label: "Guide", icone: "book", role: "TOUS" },
   ];
 
   /* ----- Menu lateral (sidebar) + navigation ----- */

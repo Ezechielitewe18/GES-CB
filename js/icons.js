@@ -33,6 +33,8 @@ const ICONES = (function () {
     alert: '<path d="M12 3 1.5 21h21z"/><path d="M12 10v5"/><path d="M12 18h.01"/>',
     download: '<path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/>',
     upload: '<path d="M12 21V9"/><path d="m6 13 6-6 6 6"/><path d="M4 3h16"/>',
+    jouer: '<path d="M6 4l14 8-14 8z"/>',
+    pause: '<path d="M7 4h4v16H7z"/><path d="M13 4h4v16h-4z"/>',
   };
 
   function svg(nom, taille) {

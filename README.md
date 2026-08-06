@@ -32,6 +32,17 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 - **Historique par jour** : sélecteur de date pour consulter le rapport et le journal d'une journée passée (le rapport du jour reste celui d'aujourd'hui par défaut).
 - **Export SQLite** : bouton « Télécharger le fichier .db » qui génère un véritable fichier SQLite (binaire, sans dépendance ni internet) contenant les 4 tables, ouvrable avec **DB Browser for SQLite**.
 - **Sauvegarde & Restauration** : page **Sauvegarde** pour télécharger un fichier `.db` (sauvegarde) et réimporter un fichier `.db` (restauration). Un rappel s'affiche sur l'accueil tant que le fichier n'a pas été sauvegardé dans la journée.
+- **Guide (mode démonstration)** : diaporama automatique (1 diapositive toutes les 5 s) avec boutons ◀ ▶, pause, clavier et fermeture — pour former une nouvelle personne à la porte en quelques minutes. Accessible depuis la page de connexion, l'accueil et le menu.
+
+---
+
+## 📱 Sur téléphone (PWA)
+
+L'app est publiée sur **GitHub Pages** : https://ezechielitewe18.github.io/GES-CB/
+- **Android (Chrome)** : ouvrir l'adresse une fois (avec internet) → menu ⋮ → « Installer l'application ».
+- **iPhone (Safari)** : ouvrir l'adresse → bouton **Partager** → « Sur l'écran d'accueil ».
+- Ensuite l'app fonctionne **sans internet** (service worker `sw.js`). Après chaque mise à jour, il suffit de l'ouvrir une fois connecté.
+- Pour reprendre les données d'un autre appareil : sauvegarde `.db` → restauration.
 
 ---
 
@@ -49,6 +60,8 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 - 📊 Statistiques en temps réel pour la direction
 - 🗄️ **Export SQLite** : téléchargement d'un fichier `.db` (4 tables) pour DB Browser
 - 💾 **Sauvegarde & Restauration** : télécharger/réimporter un fichier `.db`, rappel quotidien sur l'accueil
+- 📽️ **Mode démonstration** : guide diaporama (10 diapositives, défilement 5 s + navigation manuelle) pour apprendre l'app
+- 📱 **PWA** : installable sur téléphone (écran d'accueil), fonctionne hors-ligne (GitHub Pages)
 
 ---
 
@@ -80,8 +93,11 @@ GES-CB/
 ├── visiteurs.html       # Visiteurs
 ├── statistiques.html    # Statistiques (rapport + journal + historique par jour)
 ├── sauvegarde.html      # Sauvegarde & restauration (.db)
-├── css/                 # style, components, responsive
-├── js/                  # db, auth, ui, charts, moniteurs, enfants, visiteurs, statistiques, sauvegarde, sqlite_export, sqlite_import
+├── guide.html           # Mode démonstration (diaporama)
+├── css/                 # style, components, responsive, guide
+├── js/                  # db, auth, ui, charts, guide, moniteurs, enfants, visiteurs, statistiques, sauvegarde, sqlite_export, sqlite_import
+├── sw.js                # Service worker (fonctionne hors-ligne)
+├── manifest.webmanifest # Manifest PWA (installation sur téléphone)
 ├── favicon.svg          # Icône du site
 └── database/
     └── schema.sql       # Schéma SQL de référence (moniteurs, enfants, visiteurs, mouvements)

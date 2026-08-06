@@ -1,0 +1,390 @@
+/* =====================================================
+   GES-CB — Mode démonstration (diaporama de présentation)
+   ===================================================== */
+
+#diaporama {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  color: var(--texte);
+  font-family: var(--sans);
+  background:
+    radial-gradient(900px 420px at 80% -10%, rgba(56, 88, 140, 0.45) 0%, transparent 60%),
+    radial-gradient(700px 420px at 0% 110%, rgba(212, 175, 55, 0.08) 0%, transparent 55%),
+    linear-gradient(180deg, var(--bleu-nuit) 0%, #060B14 100%);
+}
+
+/* ----- Barre de progression ----- */
+.guide-progress {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+.guide-progress-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--or-fonce), var(--or), var(--or-clair));
+  box-shadow: 0 0 12px var(--or);
+}
+.guide-progress-bar.actif {
+  animation-name: guide-progression;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+@keyframes guide-progression {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ----- Barre du haut ----- */
+.guide-haut {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  flex-shrink: 0;
+}
+.guide-compteur {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--texte-muet);
+  text-transform: uppercase;
+}
+.guide-fermer {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--or);
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.guide-fermer:hover {
+  background: var(--or);
+  color: var(--bleu-nuit);
+}
+
+/* ----- Scène ----- */
+.guide-scene {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 26px 24px;
+  overflow: auto;
+}
+.diapo {
+  width: 100%;
+  max-width: 1020px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 44px;
+  align-items: center;
+  animation: diapo-entrant 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes diapo-entrant {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ----- Côté texte ----- */
+.diapo-numero {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--or);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 999px;
+  padding: 5px 14px;
+  text-transform: uppercase;
+}
+.diapo-titre {
+  font-family: var(--serif);
+  font-size: clamp(26px, 4.2vw, 42px);
+  line-height: 1.15;
+  margin: 16px 0 12px;
+  color: var(--texte);
+  font-weight: 700;
+}
+.diapo-titre em {
+  color: var(--or);
+  font-style: normal;
+}
+.diapo-paragraphe {
+  font-size: clamp(15px, 1.5vw, 17px);
+  color: #C9D4E6;
+  line-height: 1.7;
+}
+.diapo-points {
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.diapo-points li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 15px;
+  color: #DFE7F3;
+}
+.diapo-points .point-icone {
+  color: var(--or);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.guide-bouton {
+  width: auto;
+  padding: 16px 36px;
+  font-size: 17px;
+  margin-top: 26px;
+}
+
+/* ----- Visuel : fausse app ----- */
+.diapo-visuel {
+  display: flex;
+  justify-content: center;
+}
+.fake-app {
+  width: 100%;
+  max-width: 420px;
+  background: #0B1424;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(212, 175, 55, 0.07);
+  overflow: hidden;
+}
+.fake-app-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.fake-app-bar .pastille {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.fake-app-bar .titre-app {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--or);
+}
+.fake-corps {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.fake-corps input[type="text"],
+.fake-corps input[type="password"] {
+  font-size: 14px;
+  padding: 9px 12px;
+}
+.fake-corps .btn {
+  font-size: 13px;
+  padding: 11px 16px;
+}
+.fake-corps table.tableau {
+  font-size: 12px;
+}
+
+/* Mini cartes du menu (aperçu accueil) */
+.mini-carte {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--texte);
+  font-size: 13px;
+  font-weight: 600;
+}
+.mini-carte .icone {
+  color: var(--or);
+}
+
+/* Lignes de personnes (aperçu registre) */
+.mock-ligne {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.mock-ligne.alerte {
+  background: rgba(231, 76, 60, 0.12);
+  border-color: rgba(231, 76, 60, 0.45);
+}
+.mock-ligne strong {
+  font-size: 14px;
+  display: block;
+}
+.mock-ligne small {
+  color: var(--texte-muet);
+  font-size: 12px;
+}
+.mock-etat {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--or-clair);
+}
+.mock-rouge {
+  color: #FF8A8A;
+}
+
+/* Mini graphique (aperçu statistiques) */
+.mock-barres {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 110px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+}
+.mock-barre {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--or-clair), var(--or-fonce));
+  min-height: 6px;
+  opacity: 0.85;
+}
+.mock-grille-menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* ----- Contrôles ----- */
+.guide-controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 20px 6px;
+  flex-shrink: 0;
+}
+.guide-nav {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--or);
+  color: var(--bleu-nuit);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
+  transition: all 0.15s;
+}
+.guide-nav.secondaire {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--texte);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+}
+.guide-nav:hover {
+  transform: scale(1.07);
+}
+.guide-nav:active {
+  transform: scale(0.95);
+}
+.guide-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+.guide-pied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px 20px;
+  flex-shrink: 0;
+}
+.guide-points {
+  display: flex;
+  gap: 8px;
+}
+.guide-point {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.guide-point.actif {
+  background: var(--or);
+  width: 26px;
+  border-radius: 999px;
+}
+.guide-hint {
+  font-size: 12px;
+  color: var(--texte-muet);
+  letter-spacing: 0.3px;
+}
+
+/* ----- Lien vers le guide (page de connexion) ----- */
+.lien-guide {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--or-clair);
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.lien-guide:hover {
+  color: var(--or);
+  text-decoration: underline;
+}
+
+/* ----- Responsive ----- */
+@media (max-width: 820px) {
+  .diapo {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .diapo-visuel {
+    order: 2;
+  }
+  .fake-app {
+    max-width: 330px;
+  }
+  .guide-scene {
+    padding: 8px 18px 18px;
+  }
+}
