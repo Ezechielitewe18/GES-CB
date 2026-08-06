@@ -4,7 +4,10 @@
    ===================================================== */
 
 const GES_GUIDE = (function () {
-  const DUREE_AUTO = 5000;
+  /* Vitesses proposées : 10 s (défaut), 12 s, 8 s, 5 s */
+  const VITESSES = [10000, 12000, 8000, 5000];
+  let vitesse = VITESSES[0];
+  let idxVitesse = 0;
 
   const DIAPOS = [
     {
@@ -13,7 +16,8 @@ const GES_GUIDE = (function () {
       texte:
         "GES-CB est le cahier de la porte du camp, version numérique : il enregistre chaque <strong>sortie</strong> et chaque <strong>retour</strong> des moniteurs, aides-moniteurs, enfants et visiteurs.",
       points: [
-        "La présentation avance toute seule toutes les 5 secondes",
+        "La présentation avance toute seule toutes les 10 secondes",
+        "⏱ pour changer la vitesse (12 s / 8 s / 5 s)",
         "◀ ▶ pour avancer ou reculer à votre rythme",
         "⏸ pour mettre en pause et expliquer",
         "Échap pour fermer le guide",
@@ -279,6 +283,8 @@ const GES_GUIDE = (function () {
       ICONES("retour", 22) + "</button>" +
       '<button class="guide-nav" id="btn-pause" onclick="GES_GUIDE.basculerPause()" aria-label="Pause">' +
       (etat.pause ? ICONES("jouer", 22) : ICONES("pause", 22)) + "</button>" +
+      '<button class="guide-nav secondaire vitesse" id="btn-vitesse" onclick="GES_GUIDE.changerVitesse()" aria-label="Changer la vitesse">' +
+      ICONES("clock", 17) + ' <span id="label-vitesse">' + Math.round(vitesse / 1000) + " s</span></button>" +
       '<button class="guide-nav" onclick="GES_GUIDE.suivant()" aria-label="Suivant">' +
       ICONES("sortie", 22) + "</button>" +
       "</div>" +
@@ -294,7 +300,7 @@ const GES_GUIDE = (function () {
     if (!bar) return;
     bar.classList.remove("actif");
     void bar.offsetWidth;
-    bar.style.animationDuration = DUREE_AUTO + "ms";
+    bar.style.animationDuration = vitesse + "ms";
     bar.style.animationPlayState = etat.pause ? "paused" : "running";
     bar.classList.add("actif");
   }
@@ -311,7 +317,7 @@ const GES_GUIDE = (function () {
     lancerProgression();
     etat.timer = setInterval(function () {
       suivant();
-    }, DUREE_AUTO);
+    }, vitesse);
   }
 
   /* ----- Navigation ----- */
@@ -351,6 +357,14 @@ const GES_GUIDE = (function () {
     } else {
       demarrerTimer();
     }
+  }
+
+  function changerVitesse() {
+    idxVitesse = (idxVitesse + 1) % VITESSES.length;
+    vitesse = VITESSES[idxVitesse];
+    const lbl = doc.getElementById("label-vitesse");
+    if (lbl) lbl.textContent = Math.round(vitesse / 1000) + " s";
+    if (!etat.pause) demarrerTimer();
   }
 
   function fermer() {
@@ -411,6 +425,7 @@ const GES_GUIDE = (function () {
     suivant,
     precedent,
     basculerPause,
+    changerVitesse,
     fermer,
   };
 })();

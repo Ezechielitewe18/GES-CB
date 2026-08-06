@@ -1,6 +1,6 @@
 /* GES-CB · Service worker — rend l'app disponible hors-ligne.
    Incrementez VERSION ci-dessous apres chaque modification des fichiers. */
-const VERSION = "ges-cb-v2";
+const VERSION = "ges-cb-v3";
 
 const FICHIERS = [
   "index.html",
