@@ -31,6 +31,8 @@ const ICONES = (function () {
     book: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
     shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
     alert: '<path d="M12 3 1.5 21h21z"/><path d="M12 10v5"/><path d="M12 18h.01"/>',
+    download: '<path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/>',
+    upload: '<path d="M12 21V9"/><path d="m6 13 6-6 6 6"/><path d="M4 3h16"/>',
   };
 
   function svg(nom, taille) {

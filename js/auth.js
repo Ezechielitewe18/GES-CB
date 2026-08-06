@@ -13,6 +13,7 @@ const AUTH = (function () {
         "enfants.html",
         "visiteurs.html",
         "statistiques.html",
+        "sauvegarde.html",
       ],
     },
   };

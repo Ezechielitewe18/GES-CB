@@ -21,14 +21,16 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 3. Le menu donne accès à toutes les pages.
 
 ### Agent de porte
-- **Moniteurs** : cliquer sur l'initiale du moniteur, saisir le motif de sortie, puis [Enregistrer la sortie]. Au retour, cliquer sur le moniteur "DEHORS" puis [Valider le retour]. *Double-clic sur un nom → historique de la journée.*
+- **Moniteurs** : cliquer sur l'initiale du moniteur, saisir le motif de sortie, puis [Enregistrer la sortie]. Au retour, cliquer sur le moniteur "DEHORS" puis [Valider le retour]. *Double-clic sur un nom → historique de la journée (bouton « Annuler » sur une ligne pour corriger une saisie).*
 - **Aides-Moniteurs** : mêmes actions pour les aides.
 - **Enfants** : créer + sortir un nouvel enfant (motif optionnel : RDV médical, Cours, Formation, Autre...), ou rechercher un enfant existant (retour / nouvelle sortie).
 - **Visiteurs** : enregistrer les arrivées et les départs.
 
 ### Direction
 - **Statistiques** : rapport du jour (moniteurs, aides, enfants, visiteurs), personnes dehors séparées par catégorie, journal des mouvements du jour, **impression du rapport quotidien** pour les réunions d'évaluation.
+- **Historique par jour** : sélecteur de date pour consulter le rapport et le journal d'une journée passée (le rapport du jour reste celui d'aujourd'hui par défaut).
 - **Export SQLite** : bouton « Télécharger le fichier .db » qui génère un véritable fichier SQLite (binaire, sans dépendance ni internet) contenant les 4 tables, ouvrable avec **DB Browser for SQLite**.
+- **Sauvegarde & Restauration** : page **Sauvegarde** pour télécharger un fichier `.db` (sauvegarde) et réimporter un fichier `.db` (restauration). Un rappel s'affiche sur l'accueil tant que le fichier n'a pas été sauvegardé dans la journée.
 
 ---
 
@@ -40,18 +42,27 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 - 📖 Psaume du jour affiché à l'agent de porte à chaque connexion
 - 🔔 Bip sonore + flash vert (sortie) / rouge (retour) à chaque validation
 - 🖨️ Impression du **rapport quotidien** (statistiques + journal) pour les réunions d'évaluation
+- 📅 **Historique par jour** : rapport et journal consultables pour n'importe quelle date
+- ↩️ **Correction d'une saisie** : bouton « Annuler » dans l'historique d'une personne (supprime l'entrée et recale automatiquement le statut)
 - 📊 Statistiques en temps réel pour la direction
 - 🗄️ **Export SQLite** : téléchargement d'un fichier `.db` (4 tables) pour DB Browser
+- 💾 **Sauvegarde & Restauration** : télécharger/réimporter un fichier `.db`, rappel quotidien sur l'accueil
 
 ---
 
 ## 📦 Sauvegarde des données (SQLite / DB Browser)
 
-Pendant l'utilisation, les données sont stockées dans le navigateur. Depuis la page **Statistiques**, le bouton **« Télécharger le fichier .db »** génère un **véritable fichier SQLite** (`js/sqlite_export.js`) ouvrable avec **DB Browser for SQLite** pour consultation, analyse et impression.
+Pendant l'utilisation, les données sont stockées dans le navigateur. La page **Sauvegarde** permet de :
+- **Sauvegarder** : télécharger un fichier `.db` (`js/sqlite_export.js` — véritable fichier SQLite binaire) ;
+- **Restaurer** : réimporter un fichier `.db` (`js/sqlite_import.js`) qui remplace les données actuelles.
+
+Depuis la page **Statistiques**, le bouton **« Télécharger le fichier .db »** génère également ce fichier, ouvrable avec **DB Browser for SQLite** pour consultation, analyse et impression.
 
 - Le fichier contient les tables : `moniteurs`, `enfants`, `visiteurs`, `mouvements`.
 - Le générateur écrit le format binaire SQLite directement (pages B-tree, en-tête 100 octets) **sans aucune dépendance**, même en mode hors-ligne.
+- Le lecteur lit aussi bien les fichiers générés par l'application que les fichiers créés par un autre outil SQLite (mêmes tables).
 - Le schéma SQL de référence se trouve dans `database/schema.sql`.
+- Astuce : sauvegarder **chaque soir** (un rappel s'affiche sur l'accueil tant que la sauvegarde du jour n'a pas été faite).
 
 ---
 
@@ -65,9 +76,10 @@ GES-CB/
 ├── aides.html           # Aides-Moniteurs
 ├── enfants.html         # Enfants
 ├── visiteurs.html       # Visiteurs
-├── statistiques.html    # Statistiques
+├── statistiques.html    # Statistiques (rapport + journal + historique par jour)
+├── sauvegarde.html      # Sauvegarde & restauration (.db)
 ├── css/                 # style, components, responsive
-├── js/                  # db, auth, ui, moniteurs, enfants, visiteurs, statistiques, sqlite_export
+├── js/                  # db, auth, ui, moniteurs, enfants, visiteurs, statistiques, sauvegarde, sqlite_export, sqlite_import
 ├── favicon.svg          # Icône du site
 └── database/
     └── schema.sql       # Schéma SQL de référence (moniteurs, enfants, visiteurs, mouvements)

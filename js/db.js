@@ -229,6 +229,58 @@ const DB = (function () {
     return mouvements().filter((m) => m.date_mouvement === auj);
   }
 
+  function mouvementsParDate(date) {
+    return mouvements().filter((m) => m.date_mouvement === date);
+  }
+
+  function datesMouvements() {
+    const uniques = {};
+    mouvements().forEach(function (m) {
+      uniques[m.date_mouvement] = true;
+    });
+    return Object.keys(uniques).sort().reverse();
+  }
+
+  /* ----- Annulation / correction d'une saisie ----- */
+  function supprimerMouvement(id) {
+    const liste = mouvements();
+    const garde = liste.filter((m) => m.id !== id);
+    sauverMouvements(garde);
+  }
+
+  /* Rejoue les mouvements (par date, heure, id) pour recalculer le statut */
+  function rejouerStatut(typeProfil, personneId) {
+    const hist = mouvements()
+      .filter((m) => m.type_profil === typeProfil && m.personne_id === personneId)
+      .sort(function (a, b) {
+        const da = a.date_mouvement + " " + a.heure_mouvement;
+        const db = b.date_mouvement + " " + b.heure_mouvement;
+        if (da === db) return (a.id || 0) - (b.id || 0);
+        return da < db ? -1 : 1;
+      });
+    const dernier = hist[hist.length - 1];
+    const estSortie = dernier && dernier.type_action === "SORTIE";
+
+    if (typeProfil === "MONITEUR") {
+      mettreAJourMoniteur(personneId, { statut: estSortie ? "DEHORS" : "PRESENT" });
+    } else if (typeProfil === "ENFANT") {
+      mettreAJourEnfant(personneId, { statut: estSortie ? "DEHORS" : "PRESENT" });
+    } else if (typeProfil === "VISITEUR") {
+      mettreAJourVisiteur(personneId, { statut: estSortie ? "PARTI" : "SUR_SITE" });
+    }
+  }
+
+  /* Annule un mouvement : le supprime puis recale le statut de la personne.
+     Renvoie le mouvement annulé (ou null). */
+  function annulerMouvement(id) {
+    const liste = mouvements();
+    const m = liste.find((x) => x.id === id);
+    if (!m) return null;
+    supprimerMouvement(id);
+    rejouerStatut(m.type_profil, m.personne_id);
+    return m;
+  }
+
   /* ----- Liste des personnes actuellement DEHORS ----- */
   function personnesDehors() {
     const liste = [];
@@ -455,6 +507,27 @@ const DB = (function () {
     initialiser();
   }
 
+  /* Restaure les collections depuis des données importées (.db) */
+  function restaurer(donnees) {
+    const ok =
+      donnees &&
+      Array.isArray(donnees.moniteurs) &&
+      Array.isArray(donnees.enfants) &&
+      Array.isArray(donnees.visiteurs) &&
+      Array.isArray(donnees.mouvements);
+    if (!ok) throw new Error("Fichier invalide");
+    sauverMoniteurs(donnees.moniteurs);
+    sauverEnfants(donnees.enfants);
+    sauverVisiteurs(donnees.visiteurs);
+    sauverMouvements(donnees.mouvements);
+    return {
+      moniteurs: donnees.moniteurs.length,
+      enfants: donnees.enfants.length,
+      visiteurs: donnees.visiteurs.length,
+      mouvements: donnees.mouvements.length,
+    };
+  }
+
   return {
     CLES,
     COMPTES,
@@ -481,6 +554,10 @@ const DB = (function () {
     ajouterMouvement,
     mouvementsPersonne,
     derniersMouvementsDuJour,
+    mouvementsParDate,
+    datesMouvements,
+    annulerMouvement,
+    supprimerMouvement,
     personnesDehors,
     dureeSortie,
     formaterDuree,
@@ -489,6 +566,7 @@ const DB = (function () {
     psaumeDuJour,
     initialiser,
     reinitialiserTout,
+    restaurer,
     decomposerNom,
   };
 })();

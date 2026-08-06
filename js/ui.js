@@ -11,6 +11,7 @@ const UI = (function () {
     { href: "enfants.html", label: "Enfants", icone: "child", role: "ADMIN" },
     { href: "visiteurs.html", label: "Visiteurs", icone: "door", role: "ADMIN" },
     { href: "statistiques.html", label: "Statistiques", icone: "chart", role: "ADMIN" },
+    { href: "sauvegarde.html", label: "Sauvegarde", icone: "download", role: "ADMIN" },
   ];
 
   /* ----- Menu lateral (sidebar) + navigation ----- */
@@ -161,49 +162,80 @@ const UI = (function () {
 
   /* ----- Modale historique d'une personne (idee 3) ----- */
   function ouvrirHistorique(typeProfil, personneId, nomPersonne, details) {
-    const mouvements = DB.mouvementsPersonne(typeProfil, personneId);
     const fond = document.createElement("div");
     fond.className = "modale-fond visible";
 
-    let entete = "";
-    if (details && details.length) {
-      entete = '<p class="details-personne">';
-      details.forEach(function (d) {
-        entete +=
-          '<span><strong>' + d.label + " :</strong> " + d.value + "</span> ";
-      });
-      entete += "</p>";
-    }
+    let enAttente = null;
 
-    let lignes = "";
-    if (mouvements.length === 0) {
-      lignes = '<p style="color:#888">Aucun mouvement enregistré pour aujourd\'hui.</p>';
-    } else {
-      lignes =
-        '<table class="tableau"><thead><tr>' +
-        "<th>Heure</th><th>Action</th><th>Motif</th><th>Agent</th>" +
-        "</tr></thead><tbody>";
-      mouvements.slice().reverse().forEach(function (m) {
-        const badge =
-          m.type_action === "SORTIE"
-            ? '<span class="badge badge-rouge">SORTIE</span>'
-            : '<span class="badge badge-vert">RETOUR</span>';
-        lignes +=
-          "<tr><td>" + m.heure_mouvement + "</td><td>" + badge + "</td><td>" +
-          (m.motif || "-") + "</td><td>" + (m.agent_accueil || "-") + "</td></tr>";
-      });
-      lignes += "</tbody></table>";
-    }
+    function rendu() {
+      const mouvements = DB.mouvementsPersonne(typeProfil, personneId);
 
-    fond.innerHTML =
-      '<div class="modale">' +
-      '<button class="fermer" onclick="this.closest(\'.modale-fond\').remove()">✕</button>' +
-      "<h3>Historique · " + nomPersonne + "</h3>" +
-      entete +
-      lignes +
-      "</div>";
+      let entete = "";
+      if (details && details.length) {
+        entete = '<p class="details-personne">';
+        details.forEach(function (d) {
+          entete +=
+            '<span><strong>' + d.label + " :</strong> " + d.value + "</span> ";
+        });
+        entete += "</p>";
+      }
+
+      let lignes = "";
+      if (mouvements.length === 0) {
+        lignes = '<p style="color:#888">Aucun mouvement enregistré.</p>';
+      } else {
+        lignes =
+          '<table class="tableau"><thead><tr>' +
+          "<th>Heure</th><th>Action</th><th>Motif</th><th>Agent</th><th></th>" +
+          "</tr></thead><tbody>";
+        mouvements.slice().reverse().forEach(function (m) {
+          const badge =
+            m.type_action === "SORTIE"
+              ? '<span class="badge badge-rouge">SORTIE</span>'
+              : '<span class="badge badge-vert">RETOUR</span>';
+          const actif = enAttente === m.id;
+          lignes +=
+            "<tr><td>" + m.heure_mouvement + "</td><td>" + badge + "</td><td>" +
+            (m.motif || "-") + "</td><td>" + (m.agent_accueil || "-") + "</td>" +
+            '<td><button class="btn btn-danger btn-petit" data-annuler="' +
+            m.id + '">' + (actif ? "Confirmer ?" : "Annuler") + "</button></td></tr>";
+        });
+        lignes += "</tbody></table>";
+      }
+
+      fond.innerHTML =
+        '<div class="modale">' +
+        '<button class="fermer" onclick="this.closest(\'.modale-fond\').remove()">✕</button>' +
+        "<h3>Historique · " + nomPersonne + "</h3>" +
+        entete +
+        lignes +
+        "</div>";
+
+      fond.querySelectorAll("[data-annuler]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          const id = Number(b.getAttribute("data-annuler"));
+          if (enAttente !== id) {
+            enAttente = id;
+            rendu();
+            return;
+          }
+          enAttente = null;
+          const m = DB.annulerMouvement(id);
+          if (m) {
+            toast(
+              "Saisie annulée · " + (m.nom_personne || "") + " (" +
+              (m.type_action === "SORTIE" ? "sortie" : "retour") + ")",
+              "ok"
+            );
+          }
+          rendu();
+        });
+      });
+    }
 
     document.body.appendChild(fond);
+    rendu();
+
     fond.addEventListener("click", function (e) {
       if (e.target === fond) fond.remove();
     });

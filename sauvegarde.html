@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sauvegarde · GES-CB</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <div class="conteneur">
+
+    <div class="en-tete-page">
+      <span class="en-tete-icone">
+        <svg class="icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/></svg>
+      </span>
+      <div>
+        <h1>Sauvegarde</h1>
+        <p>Protéger et restaurer les données du camp.</p>
+      </div>
+    </div>
+
+    <!-- ÉTAT ACTUEL -->
+    <div class="carte">
+      <h2>
+        <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 3"/></svg>
+        Données actuellement enregistrées
+      </h2>
+      <div class="grille-stats">
+        <div class="carte-stat">
+          <div class="valeur" id="nb-moniteurs">0</div>
+          <div class="libelle">Moniteurs</div>
+        </div>
+        <div class="carte-stat">
+          <div class="valeur" id="nb-enfants">0</div>
+          <div class="libelle">Enfants</div>
+        </div>
+        <div class="carte-stat">
+          <div class="valeur" id="nb-visiteurs">0</div>
+          <div class="libelle">Visiteurs</div>
+        </div>
+        <div class="carte-stat danger">
+          <div class="valeur" id="nb-mouvements">0</div>
+          <div class="libelle">Mouvements</div>
+        </div>
+      </div>
+      <p id="info-derniere-sauvegarde" style="color:#A6B4CE; font-size:14px; margin-top:14px;"></p>
+    </div>
+
+    <!-- SAUVEGARDER -->
+    <div class="carte" style="text-align:center;">
+      <h2>
+        <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/></svg>
+        Sauvegarder
+      </h2>
+      <p style="color:#888; font-size:14px; margin-bottom:14px;">
+        Télécharge un fichier <strong>.db</strong> avec toutes les données du camp.
+        Conservez-le en lieu sûr — idéalement <strong>chaque soir avant de fermer</strong>.
+      </p>
+      <button id="btn-sauvegarder" class="btn btn-vert" style="max-width:460px; margin:0 auto;">
+        <svg class="icone" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/></svg>
+        Télécharger le fichier de sauvegarde (.db)
+      </button>
+      <p id="statut-sauvegarde" style="color:#3BD581; font-size:14px; margin-top:12px; min-height:20px;"></p>
+    </div>
+
+    <!-- RESTAURER -->
+    <div class="carte" style="text-align:center;">
+      <h2>
+        <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m6 13 6-6 6 6"/><path d="M4 3h16"/></svg>
+        Restaurer
+      </h2>
+      <p style="color:#888; font-size:14px; margin-bottom:14px;">
+        Réimporte un fichier de sauvegarde <strong>.db</strong> dans l'application.
+        <strong>Attention :</strong> les données actuelles seront remplacées.
+      </p>
+      <button id="btn-choisir-fichier" class="btn" style="max-width:460px; margin:0 auto;">
+        <svg class="icone" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        Choisir un fichier .db
+      </button>
+      <input type="file" id="fichier-restauration" accept=".db,application/vnd.sqlite3,application/octet-stream" style="display:none;" />
+
+      <div id="zone-confirmation" style="display:none; margin-top:18px; padding:16px; border:1px solid var(--bleu-nuit-4); border-radius:12px; text-align:left;">
+        <p style="font-size:14px; margin-bottom:12px;">
+          <strong>Fichier :</strong> <span id="nom-fichier-choisi"></span>
+        </p>
+        <p style="color:#C8A415; font-size:14px; margin-bottom:14px;">
+          Restaurer remplacera toutes les données actuelles par celles du fichier.
+          Voulez-vous continuer ?
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button id="btn-confirmer-restauration" class="btn btn-vert" style="flex:1;">
+            Confirmer la restauration
+          </button>
+          <button id="btn-annuler-restauration" class="btn btn-danger" style="flex:1;">
+            Annuler
+          </button>
+        </div>
+      </div>
+      <p id="statut-restauration" style="color:#3BD581; font-size:14px; margin-top:12px; min-height:20px;"></p>
+    </div>
+
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/sqlite_export.js"></script>
+  <script src="js/sqlite_import.js"></script>
+  <script src="js/sauvegarde.js"></script>
+</body>
+</html>

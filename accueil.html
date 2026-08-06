@@ -32,6 +32,17 @@
 
     <div id="psaume-du-jour"></div>
 
+    <div id="rappel-sauvegarde" class="rappel-sauvegarde" style="display:none;">
+      <div class="rappel-icone">
+        <svg class="icone" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/></svg>
+      </div>
+      <div class="rappel-texte">
+        <strong>Pensez à sauvegarder.</strong>
+        <span>Aucune sauvegarde effectuée aujourd'hui. Enregistrez le fichier .db avant de fermer.</span>
+      </div>
+      <a class="btn btn-gris btn-petit" href="sauvegarde.html">Sauvegarder</a>
+    </div>
+
     <div id="grille-menu" class="grille-menu"></div>
   </div>
 
@@ -45,6 +56,19 @@
       UI.installerNavbar("accueil.html");
 
       const grille = document.getElementById("grille-menu");
+
+      // Rappel de sauvegarde : si des données existent et aucune sauvegarde aujourd'hui
+      const pad2 = (n) => String(n).padStart(2, "0");
+      const dMaintenant = new Date();
+      const isoAujourd = dMaintenant.getFullYear() + "-" + pad2(dMaintenant.getMonth() + 1) + "-" + pad2(dMaintenant.getDate());
+      const derSauv = localStorage.getItem("ges_cb_derniere_sauvegarde");
+      const derDate = derSauv ? new Date(Number(derSauv)) : null;
+      const derISO = derDate
+        ? derDate.getFullYear() + "-" + pad2(derDate.getMonth() + 1) + "-" + pad2(derDate.getDate())
+        : null;
+      if (DB.mouvements().length > 0 && derISO !== isoAujourd) {
+        document.getElementById("rappel-sauvegarde").style.display = "flex";
+      }
 
       // Psaume du jour : visible pour Tantine Nadicha
       const psaume = DB.psaumeDuJour();
@@ -63,6 +87,7 @@
         { href: "enfants.html", icone: "child", titre: "Enfants", desc: "Mouvements des enfants" },
         { href: "visiteurs.html", icone: "door", titre: "Visiteurs", desc: "Arrivées et départs" },
         { href: "statistiques.html", icone: "chart", titre: "Statistiques", desc: "Présences en temps réel" },
+        { href: "sauvegarde.html", icone: "download", titre: "Sauvegarde", desc: "Protéger et restaurer les données" },
       ];
 
       grille.innerHTML = cartes

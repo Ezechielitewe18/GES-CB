@@ -27,6 +27,52 @@
   const journalVisiteurs = document.getElementById("journal-visiteurs");
   const zoneAlertes = document.getElementById("zone-alertes");
 
+  const dateJournee = document.getElementById("date-journal");
+  const btnAujourdhui = document.getElementById("btn-aujourdhui");
+  const titreRapport = document.getElementById("titre-rapport");
+  const titreJournal = document.getElementById("titre-journal");
+
+  function aujourdhuiISO() {
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+
+  function formaterDateFr(iso) {
+    if (!iso) return "";
+    const d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString("fr-FR", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
+  let dateSelectionnee = aujourdhuiISO();
+  dateJournee.value = dateSelectionnee;
+
+  function mettreAJourTitres() {
+    const fr = formaterDateFr(dateSelectionnee);
+    titreRapport.textContent = fr;
+    titreJournal.textContent = "du " + fr;
+  }
+
+  dateJournee.addEventListener("change", function () {
+    if (dateJournee.value) {
+      dateSelectionnee = dateJournee.value;
+      mettreAJourTitres();
+      rafraichir();
+    }
+  });
+
+  btnAujourdhui.addEventListener("click", function () {
+    dateSelectionnee = aujourdhuiISO();
+    dateJournee.value = dateSelectionnee;
+    mettreAJourTitres();
+    rafraichir();
+  });
+
   function roleMouvement(m) {
     if (m.type_profil !== "MONITEUR") return null;
     const mono = DB.moniteurParId(m.personne_id);
@@ -34,7 +80,7 @@
   }
 
   function rafraichir() {
-    const journal = DB.derniersMouvementsDuJour();
+    const journal = DB.mouvementsParDate(dateSelectionnee);
     const sorties = journal.filter(function (m) { return m.type_action === "SORTIE"; });
     const arriveesVisiteurs = journal.filter(function (m) {
       return m.type_profil === "VISITEUR" && m.type_action === "ENTREE";
@@ -179,9 +225,9 @@
     zone.innerHTML = html;
   }
 
-  /* ----- Impression du RAPPORT DU JOUR (statistiques + journal) ----- */
+  /* ----- Impression du RAPPORT (statistiques + journal) ----- */
   document.getElementById("btn-imprimer").addEventListener("click", function () {
-    const journal = DB.derniersMouvementsDuJour();
+    const journal = DB.mouvementsParDate(dateSelectionnee);
     const sorties = journal.filter(function (m) { return m.type_action === "SORTIE"; });
     const arriveesVisiteurs = journal.filter(function (m) {
       return m.type_profil === "VISITEUR" && m.type_action === "ENTREE";
@@ -197,12 +243,7 @@
     const nbVisiteurs = arriveesVisiteurs.length;
 
     const maintenant = new Date().toLocaleString("fr-FR");
-    const dateJour = new Date().toLocaleDateString("fr-FR", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    const dateJour = formaterDateFr(dateSelectionnee);
     const feuillePrint = new URL("css/print.css", window.location.href).href;
 
     const contenu = [
@@ -285,5 +326,6 @@
   });
 
   setInterval(rafraichir, 5000);
+  mettreAJourTitres();
   rafraichir();
 })();
