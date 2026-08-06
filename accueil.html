@@ -77,7 +77,7 @@
         })
         .join("");
 
-      // Splash de bienvenue : s'estompe après 1,4s (ou au clic)
+      // Splash de bienvenue : une seule fois par session (ou au clic)
       const splash = document.getElementById("splash");
       function fermerSplash() {
         if (!splash) return;
@@ -85,10 +85,16 @@
         setTimeout(function () {
           splash.remove();
           document.body.classList.add("revele");
-        }, 550);
+        }, 600);
       }
-      splash.addEventListener("click", fermerSplash);
-      setTimeout(fermerSplash, 1400);
+      if (sessionStorage.getItem("splash_vu")) {
+        splash.remove();
+        document.body.classList.add("revele");
+      } else {
+        sessionStorage.setItem("splash_vu", "1");
+        splash.addEventListener("click", fermerSplash);
+        setTimeout(fermerSplash, 1800);
+      }
     })();
   </script>
 </body>

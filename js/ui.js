@@ -13,56 +13,84 @@ const UI = (function () {
     { href: "statistiques.html", label: "Statistiques", icone: "chart", role: "ADMIN" },
   ];
 
-  /* ----- Barre superieure + navigation ----- */
+  /* ----- Menu lateral (sidebar) + navigation ----- */
   function installerNavbar(actif) {
     const role = DB.roleActuel();
-    const topbar = document.createElement("header");
-    topbar.className = "topbar";
-
-    const titre = document.createElement("div");
-    titre.className = "titre";
-    titre.innerHTML = "GES<span>-CB</span> · Camp Biblique";
-    topbar.appendChild(titre);
-
-    const horloge = document.createElement("div");
-    horloge.className = "horloge";
-    horloge.id = "horloge";
-    topbar.appendChild(horloge);
-
-    const user = document.createElement("div");
-    user.className = "utilisateur";
     const roleLabel = AUTH.ROLES[role] ? AUTH.ROLES[role].label : "";
-    user.innerHTML =
-      "<strong>" + DB.nomActuel() + "</strong> · " + roleLabel +
-      ' <button class="btn-deconnexion" onclick="AUTH.seDeconnecter()">Déconnexion</button>';
-    topbar.appendChild(user);
 
-    document.body.insertBefore(topbar, document.body.firstChild);
+    // Bouton burger (visible sur mobile)
+    const burger = document.createElement("button");
+    burger.className = "burger";
+    burger.setAttribute("aria-label", "Ouvrir le menu");
+    burger.innerHTML =
+      '<svg class="icone" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>';
+    burger.addEventListener("click", function () {
+      document.body.classList.toggle("menu-ouvert");
+    });
+    document.body.appendChild(burger);
+
+    // Sidebar
+    const side = document.createElement("aside");
+    side.className = "sidebar";
+
+    const logo = document.createElement("div");
+    logo.className = "sidebar-logo";
+    logo.innerHTML = "GES<span>-CB</span><small>Camp Biblique</small>";
+    side.appendChild(logo);
 
     // Navigation selon le role
     const nav = document.createElement("nav");
     nav.className = "menu";
-    PAGES.forEach(function (p) {
+    PAGES.forEach(function (p, i) {
       if (p.role !== "TOUS" && p.role !== role) return;
       const a = document.createElement("a");
       a.href = p.href;
-      a.innerHTML = ICONES(p.icone, 17) + ' <span class="menu-label">' + p.label + "</span>";
+      a.innerHTML = ICONES(p.icone, 18) + ' <span class="menu-label">' + p.label + "</span>";
       if (p.href === actif) a.className = "active";
+      a.style.animationDelay = (0.5 + i * 0.08) + "s";
+      a.addEventListener("click", function () {
+        document.body.classList.remove("menu-ouvert");
+      });
       nav.appendChild(a);
     });
-    document.body.insertBefore(nav, document.body.firstChild);
+    side.appendChild(nav);
+
+    // Pied de sidebar : horloge + utilisateur
+    const pied = document.createElement("div");
+    pied.className = "sidebar-pied";
+
+    const horloge = document.createElement("div");
+    horloge.className = "horloge";
+    horloge.id = "horloge";
+    pied.appendChild(horloge);
+
+    const user = document.createElement("div");
+    user.className = "utilisateur";
+    user.innerHTML =
+      "<strong>" + DB.nomActuel() + "</strong><span>" + roleLabel +
+      '</span><button class="btn-deconnexion" onclick="AUTH.seDeconnecter()">Déconnexion</button>';
+    pied.appendChild(user);
+
+    side.appendChild(pied);
+    document.body.insertBefore(side, document.body.firstChild);
+
+    // Fermer la sidebar en cliquant sur le fond (mobile)
+    const fond = document.createElement("div");
+    fond.className = "sidebar-fond";
+    fond.addEventListener("click", function () {
+      document.body.classList.remove("menu-ouvert");
+    });
+    document.body.appendChild(fond);
 
     // Horloge en direct
-    if (horloge) {
-      function majHorloge() {
-        const d = new Date();
-        const pad = (n) => String(n).padStart(2, "0");
-        horloge.textContent =
-          pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
-      }
-      majHorloge();
-      setInterval(majHorloge, 1000);
+    function majHorloge() {
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      horloge.textContent =
+        pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
     }
+    majHorloge();
+    setInterval(majHorloge, 1000);
   }
 
   /* ----- Toast ----- */

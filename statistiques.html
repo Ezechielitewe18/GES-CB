@@ -124,12 +124,29 @@
       </button>
     </div>
 
+    <!-- EXPORT SQLITE -->
+    <div class="carte" style="text-align:center;">
+      <h2>
+        <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13"/><path d="M5 20h14"/><path d="m8 10 4 4 4-4"/><path d="M12 17v2"/></svg>
+        Export des données (SQLite)
+      </h2>
+      <p style="color:#888; font-size:14px; margin-bottom:14px;">
+        Télécharge un fichier <strong>.db</strong> contenant moniteurs, enfants, visiteurs et
+        mouvements. Ouvrable avec DB Browser for SQLite.
+      </p>
+      <button id="btn-export-sqlite" class="btn btn-vert" style="max-width:460px; margin:0 auto;">
+        Télécharger le fichier .db
+      </button>
+      <p id="statut-export" style="color:#3BD581; font-size:14px; margin-top:12px; min-height:20px;"></p>
+    </div>
+
   </div>
 
   <script src="js/db.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/icons.js"></script>
   <script src="js/ui.js"></script>
+  <script src="js/sqlite_export.js"></script>
   <script src="js/statistiques.js"></script>
 </body>
 </html>

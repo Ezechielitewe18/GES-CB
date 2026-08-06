@@ -178,6 +178,13 @@ textarea:focus {
   gap: 16px;
 }
 
+/* Cartes empilées en pleine largeur (Moniteurs / Aides) */
+.colonnes-empilees {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 @media (max-width: 800px) {
   .deux-colonnes {
     grid-template-columns: 1fr;
@@ -363,7 +370,10 @@ table.tableau tbody tr.ligne-dehors {
 /* ====== MODALE (historique, idees 3) ====== */
 .modale-fond {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(4, 8, 16, 0.82);
   backdrop-filter: blur(3px);
   display: none;

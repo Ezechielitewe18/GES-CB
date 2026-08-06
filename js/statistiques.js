@@ -268,6 +268,22 @@
     }, 300);
   });
 
+  /* ----- Export SQLite ----- */
+  document.getElementById("btn-export-sqlite").addEventListener("click", function () {
+    const btn = document.getElementById("btn-export-sqlite");
+    const statut = document.getElementById("statut-export");
+    btn.disabled = true;
+    statut.textContent = "Génération du fichier…";
+    try {
+      const nom = SQLITE_EXPORT.telecharger();
+      statut.textContent = "Fichier téléchargé : " + nom;
+    } catch (e) {
+      statut.style.color = "var(--rouge)";
+      statut.textContent = "Échec de l'export : " + e.message;
+    }
+    btn.disabled = false;
+  });
+
   setInterval(rafraichir, 5000);
   rafraichir();
 })();

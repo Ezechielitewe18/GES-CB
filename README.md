@@ -28,6 +28,7 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 
 ### Direction
 - **Statistiques** : rapport du jour (moniteurs, aides, enfants, visiteurs), personnes dehors séparées par catégorie, journal des mouvements du jour, **impression du rapport quotidien** pour les réunions d'évaluation.
+- **Export SQLite** : bouton « Télécharger le fichier .db » qui génère un véritable fichier SQLite (binaire, sans dépendance ni internet) contenant les 4 tables, ouvrable avec **DB Browser for SQLite**.
 
 ---
 
@@ -40,14 +41,17 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 - 🔔 Bip sonore + flash vert (sortie) / rouge (retour) à chaque validation
 - 🖨️ Impression du **rapport quotidien** (statistiques + journal) pour les réunions d'évaluation
 - 📊 Statistiques en temps réel pour la direction
+- 🗄️ **Export SQLite** : téléchargement d'un fichier `.db` (4 tables) pour DB Browser
 
 ---
 
 ## 📦 Sauvegarde des données (SQLite / DB Browser)
 
-Pendant l'utilisation, les données sont stockées dans le navigateur. Une fonction **d'export vers SQLite** (`js/sqlite_export.js`) permet de générer un fichier de base de données ouvrable avec **DB Browser for SQLite** pour consultation, analyse et impression.
+Pendant l'utilisation, les données sont stockées dans le navigateur. Depuis la page **Statistiques**, le bouton **« Télécharger le fichier .db »** génère un **véritable fichier SQLite** (`js/sqlite_export.js`) ouvrable avec **DB Browser for SQLite** pour consultation, analyse et impression.
 
-Le schéma SQL se trouve dans `database/schema.sql`.
+- Le fichier contient les tables : `moniteurs`, `enfants`, `visiteurs`, `mouvements`.
+- Le générateur écrit le format binaire SQLite directement (pages B-tree, en-tête 100 octets) **sans aucune dépendance**, même en mode hors-ligne.
+- Le schéma SQL de référence se trouve dans `database/schema.sql`.
 
 ---
 
@@ -64,8 +68,9 @@ GES-CB/
 ├── statistiques.html    # Statistiques
 ├── css/                 # style, components, responsive
 ├── js/                  # db, auth, ui, moniteurs, enfants, visiteurs, statistiques, sqlite_export
+├── favicon.svg          # Icône du site
 └── database/
-    └── schema.sql       # Script SQL pour DB Browser
+    └── schema.sql       # Schéma SQL de référence (moniteurs, enfants, visiteurs, mouvements)
 ```
 
 ---

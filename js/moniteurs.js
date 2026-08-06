@@ -26,10 +26,13 @@
     const tr = document.createElement("tr");
     if (m.statut === "DEHORS") tr.className = "ligne-dehors";
     if (dejaSelectionne) tr.classList.add("selectionnee");
+    const parts = DB.decomposerNom(m.nom_prenom);
     tr.innerHTML =
-      "<td><strong>" + m.nom_prenom + "</strong>" +
+      "<td><strong>" + (parts.prenom || "—") + "</strong>" +
       '<span class="badge-statut badge-' + (m.statut === "DEHORS" ? "rouge" : "vert") +
       '">' + (m.statut === "DEHORS" ? "DEHORS" : "PRÉSENT") + "</span></td>" +
+      "<td>" + (parts.nom || "—") + "</td>" +
+      "<td>" + (parts.postnom || "—") + "</td>" +
       "<td>" + (m.sexe === "M" ? "M" : "F") + "</td>" +
       "<td>" + (m.telephone || "—") + "</td>" +
       "<td>" + (m.commission || "—") + "</td>";
@@ -191,7 +194,7 @@
       });
     if (!moniteurs.some(function (m) { return m.statut === "PRESENT"; })) {
       tbodySortie.innerHTML =
-        '<tr><td colspan="4" style="color:#888; text-align:center; padding:16px;">' +
+        '<tr><td colspan="6" style="color:#888; text-align:center; padding:16px;">' +
         "Aucun moniteur présent" + (rechercheMoniteur.value ? " pour cette recherche" : "") + ".</td></tr>";
     }
 
@@ -200,7 +203,7 @@
     const dehors = moniteurs.filter(function (m) { return m.statut === "DEHORS"; });
     if (dehors.length === 0) {
       tbodyRetour.innerHTML =
-        '<tr><td colspan="4" style="color:#888; text-align:center; padding:16px;">' +
+        '<tr><td colspan="6" style="color:#888; text-align:center; padding:16px;">' +
         "Aucun moniteur dehors pour le moment ✅</td></tr>";
     }
     dehors.forEach(function (m) {

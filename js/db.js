@@ -404,6 +404,23 @@ const DB = (function () {
     return (debut + fin).toUpperCase();
   }
 
+  /* Décomposition "Prénom NOM POSTNOM" -> { prenom, nom, postnom }
+     Règle : les mots en MAJUSCULES sont le nom puis le post-nom. */
+  function decomposerNom(nomPrenom) {
+    const mots = (nomPrenom || "").trim().split(/\s+/);
+    const debutNom = mots.findIndex(function (m) {
+      return /[A-ZÀ-Ý]/.test(m) && !/[a-zà-ÿ]/.test(m);
+    });
+    if (debutNom === -1) {
+      return { prenom: mots.join(" "), nom: "", postnom: "" };
+    }
+    return {
+      prenom: mots.slice(0, debutNom).join(" "),
+      nom: mots[debutNom] || "",
+      postnom: mots.slice(debutNom + 1).join(" "),
+    };
+  }
+
   /* ----- Initialisation : liste définitive des moniteurs ----- */
   function initialiser() {
     if (localStorage.getItem(CLE_VERSION) !== String(VERSION)) {
@@ -472,6 +489,7 @@ const DB = (function () {
     psaumeDuJour,
     initialiser,
     reinitialiserTout,
+    decomposerNom,
   };
 })();
 
