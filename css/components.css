@@ -237,6 +237,50 @@ textarea:focus {
   color: #A6B4CE;
 }
 
+/* ----- Graphiques (tableau de bord) ----- */
+.zone-chart {
+  min-width: 0;
+}
+
+.zone-chart svg {
+  display: block;
+}
+
+.anneau-flex {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.legende {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  flex: 1;
+  min-width: 170px;
+}
+
+.legende-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  color: #D6DFF0;
+}
+
+.legende-item .pastille {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex: 0 0 12px;
+}
+
+.legende-item strong {
+  margin-left: auto;
+  color: var(--or-clair);
+}
+
 .carte h3 {
   color: var(--or-clair);
   font-family: var(--serif);

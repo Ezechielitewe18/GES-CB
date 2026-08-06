@@ -28,6 +28,7 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 
 ### Direction
 - **Statistiques** : rapport du jour (moniteurs, aides, enfants, visiteurs), personnes dehors séparées par catégorie, journal des mouvements du jour, **impression du rapport quotidien** pour les réunions d'évaluation.
+- **Tableau de bord** : graphiques intégrés (SVG, sans bibliothèque) — répartition des sorties par catégorie (anneau), évolution des sorties par jour (barres), sorties par commission (barres horizontales). Imprimés dans le rapport quotidien.
 - **Historique par jour** : sélecteur de date pour consulter le rapport et le journal d'une journée passée (le rapport du jour reste celui d'aujourd'hui par défaut).
 - **Export SQLite** : bouton « Télécharger le fichier .db » qui génère un véritable fichier SQLite (binaire, sans dépendance ni internet) contenant les 4 tables, ouvrable avec **DB Browser for SQLite**.
 - **Sauvegarde & Restauration** : page **Sauvegarde** pour télécharger un fichier `.db` (sauvegarde) et réimporter un fichier `.db` (restauration). Un rappel s'affiche sur l'accueil tant que le fichier n'a pas été sauvegardé dans la journée.
@@ -43,6 +44,7 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 - 🔔 Bip sonore + flash vert (sortie) / rouge (retour) à chaque validation
 - 🖨️ Impression du **rapport quotidien** (statistiques + journal) pour les réunions d'évaluation
 - 📅 **Historique par jour** : rapport et journal consultables pour n'importe quelle date
+- 📊 **Tableau de bord** : graphiques SVG (anneau par catégorie, barres par jour et par commission)
 - ↩️ **Correction d'une saisie** : bouton « Annuler » dans l'historique d'une personne (supprime l'entrée et recale automatiquement le statut)
 - 📊 Statistiques en temps réel pour la direction
 - 🗄️ **Export SQLite** : téléchargement d'un fichier `.db` (4 tables) pour DB Browser
@@ -79,7 +81,7 @@ GES-CB/
 ├── statistiques.html    # Statistiques (rapport + journal + historique par jour)
 ├── sauvegarde.html      # Sauvegarde & restauration (.db)
 ├── css/                 # style, components, responsive
-├── js/                  # db, auth, ui, moniteurs, enfants, visiteurs, statistiques, sauvegarde, sqlite_export, sqlite_import
+├── js/                  # db, auth, ui, charts, moniteurs, enfants, visiteurs, statistiques, sauvegarde, sqlite_export, sqlite_import
 ├── favicon.svg          # Icône du site
 └── database/
     └── schema.sql       # Schéma SQL de référence (moniteurs, enfants, visiteurs, mouvements)

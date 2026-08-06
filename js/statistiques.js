@@ -79,6 +79,54 @@
     return mono ? mono.role : null;
   }
 
+  /* ----- Graphiques du tableau de bord ----- */
+  let donneesCharts = null;
+
+  function rafraichirCharts() {
+    const dates = DB.datesMouvements().slice(0, 15).reverse();
+    const evo = dates.map(function (d) {
+      const nb = DB.mouvementsParDate(d).filter(function (m) {
+        return m.type_action === "SORTIE";
+      }).length;
+      const p = d.split("-");
+      return { label: p[2] + "/" + p[1], valeur: nb };
+    });
+
+    const journal = DB.mouvementsParDate(dateSelectionnee);
+    const sorties = journal.filter(function (m) { return m.type_action === "SORTIE"; });
+
+    const cat = [
+      { label: "Moniteurs", valeur: sorties.filter(function (m) {
+        return m.type_profil === "MONITEUR" && roleMouvement(m) === ROLE_MONITEUR;
+      }).length },
+      { label: "Aides-Moniteur", valeur: sorties.filter(function (m) {
+        return m.type_profil === "MONITEUR" && roleMouvement(m) === ROLE_AIDE;
+      }).length },
+      { label: "Enfants", valeur: sorties.filter(function (m) {
+        return m.type_profil === "ENFANT";
+      }).length },
+    ].filter(function (c) { return c.valeur > 0; });
+
+    const comm = {};
+    sorties.forEach(function (m) {
+      if (m.type_profil !== "MONITEUR") return;
+      const mono = DB.moniteurParId(m.personne_id);
+      const nom = mono && mono.commission ? mono.commission : "Sans commission";
+      comm[nom] = (comm[nom] || 0) + 1;
+    });
+    const commListe = Object.keys(comm).map(function (k) {
+      return { label: k, valeur: comm[k] };
+    }).sort(function (a, b) { return b.valeur - a.valeur; });
+
+    donneesCharts = { evo: evo, cat: cat, comm: commListe };
+
+    document.getElementById("chart-evolution").innerHTML = GES_CHARTS.barres(evo);
+    document.getElementById("chart-repartition").innerHTML = GES_CHARTS.anneau(cat);
+    document.getElementById("chart-commissions").innerHTML = GES_CHARTS.barresH(commListe);
+    document.getElementById("sous-titre-dashboard").textContent =
+      "· " + formaterDateFr(dateSelectionnee);
+  }
+
   function rafraichir() {
     const journal = DB.mouvementsParDate(dateSelectionnee);
     const sorties = journal.filter(function (m) { return m.type_action === "SORTIE"; });
@@ -160,6 +208,8 @@
     renderJournal(journalVisiteurs, journal.filter(function (m) {
       return m.type_profil === "VISITEUR";
     }));
+
+    rafraichirCharts();
   }
 
   function profilLabel(m) {
@@ -245,11 +295,19 @@
     const maintenant = new Date().toLocaleString("fr-FR");
     const dateJour = formaterDateFr(dateSelectionnee);
     const feuillePrint = new URL("css/print.css", window.location.href).href;
+    const c = donneesCharts || { evo: [], cat: [], comm: [] };
 
     const contenu = [
       "<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/>" +
         "<title>Rapport du jour · GES-CB</title>" +
         '<link rel="stylesheet" href="' + feuillePrint + '"/>' +
+        "<style>" +
+        ".anneau-flex{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:12px 0;}" +
+        ".legende-item{display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0;}" +
+        ".legende-item .pastille{width:12px;height:12px;border-radius:3px;display:inline-block;}" +
+        ".legende-item strong{margin-left:8px;}" +
+        ".stats-box h3{margin-top:10px;}" +
+        "</style>" +
         "</head><body>" +
         '<div class="en-tete">' +
         "<h1>Camp Biblique</h1>" +
@@ -265,6 +323,13 @@
         "<tr><th>Visiteurs reçus</th><td>" + nbVisiteurs + "</td></tr>" +
         "<tr><th>Total des sorties</th><td>" + sorties.length + "</td></tr>" +
         "</table></div>" +
+        "<h2>Tableau de bord</h2>" +
+        '<div class="stats-box"><h3>Répartition des sorties</h3>' +
+        GES_CHARTS.anneau(c.cat) + "</div>" +
+        '<div class="stats-box"><h3>Évolution des sorties par jour</h3>' +
+        GES_CHARTS.barres(c.evo) + "</div>" +
+        '<div class="stats-box"><h3>Sorties par commission</h3>' +
+        GES_CHARTS.barresH(c.comm) + "</div>" +
         "<h2>Journal — Moniteurs</h2>" +
         journalHtml(journal.filter(function (m) {
           return m.type_profil === "MONITEUR" && roleMouvement(m) === ROLE_MONITEUR;
