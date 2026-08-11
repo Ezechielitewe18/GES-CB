@@ -448,6 +448,41 @@ const DB = (function () {
     { nom_prenom: "Voldis LOYKO WA LOYKO", sexe: "M", telephone: "0814981388", commission: "Communication" },
   ];
 
+  /* ----- Liste définitive des AIDES-MONITEURS (fournie par la direction) -----
+     Seuls les noms ont été fournis : téléphone et commission restent vides. */
+  const AIDES_BASE = [
+    { nom_prenom: "Angela OLEKO ANDJENGA", sexe: "F" },
+    { nom_prenom: "Bliss-Grace WANDJA MILOMBA", sexe: "F" },
+    { nom_prenom: "Defi NSILULU", sexe: "F" },
+    { nom_prenom: "Diadème BIDIONGO PELENGE", sexe: "F" },
+    { nom_prenom: "Diffa KATUNA", sexe: "F" },
+    { nom_prenom: "Dorcas DINA MULAJI", sexe: "F" },
+    { nom_prenom: "Elie BOPOLO", sexe: "M" },
+    { nom_prenom: "Elvicia MUSHENI BASHILE", sexe: "F" },
+    { nom_prenom: "Enosu MASTHIK KAZADI", sexe: "F" },
+    { nom_prenom: "Eunice NGONGA", sexe: "F" },
+    { nom_prenom: "Ezechiel ITEWE", sexe: "M" },
+    { nom_prenom: "Exauce ANTWISI", sexe: "M" },
+    { nom_prenom: "Gloria MAGAZINI", sexe: "F" },
+    { nom_prenom: "Jes'Dani AWAZI", sexe: "M" },
+    { nom_prenom: "Jes'Oli AWAZI", sexe: "M" },
+    { nom_prenom: "Jessica ANGUMO", sexe: "F" },
+    { nom_prenom: "Joyce BOLENGE BAKINI", sexe: "F" },
+    { nom_prenom: "Ketsia KATUNA ITUN", sexe: "F" },
+    { nom_prenom: "Leslie LUZIBU LUAMPANYA", sexe: "F" },
+    { nom_prenom: "Merveille ILANGI", sexe: "F" },
+    { nom_prenom: "Michael BASILWANGO", sexe: "M" },
+    { nom_prenom: "Mirac NTAMBWE", sexe: "F" },
+    { nom_prenom: "Neoma MULIELE", sexe: "F" },
+    { nom_prenom: "Paul MULAJI", sexe: "M" },
+    { nom_prenom: "Perle TSHIBUABUA TSHIBUABUA", sexe: "F" },
+    { nom_prenom: "Plamedi BILA", sexe: "F" },
+    { nom_prenom: "Plamedi NGALULA", sexe: "F" },
+    { nom_prenom: "Richesse KAZADI", sexe: "M" },
+    { nom_prenom: "Ruth OMOYI DJONGA", sexe: "F" },
+    { nom_prenom: "Serdia MALU BELOKO", sexe: "F" },
+  ];
+
   /* Initiales = première lettre du prénom + première lettre du nom (dernier mot) */
   function initialesDe(nom) {
     const mots = nom.trim().split(/\s+/);
@@ -497,6 +532,34 @@ const DB = (function () {
       });
       sauverMoniteurs(liste);
     }
+
+    /* Fusion non destructive des aides-moniteurs (ajoute ceux qui manquent) */
+    const listeMoniteurs = lire(CLES.moniteurs, []);
+    const presents = {};
+    listeMoniteurs.forEach(function (m) {
+      presents[m.role + "|" + m.nom_prenom] = true;
+    });
+    let maxId = listeMoniteurs.length
+      ? Math.max(...listeMoniteurs.map(function (i) { return i.id; }))
+      : 0;
+    let aChange = false;
+    AIDES_BASE.forEach(function (a) {
+      if (presents["Aide-Moniteur|" + a.nom_prenom]) return;
+      maxId += 1;
+      listeMoniteurs.push({
+        id: maxId,
+        nom_prenom: a.nom_prenom,
+        initials: initialesDe(a.nom_prenom),
+        role: "Aide-Moniteur",
+        statut: "PRESENT",
+        sexe: a.sexe,
+        telephone: a.telephone || "",
+        commission: a.commission || "",
+      });
+      aChange = true;
+    });
+    if (aChange) sauverMoniteurs(listeMoniteurs);
+
     if (!localStorage.getItem(CLES.enfants)) sauverEnfants([]);
     if (!localStorage.getItem(CLES.visiteurs)) sauverVisiteurs([]);
     if (!localStorage.getItem(CLES.mouvements)) sauverMouvements([]);
