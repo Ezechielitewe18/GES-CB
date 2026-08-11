@@ -314,12 +314,15 @@ const DB = (function () {
     });
   }
 
-  function dureeSortie(debutHeure) {
-    const [h, m, s] = debutHeure.split(":").map(Number);
-    const debut = h * 3600 + m * 60 + s;
-    const main = maintenant().heure.split(":").map(Number);
-    const fin = main[0] * 3600 + main[1] * 60 + main[2];
-    const ecart = fin - debut;
+  /* Reçoit le mouvement de sortie (date + heure) pour calculer la durée
+     réelle, y compris si la sortie traverse minuit ou plusieurs jours. */
+  function dureeSortie(sortie) {
+    if (!sortie) return 0;
+    const iso =
+      (sortie.date_mouvement || "") + "T" + (sortie.heure_mouvement || "");
+    const debutMs = iso.indexOf("T") > 0 ? new Date(iso).getTime() : NaN;
+    if (isNaN(debutMs)) return 0;
+    const ecart = Math.floor((Date.now() - debutMs) / 1000);
     return ecart < 0 ? 0 : ecart;
   }
 

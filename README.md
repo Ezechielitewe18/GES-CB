@@ -188,3 +188,42 @@ GES-CB/
 | TN | Tegra BELOKO N'KIRAWE | M | 0990657869 | Spirituel |
 | BP | Thomas BANDUKA PANZU | M | 0826305861 | Cuisine |
 | VL | Voldis LOYKO WA LOYKO | M | 0814981388 | Communication |
+
+---
+
+## 👥 Aides-Moniteurs (liste officielle)
+
+Les numéros et commissions des aides seront saisis ultérieurement (non fournis).
+
+| Initiales | Nom | Sexe |
+|---|---|---|
+| AA | Angela OLEKO ANDJENGA | F |
+| BM | Bliss-Grace WANDJA MILOMBA | F |
+| DN | Defi NSILULU | F |
+| DP | Diadème BIDIONGO PELENGE | F |
+| DK | Diffa KATUNA | F |
+| DM | Dorcas DINA MULAJI | F |
+| EB | Elie BOPOLO | M |
+| EB | Elvicia MUSHENI BASHILE | F |
+| EK | Enosu MASTHIK KAZADI | F |
+| EN | Eunice NGONGA | F |
+| EI | Ezechiel ITEWE | M |
+| EA | Exauce ANTWISI | M |
+| GM | Gloria MAGAZINI | F |
+| JA | Jes'Dani AWAZI | M |
+| JA | Jes'Oli AWAZI | M |
+| JA | Jessica ANGUMO | F |
+| JB | Joyce BOLENGE BAKINI | F |
+| KI | Ketsia KATUNA ITUN | F |
+| LL | Leslie LUZIBU LUAMPANYA | F |
+| MI | Merveille ILANGI | F |
+| MB | Michael BASILWANGO | M |
+| MN | Mirac NTAMBWE | F |
+| NM | Neoma MULIELE | F |
+| PM | Paul MULAJI | M |
+| PT | Perle TSHIBUABUA TSHIBUABUA | F |
+| PB | Plamedi BILA | F |
+| PN | Plamedi NGALULA | F |
+| RK | Richesse KAZADI | M |
+| RD | Ruth OMOYI DJONGA | F |
+| SB | Serdia MALU BELOKO | F |

@@ -9,6 +9,9 @@
   const PAGE = window.PAGE_MONITEURS || { actif: "moniteurs.html", filtreRole: null, titre: "Moniteurs" };
   UI.installerNavbar(PAGE.actif);
 
+  const LABEL_PERSONNE =
+    PAGE.filtreRole === "Aide-Moniteur" ? "Aide-Moniteur" : "Moniteur";
+
   const tableSortie = document.getElementById("table-sortie");
   const tableRetour = document.getElementById("table-retour");
   const rechercheMoniteur = document.getElementById("recherche-moniteur");
@@ -74,7 +77,7 @@
     if (selectionSortie) {
       recapSortie.classList.add("visible");
       recapSortie.innerHTML =
-        '<div class="ligne"><span class="label">Moniteur</span><span>' +
+        '<div class="ligne"><span class="label">' + LABEL_PERSONNE + "</span><span>" +
         selectionSortie.nom_prenom + "</span></div>" +
         '<div class="ligne"><span class="label">Commission</span><span>' +
         (selectionSortie.commission || "—") + "</span></div>" +
@@ -90,7 +93,7 @@
     if (selectionRetour) {
       recapRetour.classList.add("visible");
       recapRetour.innerHTML =
-        '<div class="ligne"><span class="label">Moniteur</span><span>' +
+        '<div class="ligne"><span class="label">' + LABEL_PERSONNE + "</span><span>" +
         selectionRetour.nom_prenom + "</span></div>" +
         '<div class="ligne"><span class="label">Heure retour</span><span>' +
         new Date().toLocaleTimeString("fr-FR") + "</span></div>";
@@ -165,13 +168,13 @@
     const longs = dehors.filter(function (d) {
       return (
         d.sortie &&
-        DB.dureeSortie(d.sortie.heure_mouvement) >= DB.SEUIL_ALERTE_SEC
+        DB.dureeSortie(d.sortie) >= DB.SEUIL_ALERTE_SEC
       );
     });
 
     zoneAlertes.innerHTML = "";
     longs.forEach(function (d) {
-      const dur = DB.formaterDuree(DB.dureeSortie(d.sortie.heure_mouvement));
+      const dur = DB.formaterDuree(DB.dureeSortie(d.sortie));
       const div = document.createElement("div");
       div.className = "alerte-longue";
       div.innerHTML =

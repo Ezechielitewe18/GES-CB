@@ -29,6 +29,7 @@
   const zoneAlertes = document.getElementById("zone-alertes");
 
   let enfantSelectionne = null;
+  let doublonConfirme = false;
 
   /* Motif : "Autre..." ouvre une case de texte libre ; sinon vide autorisé */
   function gererChampAutre(select, autre, bloc) {
@@ -53,6 +54,10 @@
   gererChampAutre(motifEnfant, motifAutreEnfant, blocAutreEnfant);
   gererChampAutre(motifExistant, motifAutreExistant, blocAutreExistant);
 
+  nomEnfant.addEventListener("input", function () {
+    doublonConfirme = false;
+  });
+
   /* ----- Nouvel enfant ----- */
   btnNouvelEnfant.addEventListener("click", function () {
     const nom = nomEnfant.value.trim();
@@ -63,6 +68,20 @@
       UI.toast("Le nom de l'enfant est obligatoire.", "erreur");
       return;
     }
+
+    /* Garde anti-doublon : demande une confirmation si le nom existe déjà */
+    const doublon = DB.enfants().find(function (e) {
+      return e.nom_prenom.toLowerCase() === nom.toLowerCase();
+    });
+    if (doublon && !doublonConfirme) {
+      doublonConfirme = true;
+      UI.toast(
+        "Un enfant « " + doublon.nom_prenom + " » existe déjà — cliquez à nouveau pour confirmer.",
+        "erreur"
+      );
+      return;
+    }
+    doublonConfirme = false;
 
     const e = DB.ajouterEnfant({ nom_prenom: nom, statut: "DEHORS" });
     DB.ajouterMouvement({
@@ -211,13 +230,13 @@
       return (
         d.sortie &&
         d.type_profil === "ENFANT" &&
-        DB.dureeSortie(d.sortie.heure_mouvement) >= DB.SEUIL_ALERTE_SEC
+        DB.dureeSortie(d.sortie) >= DB.SEUIL_ALERTE_SEC
       );
     });
 
     zoneAlertes.innerHTML = "";
     longs.forEach(function (d) {
-      const dur = DB.formaterDuree(DB.dureeSortie(d.sortie.heure_mouvement));
+      const dur = DB.formaterDuree(DB.dureeSortie(d.sortie));
       const div = document.createElement("div");
       div.className = "alerte-longue";
       div.innerHTML =

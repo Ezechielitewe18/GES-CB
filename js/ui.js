@@ -136,13 +136,6 @@ const UI = (function () {
     }
   }
 
-  function bipDouble(ok) {
-    bip(ok);
-    setTimeout(function () {
-      bip(ok);
-    }, 250);
-  }
-
   /* ----- Flash ecran vert/rouge (idee 4) ----- */
   function flash(type) {
     document.body.classList.remove("flash-sortie", "flash-retour");
@@ -151,14 +144,6 @@ const UI = (function () {
     setTimeout(function () {
       document.body.classList.remove("flash-sortie", "flash-retour");
     }, 650);
-  }
-
-  /* ----- Confirmation d'action (valide a la porte) ----- */
-  function confirmerAction() {
-    const val = document.createElement("input");
-    val.type = "checkbox";
-    val.id = "confirm-porte";
-    return true;
   }
 
   /* ----- Modale historique d'une personne (idee 3) ----- */
@@ -246,7 +231,6 @@ const UI = (function () {
     installerNavbar,
     toast,
     bip,
-    bipDouble,
     flash,
     ouvrirHistorique,
   };

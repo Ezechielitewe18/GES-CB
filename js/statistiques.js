@@ -135,26 +135,31 @@
     });
 
     /* ----- Rapport du jour : chiffres séparés ----- */
-    rptMoniteurs.textContent = sorties.filter(function (m) {
+    const nbMoniteurs = sorties.filter(function (m) {
       return m.type_profil === "MONITEUR" && roleMouvement(m) === ROLE_MONITEUR;
     }).length;
-    rptAides.textContent = sorties.filter(function (m) {
+    const nbAides = sorties.filter(function (m) {
       return m.type_profil === "MONITEUR" && roleMouvement(m) === ROLE_AIDE;
     }).length;
-    rptEnfants.textContent = sorties.filter(function (m) {
+    const nbEnfants = sorties.filter(function (m) {
       return m.type_profil === "ENFANT";
     }).length;
-    rptVisiteurs.textContent = arriveesVisiteurs.length;
-    rptTotal.textContent = sorties.length;
+    const nbVisiteurs = arriveesVisiteurs.length;
+
+    rptMoniteurs.textContent = nbMoniteurs;
+    rptAides.textContent = nbAides;
+    rptEnfants.textContent = nbEnfants;
+    rptVisiteurs.textContent = nbVisiteurs;
+    rptTotal.textContent = nbMoniteurs + nbAides + nbEnfants + nbVisiteurs;
 
     /* ----- Alertes sortie longue ----- */
     const dehors = DB.personnesDehors();
     const longs = dehors.filter(function (d) {
-      return d.sortie && DB.dureeSortie(d.sortie.heure_mouvement) >= DB.SEUIL_ALERTE_SEC;
+      return d.sortie && DB.dureeSortie(d.sortie) >= DB.SEUIL_ALERTE_SEC;
     });
     zoneAlertes.innerHTML = "";
     longs.forEach(function (d) {
-      const dur = DB.formaterDuree(DB.dureeSortie(d.sortie.heure_mouvement));
+      const dur = DB.formaterDuree(DB.dureeSortie(d.sortie));
       const label = d.type_profil === "MONITEUR"
         ? d.personne.role + " (" + d.personne.initials + ")"
         : d.personne.nom_prenom;
@@ -261,7 +266,7 @@
       "<th>Nom</th><th>Motif</th><th>Heure</th><th>Durée</th></tr></thead><tbody>";
     liste.forEach(function (d) {
       const dur = d.sortie
-        ? DB.formaterDuree(DB.dureeSortie(d.sortie.heure_mouvement))
+        ? DB.formaterDuree(DB.dureeSortie(d.sortie))
         : "—";
       html +=
         "<tr>" +
@@ -321,7 +326,7 @@
         "<tr><th>Aides-Moniteurs sortis</th><td>" + nbAides + "</td></tr>" +
         "<tr><th>Enfants sortis</th><td>" + nbEnfants + "</td></tr>" +
         "<tr><th>Visiteurs reçus</th><td>" + nbVisiteurs + "</td></tr>" +
-        "<tr><th>Total des sorties</th><td>" + sorties.length + "</td></tr>" +
+        "<tr><th>Total</th><td>" + (nbMoniteurs + nbAides + nbEnfants + nbVisiteurs) + "</td></tr>" +
         "</table></div>" +
         "<h2>Tableau de bord</h2>" +
         '<div class="stats-box"><h3>Répartition des sorties</h3>' +
