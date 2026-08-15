@@ -23,7 +23,7 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 ### Agent de porte
 - **Moniteurs** : cliquer sur l'initiale du moniteur, saisir le motif de sortie, puis [Enregistrer la sortie]. Au retour, cliquer sur le moniteur "DEHORS" puis [Valider le retour]. *Double-clic sur un nom → historique de la journée (bouton « Annuler » sur une ligne pour corriger une saisie).*
 - **Aides-Moniteurs** : mêmes actions pour les aides.
-- **Enfants** : créer + sortir un nouvel enfant (motif optionnel : RDV médical, Cours, Formation, Autre...), ou rechercher un enfant existant (retour / nouvelle sortie).
+- **Enfants** : créer + sortir un nouvel enfant (motif optionnel : RDV médical, Cours, Formation, Autre...), ou rechercher un enfant existant (retour / nouvelle sortie). Bouton **Supprimer** (double confirmation) pour retirer un enfant et son historique.
 - **Visiteurs** : enregistrer les arrivées et les départs.
 
 ### Direction
@@ -31,7 +31,7 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 - **Tableau de bord** : graphiques intégrés (SVG, sans bibliothèque) — répartition des sorties par catégorie (anneau), évolution des sorties par jour (barres), sorties par commission (barres horizontales). Imprimés dans le rapport quotidien.
 - **Historique par jour** : sélecteur de date pour consulter le rapport et le journal d'une journée passée (le rapport du jour reste celui d'aujourd'hui par défaut).
 - **Export SQLite** : bouton « Télécharger le fichier .db » qui génère un véritable fichier SQLite (binaire, sans dépendance ni internet) contenant les 4 tables, ouvrable avec **DB Browser for SQLite**.
-- **Sauvegarde & Restauration** : page **Sauvegarde** pour télécharger un fichier `.db` (sauvegarde) et réimporter un fichier `.db` (restauration). Un rappel s'affiche sur l'accueil tant que le fichier n'a pas été sauvegardé dans la journée.
+- **Sauvegarde & Restauration** : page **Sauvegarde** pour télécharger un fichier `.db` (sauvegarde) et réimporter un fichier `.db` (restauration). Un rappel s'affiche sur l'accueil tant que le fichier n'a pas été sauvegardé dans la journée. La page propose aussi **« Tout effacer »** (double confirmation) pour repartir de zéro : enfants, visiteurs, historique et personnel ajouté sont supprimés, les moniteurs et aides-moniteurs officiels sont réinstallés.
 - **Guide (mode démonstration)** : diaporama automatique (1 diapositive toutes les 5 s) avec boutons ◀ ▶, pause, clavier et fermeture — pour former une nouvelle personne à la porte en quelques minutes. Accessible depuis la page de connexion, l'accueil et le menu.
 
 ---
@@ -92,11 +92,12 @@ GES-CB/
 ├── aides.html           # Aides-Moniteurs
 ├── enfants.html         # Enfants
 ├── visiteurs.html       # Visiteurs
+├── gestion.html         # Gestion du personnel
 ├── statistiques.html    # Statistiques (rapport + journal + historique par jour)
 ├── sauvegarde.html      # Sauvegarde & restauration (.db)
 ├── guide.html           # Mode démonstration (diaporama)
 ├── css/                 # style, components, responsive, guide
-├── js/                  # db, auth, ui, charts, guide, moniteurs, enfants, visiteurs, statistiques, sauvegarde, sqlite_export, sqlite_import
+├── js/                  # db, auth, ui, charts, guide, moniteurs, gestion, enfants, visiteurs, statistiques, sauvegarde, sqlite_export, sqlite_import
 ├── sw.js                # Service worker (fonctionne hors-ligne)
 ├── manifest.webmanifest # Manifest PWA (installation sur téléphone)
 ├── favicon.svg          # Icône du site

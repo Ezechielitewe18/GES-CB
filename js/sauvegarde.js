@@ -24,6 +24,27 @@
 
   let fichierChoisi = null;
 
+  /* ----- Tout effacer ----- */
+  const btnToutEffacer = document.getElementById("btn-tout-effacer");
+  const statutEffacement = document.getElementById("statut-effacement");
+  let effacementEnAttente = false;
+
+  btnToutEffacer.addEventListener("click", function () {
+    if (!effacementEnAttente) {
+      effacementEnAttente = true;
+      btnToutEffacer.textContent = "Confirmer ? Toutes les données seront perdues";
+      statutEffacement.style.color = "var(--rouge)";
+      statutEffacement.textContent = "Cliquez à nouveau pour confirmer.";
+      return;
+    }
+    effacementEnAttente = false;
+    btnToutEffacer.textContent = "Tout effacer les données";
+    statutEffacement.textContent = "";
+    DB.reinitialiserTout();
+    UI.toast("Données effacées — nouveau départ", "ok");
+    setTimeout(function () { location.reload(); }, 600);
+  });
+
   function rafraichirEtat() {
     document.getElementById("nb-moniteurs").textContent = DB.moniteurs().length;
     document.getElementById("nb-enfants").textContent = DB.enfants().length;

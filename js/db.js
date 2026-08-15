@@ -3,7 +3,7 @@
    ===================================================== */
 
 const DB = (function () {
-  const VERSION = 6;
+  const VERSION = 7;
   const CLE_VERSION = "ges_cb_version";
 
   const CLES = {
@@ -191,6 +191,20 @@ const DB = (function () {
     liste.push(e);
     sauverEnfants(liste);
     return e;
+  }
+
+  /* Supprime un enfant et son historique de mouvements. */
+  function supprimerEnfant(id) {
+    const liste = enfants();
+    const garde = liste.filter(function (e) { return e.id !== id; });
+    if (garde.length !== liste.length) {
+      sauverEnfants(garde);
+      sauverMouvements(mouvements().filter(function (m) {
+        return !(m.type_profil === "ENFANT" && m.personne_id === id);
+      }));
+      return true;
+    }
+    return false;
   }
 
   /* ----- Visiteurs ----- */
@@ -682,6 +696,7 @@ const DB = (function () {
     enfantParId,
     mettreAJourEnfant,
     ajouterEnfant,
+    supprimerEnfant,
     visiteurs,
     visiteurParId,
     mettreAJourVisiteur,

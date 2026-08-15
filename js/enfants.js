@@ -40,6 +40,7 @@
 
   let enfantSelectionne = null;
   let doublonConfirme = false;
+  let supprEnAttente = null;
 
   function estExterne(e) {
     return e && e.type_enfant === "EXTERNE";
@@ -344,7 +345,9 @@
         "><td><strong>" + e.nom_prenom + "</strong></td>" +
         "<td>" + typeBadge(e) + "</td>" +
         "<td>" + badge + "<br>" + alarme + "</td>" +
-        '<td><button class="btn btn-gris btn-petit" data-hist="' + e.id + '">Historique</button></td></tr>';
+        '<td><button class="btn btn-gris btn-petit" data-hist="' + e.id + '">Historique</button> ' +
+        '<button class="btn btn-danger btn-petit" data-suppr="' + e.id + '">' +
+        (supprEnAttente === e.id ? "Confirmer ?" : "Supprimer") + "</button></td></tr>";
     });
 
     html += "</tbody></table></div>";
@@ -354,6 +357,24 @@
       b.addEventListener("click", function () {
         const e = DB.enfantParId(Number(b.getAttribute("data-hist")));
         if (e) UI.ouvrirHistorique("ENFANT", e.id, e.nom_prenom);
+      });
+    });
+
+    listeEnfants.querySelectorAll("[data-suppr]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        const id = Number(b.getAttribute("data-suppr"));
+        if (supprEnAttente !== id) {
+          supprEnAttente = id;
+          rafraichirListe();
+          UI.toast("Cliquez à nouveau pour confirmer la suppression.", "erreur");
+          return;
+        }
+        supprEnAttente = null;
+        const e = DB.enfantParId(id);
+        if (e && DB.supprimerEnfant(id)) {
+          UI.toast("Enfant supprimé · " + e.nom_prenom, "ok");
+        }
+        rafraichirListe();
       });
     });
   }

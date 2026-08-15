@@ -1,6 +1,6 @@
 /* GES-CB · Service worker — rend l'app disponible hors-ligne.
    Incrementez VERSION ci-dessous apres chaque modification des fichiers. */
-const VERSION = "ges-cb-v6";
+const VERSION = "ges-cb-v7";
 
 const FICHIERS = [
   "index.html",
@@ -64,27 +64,28 @@ self.addEventListener("activate", function (e) {
   );
 });
 
+/* Stratégie : réseau d'abord (toujours à jour quand en ligne),
+   cache en secours quand hors-ligne. */
 self.addEventListener("fetch", function (e) {
   if (e.request.method !== "GET") return;
 
   e.respondWith(
-    caches.match(e.request).then(function (trouve) {
-      if (trouve) return trouve;
-
-      return fetch(e.request).then(function (reponse) {
-        if (reponse.ok && e.request.url.indexOf(self.location.origin) === 0) {
-          const copie = reponse.clone();
-          caches.open(VERSION).then(function (cache) {
-            cache.put(e.request, copie);
-          });
-        }
-        return reponse;
-      });
-    }).catch(function () {
-      if (e.request.mode === "navigate") {
-        return caches.match("index.html");
+    fetch(e.request).then(function (reponse) {
+      if (reponse.ok && e.request.url.indexOf(self.location.origin) === 0) {
+        const copie = reponse.clone();
+        caches.open(VERSION).then(function (cache) {
+          cache.put(e.request, copie);
+        });
       }
-      return new Response("", { status: 503, statusText: "Hors-ligne" });
+      return reponse;
+    }).catch(function () {
+      return caches.match(e.request).then(function (trouve) {
+        if (trouve) return trouve;
+        if (e.request.mode === "navigate") {
+          return caches.match("index.html");
+        }
+        return new Response("", { status: 503, statusText: "Hors-ligne" });
+      });
     })
   );
 });
