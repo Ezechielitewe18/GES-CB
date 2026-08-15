@@ -37,28 +37,38 @@
       <div class="carte">
         <h2>
           <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Nouvel enfant (Création + Sortie)
+          Nouvel enfant (Création + Sortie / Arrivée)
         </h2>
+
+        <div class="form-groupe">
+          <label class="champ-label" for="type-enfant">Type d'enfant</label>
+          <select id="type-enfant">
+            <option value="INTERNE">Interne — dort au camp</option>
+            <option value="EXTERNE">Externe — vient le matin, rentre le soir</option>
+          </select>
+        </div>
 
         <div class="form-groupe">
           <label class="champ-label" for="nom-enfant">Nom et Prénom de l'enfant</label>
           <input type="text" id="nom-enfant" />
         </div>
 
-        <div class="form-groupe">
-          <label class="champ-label" for="motif-enfant">Motif de la sortie (optionnel)</label>
-          <select id="motif-enfant">
-            <option value="">— Laisser vide —</option>
-            <option value="RDV médical">RDV médical</option>
-            <option value="Cours">Cours</option>
-            <option value="Formation">Formation</option>
-            <option value="Autre">Autre...</option>
-          </select>
-        </div>
+        <div id="bloc-motif-creation">
+          <div class="form-groupe">
+            <label class="champ-label" for="motif-enfant">Motif de la sortie (optionnel)</label>
+            <select id="motif-enfant">
+              <option value="">— Laisser vide —</option>
+              <option value="RDV médical">RDV médical</option>
+              <option value="Cours">Cours</option>
+              <option value="Formation">Formation</option>
+              <option value="Autre">Autre...</option>
+            </select>
+          </div>
 
-        <div class="form-groupe" id="bloc-autre-enfant" style="display:none;">
-          <label class="champ-label" for="motif-autre-enfant">Préciser le motif</label>
-          <input type="text" id="motif-autre-enfant" />
+          <div class="form-groupe" id="bloc-autre-enfant" style="display:none;">
+            <label class="champ-label" for="motif-autre-enfant">Préciser le motif</label>
+            <input type="text" id="motif-autre-enfant" />
+          </div>
         </div>
 
         <div class="form-groupe">
@@ -107,6 +117,20 @@
           </div>
           <div id="zone-retour" style="display:none;">
             <button id="btn-retour-enfant" class="btn btn-vert">Marquer le retour</button>
+          </div>
+
+          <!-- Zones pour les enfants EXTERNES -->
+          <div id="zone-arrivee-externe" style="display:none;">
+            <p style="color:#888; font-size:13px; margin-bottom:10px;">
+              L'enfant est rentré chez lui. Il reviendra demain matin.
+            </p>
+            <button id="btn-arrivee-externe" class="btn btn-vert">Enregistrer l'arrivée du matin</button>
+          </div>
+          <div id="zone-depart-externe" style="display:none;">
+            <p style="color:#888; font-size:13px; margin-bottom:10px;">
+              L'enfant est au camp. Il rentre chez lui ce soir.
+            </p>
+            <button id="btn-depart-externe" class="btn">Marquer le départ du soir</button>
           </div>
         </div>
 

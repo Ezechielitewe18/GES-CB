@@ -14,6 +14,7 @@
   const rptMoniteurs = document.getElementById("rpt-moniteurs");
   const rptAides = document.getElementById("rpt-aides");
   const rptEnfants = document.getElementById("rpt-enfants");
+  const rptExternes = document.getElementById("rpt-externes");
   const rptVisiteurs = document.getElementById("rpt-visiteurs");
   const rptTotal = document.getElementById("rpt-total");
 
@@ -144,22 +145,27 @@
     const nbEnfants = sorties.filter(function (m) {
       return m.type_profil === "ENFANT";
     }).length;
+    const nbExternes = journal.filter(function (m) {
+      if (m.type_profil !== "ENFANT" || m.type_action !== "ENTREE") return false;
+      const e = DB.enfantParId(m.personne_id);
+      return e && e.type_enfant === "EXTERNE";
+    }).length;
     const nbVisiteurs = arriveesVisiteurs.length;
 
     rptMoniteurs.textContent = nbMoniteurs;
     rptAides.textContent = nbAides;
     rptEnfants.textContent = nbEnfants;
+    rptExternes.textContent = nbExternes;
     rptVisiteurs.textContent = nbVisiteurs;
-    rptTotal.textContent = nbMoniteurs + nbAides + nbEnfants + nbVisiteurs;
+    rptTotal.textContent = nbMoniteurs + nbAides + nbEnfants + nbExternes + nbVisiteurs;
 
-    /* ----- Alertes sortie longue ----- */
+    /* ----- Alertes sortie longue (par niveau) ----- */
     const dehors = DB.personnesDehors();
-    const longs = dehors.filter(function (d) {
-      return d.sortie && DB.dureeSortie(d.sortie) >= DB.SEUIL_ALERTE_SEC;
-    });
+    const longs = dehors.filter(DB.enAlerte);
     zoneAlertes.innerHTML = "";
     longs.forEach(function (d) {
       const dur = DB.formaterDuree(DB.dureeSortie(d.sortie));
+      const seuil = DB.formaterDuree(DB.seuilAlertePour(d.type_profil, d.personne));
       const label = d.type_profil === "MONITEUR"
         ? d.personne.role + " (" + d.personne.initials + ")"
         : d.personne.nom_prenom;
@@ -167,9 +173,25 @@
       div.className = "alerte-longue";
       div.innerHTML =
         "⏰ <span>" + label + " dehors depuis <strong>" + dur +
-        "</strong> — " + (d.sortie.motif || "") + "</span>";
+        "</strong> (alerte après " + seuil +
+        ") — " + (d.sortie.motif || "") + "</span>";
       zoneAlertes.appendChild(div);
     });
+
+    /* Visiteurs présents depuis plus de 20 h */
+    DB.visiteurs()
+      .filter(function (v) { return v.statut === "SUR_SITE"; })
+      .forEach(function (v) {
+        const duree = DB.dureeDepuisArrivee("VISITEUR", v.id);
+        if (duree >= DB.seuilAlertePour("VISITEUR")) {
+          const div = document.createElement("div");
+          div.className = "alerte-longue";
+          div.innerHTML =
+            "⏰ <span>" + v.nom_prenom + " est sur le site depuis <strong>" +
+            DB.formaterDuree(duree) + "</strong> (alerte après 20 h).</span>";
+          zoneAlertes.appendChild(div);
+        }
+      });
 
     /* ----- Moniteurs / Aides / Enfants dehors (séparés) ----- */
     renderDehors(listeMoniteursDehors, dehors.filter(function (d) {
@@ -227,6 +249,11 @@
     return '<span class="badge">Visiteur</span>';
   }
 
+  function typeEnfantBadge(personne) {
+    if (!personne || personne.type_enfant !== "EXTERNE") return "";
+    return '<span class="badge badge-orange" style="margin-left:6px;">Externe</span>';
+  }
+
   function renderJournal(zone, journal) {
     if (journal.length === 0) {
       zone.innerHTML = '<p style="color:#888;">Aucun mouvement.</p>';
@@ -242,10 +269,15 @@
         m.type_action === "SORTIE"
           ? '<span class="badge badge-rouge">SORTIE</span>'
           : '<span class="badge badge-vert">ENTRÉE</span>';
+      let typeBadge = "";
+      if (m.type_profil === "ENFANT") {
+        const e = DB.enfantParId(m.personne_id);
+        typeBadge = typeEnfantBadge(e);
+      }
       html +=
         "<tr>" +
         "<td>" + m.heure_mouvement + "</td>" +
-        "<td><strong>" + m.nom_personne + "</strong></td>" +
+        "<td><strong>" + m.nom_personne + "</strong>" + typeBadge + "</td>" +
         "<td>" + badge + "</td>" +
         "<td>" + (m.motif || "—") + "</td>" +
         "<td>" + (m.agent_accueil || "—") + "</td>" +
@@ -270,7 +302,7 @@
         : "—";
       html +=
         "<tr>" +
-        "<td><strong>" + d.personne.nom_prenom + "</strong></td>" +
+        "<td><strong>" + d.personne.nom_prenom + "</strong>" + typeEnfantBadge(d.personne) + "</td>" +
         "<td>" + (d.sortie ? d.sortie.motif : "—") + "</td>" +
         "<td>" + (d.sortie ? d.sortie.heure_mouvement : "—") + "</td>" +
         "<td>" + dur + "</td>" +
@@ -295,6 +327,11 @@
       return m.type_profil === "MONITEUR" && roleMouvement(m) === ROLE_AIDE;
     }).length;
     const nbEnfants = sorties.filter(function (m) { return m.type_profil === "ENFANT"; }).length;
+    const nbExternes = journal.filter(function (m) {
+      if (m.type_profil !== "ENFANT" || m.type_action !== "ENTREE") return false;
+      const e = DB.enfantParId(m.personne_id);
+      return e && e.type_enfant === "EXTERNE";
+    }).length;
     const nbVisiteurs = arriveesVisiteurs.length;
 
     const maintenant = new Date().toLocaleString("fr-FR");
@@ -325,8 +362,9 @@
         "<tr><th>Moniteurs sortis</th><td>" + nbMoniteurs + "</td></tr>" +
         "<tr><th>Aides-Moniteurs sortis</th><td>" + nbAides + "</td></tr>" +
         "<tr><th>Enfants sortis</th><td>" + nbEnfants + "</td></tr>" +
+        "<tr><th>Externes reçus (arrivées du matin)</th><td>" + nbExternes + "</td></tr>" +
         "<tr><th>Visiteurs reçus</th><td>" + nbVisiteurs + "</td></tr>" +
-        "<tr><th>Total</th><td>" + (nbMoniteurs + nbAides + nbEnfants + nbVisiteurs) + "</td></tr>" +
+        "<tr><th>Total</th><td>" + (nbMoniteurs + nbAides + nbEnfants + nbExternes + nbVisiteurs) + "</td></tr>" +
         "</table></div>" +
         "<h2>Tableau de bord</h2>" +
         '<div class="stats-box"><h3>Répartition des sorties</h3>' +
@@ -344,13 +382,22 @@
           return m.type_profil === "MONITEUR" && roleMouvement(m) === ROLE_AIDE;
         })) +
         "<h2>Journal — Enfants</h2>" +
-        journalHtml(journal.filter(function (m) { return m.type_profil === "ENFANT"; })) +
+        journalEnfantsHtml() +
         "<h2>Journal — Visiteurs</h2>" +
         journalHtml(journal.filter(function (m) { return m.type_profil === "VISITEUR"; })) +
         '<div class="pied"><span>GES-CB · Camp Biblique</span>' +
         '<span>Document officiel de la réunion d\'évaluation</span></div>' +
         "</body></html>",
     ].join("");
+
+    function journalEnfantsHtml() {
+      const j = journal.filter(function (m) { return m.type_profil === "ENFANT"; });
+      return journalHtml(j.map(function (m) {
+        const e = DB.enfantParId(m.personne_id);
+        const type = e && e.type_enfant === "EXTERNE" ? " (Externe)" : "";
+        return Object.assign({}, m, { nom_personne: m.nom_personne + type });
+      }));
+    }
 
     function journalHtml(j) {
       if (j.length === 0) return "<p>Aucun mouvement.</p>";

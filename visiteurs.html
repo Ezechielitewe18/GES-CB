@@ -29,6 +29,25 @@
       </div>
     </div>
 
+    <div id="zone-alertes"></div>
+
+    <div class="carte">
+      <div class="grille-stats">
+        <div class="carte-stat">
+          <div class="valeur" id="stat-sur-site">0</div>
+          <div class="libelle">Sur le site</div>
+        </div>
+        <div class="carte-stat">
+          <div class="valeur" id="stat-arrivees">0</div>
+          <div class="libelle">Arrivées aujourd'hui</div>
+        </div>
+        <div class="carte-stat">
+          <div class="valeur" id="stat-departs">0</div>
+          <div class="libelle">Départs aujourd'hui</div>
+        </div>
+      </div>
+    </div>
+
     <div class="deux-colonnes">
 
       <!-- COLONNE 1 : ARRIVEE -->
@@ -70,9 +89,24 @@
         <p style="color:#888; font-size:13px; margin-bottom:12px;">
           Visiteurs actuellement <strong style="color:#E67E22;">SUR LE SITE</strong> :
         </p>
+        <div class="barre-recherche">
+          <span class="loupe">
+            <svg class="icone" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          </span>
+          <input type="text" id="recherche-visiteur" placeholder="Filtrer (nom, pour qui, téléphone...)" />
+        </div>
         <div id="liste-depart"></div>
       </div>
 
+    </div>
+
+    <!-- HISTORIQUE DES VISITES DU JOUR -->
+    <div class="carte">
+      <h2>
+        <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 12h.01"/><path d="M8 12h.01"/><path d="M16 12h.01"/></svg>
+        Historique des visites d'aujourd'hui
+      </h2>
+      <div id="historique-visites"></div>
     </div>
   </div>
 

@@ -50,7 +50,8 @@ L'app est publiée sur **GitHub Pages** : https://ezechielitewe18.github.io/GES-
 
 - 🕐 Horodatage automatique (date + heure) de chaque entrée/sortie
 - 🧑‍💼 Journal central : qui est sorti, pourquoi, à quelle heure, validé par quel agent
-- ⏰ Alerte rouge clignotante si une personne reste dehors plus de **3 heures**
+- 👶 **Enfants internes & externes** : les externes viennent le matin (arrivée) et rentrent chez eux le soir (départ) ; ils ne dorment pas au camp, avec badge « Externe » partout (registre, journal, rapport)
+- ⏰ **Alerte rouge clignotante par niveau** si une personne dépasse son seuil : aide-moniteur **10 h**, moniteur **15 h**, enfant **18 h**, visiteur **20 h**
 - 📖 Psaume du jour affiché à l'agent de porte à chaque connexion
 - 🔔 Bip sonore + flash vert (sortie) / rouge (retour) à chaque validation
 - 🖨️ Impression du **rapport quotidien** (statistiques + journal) pour les réunions d'évaluation
@@ -60,7 +61,7 @@ L'app est publiée sur **GitHub Pages** : https://ezechielitewe18.github.io/GES-
 - 📊 Statistiques en temps réel pour la direction
 - 🗄️ **Export SQLite** : téléchargement d'un fichier `.db` (4 tables) pour DB Browser
 - 💾 **Sauvegarde & Restauration** : télécharger/réimporter un fichier `.db`, rappel quotidien sur l'accueil
-- 📽️ **Mode démonstration** : guide diaporama (10 diapositives, défilement 5 s + navigation manuelle) pour apprendre l'app
+- 📽️ **Mode démonstration** : guide diaporama (11 diapositives, défilement 5 s + navigation manuelle) pour apprendre l'app
 - 📱 **PWA** : installable sur téléphone (écran d'accueil), fonctionne hors-ligne (GitHub Pages)
 
 ---

@@ -24,10 +24,6 @@ body {
   margin-bottom: 22px;
 }
 
-.en-tete .croix {
-  display: none;
-}
-
 .en-tete h1 {
   font-size: 26px;
   letter-spacing: 1px;

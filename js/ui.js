@@ -5,14 +5,15 @@
 
 const UI = (function () {
   const PAGES = [
-    { href: "accueil.html", label: "Accueil", icone: "home", role: "TOUS" },
-    { href: "moniteurs.html", label: "Moniteurs", icone: "users", role: "ADMIN" },
-    { href: "aides.html", label: "Aides", icone: "helpers", role: "ADMIN" },
-    { href: "enfants.html", label: "Enfants", icone: "child", role: "ADMIN" },
-    { href: "visiteurs.html", label: "Visiteurs", icone: "door", role: "ADMIN" },
-    { href: "statistiques.html", label: "Statistiques", icone: "chart", role: "ADMIN" },
-    { href: "sauvegarde.html", label: "Sauvegarde", icone: "download", role: "ADMIN" },
-    { href: "guide.html", label: "Guide", icone: "book", role: "TOUS" },
+    { href: "accueil.html", label: "Accueil", icone: "home", role: "TOUS", section: "Menu" },
+    { href: "moniteurs.html", label: "Moniteurs", icone: "users", role: "ADMIN", section: "Porte" },
+    { href: "aides.html", label: "Aides-Moniteurs", icone: "helpers", role: "ADMIN", section: "Porte" },
+    { href: "enfants.html", label: "Enfants", icone: "child", role: "ADMIN", section: "Porte" },
+    { href: "visiteurs.html", label: "Visiteurs", icone: "door", role: "ADMIN", section: "Porte" },
+    { href: "gestion.html", label: "Gestion", icone: "usersPlus", role: "ADMIN", section: "Direction" },
+    { href: "statistiques.html", label: "Statistiques", icone: "chart", role: "ADMIN", section: "Direction" },
+    { href: "sauvegarde.html", label: "Sauvegarde", icone: "download", role: "ADMIN", section: "Direction" },
+    { href: "guide.html", label: "Guide", icone: "book", role: "TOUS", section: "Aide" },
   ];
 
   /* ----- Menu lateral (sidebar) + navigation ----- */
@@ -40,20 +41,32 @@ const UI = (function () {
     logo.innerHTML = "GES<span>-CB</span><small>Camp Biblique</small>";
     side.appendChild(logo);
 
-    // Navigation selon le role
+    // Navigation selon le role (groupée par section)
     const nav = document.createElement("nav");
     nav.className = "menu";
-    PAGES.forEach(function (p, i) {
+    let sectionCourante = null;
+    let i = 0;
+    PAGES.forEach(function (p) {
       if (p.role !== "TOUS" && p.role !== role) return;
+      if (p.section && p.section !== sectionCourante) {
+        sectionCourante = p.section;
+        const titre = document.createElement("span");
+        titre.className = "menu-titre";
+        titre.textContent = sectionCourante;
+        titre.style.animationDelay = (0.5 + i * 0.08) + "s";
+        nav.appendChild(titre);
+        i += 1;
+      }
       const a = document.createElement("a");
       a.href = p.href;
-      a.innerHTML = ICONES(p.icone, 18) + ' <span class="menu-label">' + p.label + "</span>";
+      a.innerHTML = ICONES.OR(p.icone, 18) + ' <span class="menu-label">' + p.label + "</span>";
       if (p.href === actif) a.className = "active";
       a.style.animationDelay = (0.5 + i * 0.08) + "s";
       a.addEventListener("click", function () {
         document.body.classList.remove("menu-ouvert");
       });
       nav.appendChild(a);
+      i += 1;
     });
     side.appendChild(nav);
 
@@ -68,9 +81,20 @@ const UI = (function () {
 
     const user = document.createElement("div");
     user.className = "utilisateur";
+    const nom = DB.nomActuel();
+    const initiales = nom
+      .split(/\s+/)
+      .map(function (w) { return w.charAt(0); })
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
     user.innerHTML =
-      "<strong>" + DB.nomActuel() + "</strong><span>" + roleLabel +
-      '</span><button class="btn-deconnexion" onclick="AUTH.seDeconnecter()">Déconnexion</button>';
+      '<div class="user-ligne">' +
+        '<span class="user-avatar">' + initiales + "</span>" +
+        '<span class="user-info"><strong>' + nom + "</strong><span>" + roleLabel + "</span></span>" +
+      "</div>" +
+      '<button class="btn-deconnexion" onclick="AUTH.seDeconnecter()">' +
+      ICONES("logout", 14) + " Déconnexion</button>";
     pied.appendChild(user);
 
     side.appendChild(pied);

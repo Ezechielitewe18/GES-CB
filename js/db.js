@@ -121,6 +121,39 @@ const DB = (function () {
     return m;
   }
 
+  /* Ajoute un moniteur OU un aide-moniteur (déclaré par la direction).
+     Données : { role, nom_prenom, sexe, telephone, commission } */
+  function ajouterPersonnel(donnees) {
+    const liste = moniteurs();
+    const m = Object.assign(
+      {
+        id: prochainId(liste),
+        initials: initialesDe(donnees.nom_prenom),
+        role: "Moniteur",
+        statut: "PRESENT",
+        sexe: "",
+        telephone: "",
+        commission: "",
+      },
+      donnees
+    );
+    if (!m.initials) m.initials = initialesDe(m.nom_prenom);
+    liste.push(m);
+    sauverMoniteurs(liste);
+    return m;
+  }
+
+  /* Supprime une personne du personnel. Les mouvements restent dans le journal. */
+  function supprimerMoniteur(id) {
+    const liste = moniteurs();
+    const garde = liste.filter(function (m) { return m.id !== id; });
+    if (garde.length !== liste.length) {
+      sauverMoniteurs(garde);
+      return true;
+    }
+    return false;
+  }
+
   /* ----- Enfants ----- */
   function enfants() {
     return lire(CLES.enfants, []);
@@ -150,6 +183,7 @@ const DB = (function () {
       {
         id: prochainId(liste),
         statut: "PRESENT",
+        type_enfant: "INTERNE", // INTERNE = dort au camp, EXTERNE = vient le matin / rentre le soir
         date_creation: main.date,
       },
       donnees
@@ -281,7 +315,7 @@ const DB = (function () {
     return m;
   }
 
-  /* ----- Liste des personnes actuellement DEHORS ----- */
+  /* ----- Liste des personnes actuellement DEHORS (camp) ----- */
   function personnesDehors() {
     const liste = [];
     moniteurs()
@@ -291,10 +325,6 @@ const DB = (function () {
     enfants()
       .filter((e) => e.statut === "DEHORS")
       .forEach((e) => liste.push({ type_profil: "ENFANT", personne: e }));
-
-    visiteurs()
-      .filter((v) => v.statut === "PARTI")
-      .forEach((v) => liste.push({ type_profil: "VISITEUR", personne: v }));
 
     // Associer le dernier mouvement SORTIE pour motif + heure de sortie
     return liste.map((item) => {
@@ -333,8 +363,46 @@ const DB = (function () {
     return `${h}h${String(m).padStart(2, "0")}`;
   }
 
-  /* ----- Seuil alerte sortie longue (idee 2) ----- */
-  const SEUIL_ALERTE_SEC = 3 * 3600; // 3 heures
+  /* ----- Seuils d'alerte sortie longue (par niveau) ----- */
+  const SEUILS_ALERTE_HEURES = {
+    "Aide-Moniteur": 10, // un aide dehors plus de 10 h
+    MONITEUR: 15, // un moniteur dehors plus de 15 h
+    ENFANT: 18, // un enfant dehors plus de 18 h
+    VISITEUR: 20, // un visiteur présent plus de 20 h
+  };
+
+  /* Seuil d'alerte (en secondes) selon le niveau de la personne */
+  function seuilAlertePour(typeProfil, personne) {
+    const heures =
+      typeProfil === "ENFANT" ? SEUILS_ALERTE_HEURES.ENFANT :
+      typeProfil === "VISITEUR" ? SEUILS_ALERTE_HEURES.VISITEUR :
+      personne && personne.role === "Aide-Moniteur"
+        ? SEUILS_ALERTE_HEURES["Aide-Moniteur"]
+        : SEUILS_ALERTE_HEURES.MONITEUR;
+    return heures * 3600;
+  }
+
+  /* Vrai si la personne est dehors depuis plus longtemps que son seuil */
+  function enAlerte(item) {
+    if (!item || !item.sortie) return false;
+    return dureeSortie(item.sortie) >= seuilAlertePour(item.type_profil, item.personne);
+  }
+
+  /* Durée (en secondes) depuis le dernier mouvement ENTREE d'une personne
+     (utile pour les visiteurs présents sur le site) */
+  function dureeDepuisArrivee(typeProfil, personneId) {
+    const entrees = mouvementsPersonne(typeProfil, personneId).filter(function (m) {
+      return m.type_action === "ENTREE";
+    });
+    const derniere = entrees[entrees.length - 1];
+    if (!derniere) return 0;
+    const iso =
+      (derniere.date_mouvement || "") + "T" + (derniere.heure_mouvement || "");
+    const debutMs = iso.indexOf("T") > 0 ? new Date(iso).getTime() : NaN;
+    if (isNaN(debutMs)) return 0;
+    const ecart = Math.floor((Date.now() - debutMs) / 1000);
+    return ecart < 0 ? 0 : ecart;
+  }
 
   /* ----- Psaumes du jour (courage pour l'agent de porte) ----- */
   const PSAUMES = [
@@ -608,6 +676,8 @@ const DB = (function () {
     moniteurParId,
     mettreAJourMoniteur,
     ajouterMoniteur,
+    ajouterPersonnel,
+    supprimerMoniteur,
     enfants,
     enfantParId,
     mettreAJourEnfant,
@@ -627,7 +697,10 @@ const DB = (function () {
     personnesDehors,
     dureeSortie,
     formaterDuree,
-    SEUIL_ALERTE_SEC,
+    SEUILS_ALERTE_HEURES,
+    seuilAlertePour,
+    enAlerte,
+    dureeDepuisArrivee,
     PSAUMES,
     psaumeDuJour,
     initialiser,

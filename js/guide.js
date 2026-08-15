@@ -59,6 +59,7 @@ const GES_GUIDE = (function () {
         "Après la connexion, le menu donne accès à toutes les pages : les <strong>4 registres</strong> de la porte, les <strong>statistiques</strong> et la <strong>sauvegarde</strong>.",
       points: [
         "Moniteurs · Aides-Moniteurs · Enfants · Visiteurs",
+        "Gestion du personnel : ajouter des moniteurs et aides",
         "Statistiques : présences en temps réel et rapport du jour",
         "Sauvegarde : protéger les données",
       ],
@@ -71,6 +72,7 @@ const GES_GUIDE = (function () {
         '<div class="mini-carte">' + ICONES("helpers", 18) + "Aides</div>" +
         '<div class="mini-carte">' + ICONES("child", 18) + "Enfants</div>" +
         '<div class="mini-carte">' + ICONES("door", 18) + "Visiteurs</div>" +
+        '<div class="mini-carte">' + ICONES("usersPlus", 18) + "Gestion</div>" +
         '<div class="mini-carte">' + ICONES("chart", 18) + "Stats</div>" +
         '<div class="mini-carte">' + ICONES("download", 18) + "Sauvegarde</div>" +
         "</div></div></div>",
@@ -114,27 +116,46 @@ const GES_GUIDE = (function () {
     },
     {
       etiquette: "Étape 5",
-      titre: "L'alerte après <em>3 heures</em>",
+      titre: "Les enfants <em>internes &amp; externes</em>",
       texte:
-        "Si une personne reste dehors plus de <strong>3 heures</strong>, sa ligne devient <strong>rouge</strong> : c'est l'alerte. Il faut alors prévenir les responsables.",
+        "Deux types d'enfants : les <strong>internes</strong> dorment au camp (sortie ponctuelle : cours, RDV), les <strong>externes</strong> viennent le matin et rentrent chez eux le soir.",
       points: [
+        "À la création, choisissez le type de l'enfant",
+        "Externe : « Enregistrer l'arrivée du matin », puis « Départ du soir »",
+        "Externe : alerte s'il est encore au camp après 18 h",
+      ],
+      visuel:
+        '<div class="fake-app">' +
+        '<div class="fake-app-bar"><span class="pastille" style="background:#E74C3C"></span><span class="pastille" style="background:#E67E22"></span><span class="pastille" style="background:#2ECC71"></span><span class="titre-app">Enfants</span></div>' +
+        '<div class="fake-corps">' +
+        '<div class="mock-ligne"><div><strong>Gloire Kanku</strong><small><span class="badge badge-orange">Externe</span> Présent au camp</small></div><button class="btn btn-petit" disabled>Départ du soir</button></div>' +
+        '<div class="mock-ligne"><div><strong>Samuel Mutombo</strong><small><span class="badge badge-or">Interne</span> Présent</small></div><button class="btn btn-gris btn-petit" disabled>Sortie</button></div>' +
+        "</div></div>",
+    },
+    {
+      etiquette: "Étape 6",
+      titre: "Les alertes <em>par niveau</em>",
+      texte:
+        "Chaque niveau a son seuil d'alerte : <strong>10 h</strong> pour un aide-moniteur, <strong>15 h</strong> pour un moniteur, <strong>18 h</strong> pour un enfant et <strong>20 h</strong> pour un visiteur. Une fois dépassé, la ligne devient <strong>rouge</strong> : il faut prévenir les responsables.",
+      points: [
+        "Aide-Moniteur : alerte après 10 h dehors",
+        "Moniteur : alerte après 15 h dehors",
+        "Enfant : alerte après 18 h · Visiteur : après 20 h de présence",
         "La ligne rouge ne se désactive qu'au retour de la personne",
-        "Le temps dehors est mis à jour en direct",
-        "Vérifiez la page régulièrement, surtout après 20 h",
       ],
       visuel:
         '<div class="fake-app">' +
         '<div class="fake-app-bar"><span class="pastille" style="background:#E74C3C"></span><span class="pastille" style="background:#E67E22"></span><span class="pastille" style="background:#2ECC71"></span><span class="titre-app">Aide-Moniteurs</span></div>' +
         '<div class="fake-corps">' +
         '<div class="mock-ligne alerte">' +
-        "<div><strong style=\"color:#FF8A8A\">Esther Mbayo</strong><small>Commission Intendance</small></div>" +
-        '<span class="mock-etat mock-rouge">' + ICONES("alert", 16) + " 3 h 10 dehors</span>" +
+        "<div><strong style=\"color:#FF8A8A\">Esther Mbayo</strong><small>Commission Intendance · alerte après 10 h</small></div>" +
+        '<span class="mock-etat mock-rouge">' + ICONES("alert", 16) + " 10 h 10 dehors</span>" +
         "</div>" +
         '<div class="mock-ligne"><div><strong>Daniel Kasongo</strong><small>Commission Animation</small></div><span class="mock-etat">1 h 05 dehors</span></div>' +
         "</div></div>",
     },
     {
-      etiquette: "Étape 6",
+      etiquette: "Étape 7",
       titre: "Historique & <em>annulation</em>",
       texte:
         "Cliquez sur une personne pour ouvrir son <strong>historique</strong>. En cas d'erreur de saisie, le bouton <strong>« Annuler »</strong> supprime la ligne et corrige le statut automatiquement.",
@@ -153,7 +174,7 @@ const GES_GUIDE = (function () {
         "</tbody></table></div></div>",
     },
     {
-      etiquette: "Étape 7",
+      etiquette: "Étape 8",
       titre: "Les <em>statistiques</em>",
       texte:
         "La page Statistiques montre les présences en <strong>temps réel</strong>, le rapport du jour, des <strong>graphiques</strong> et le journal des mouvements. Idéale pour la réunion d'évaluation du soir.",
@@ -180,7 +201,7 @@ const GES_GUIDE = (function () {
         "</div></div>",
     },
     {
-      etiquette: "Étape 8",
+      etiquette: "Étape 9",
       titre: "Sauvegarder <em>chaque jour</em>",
       texte:
         "Les données sont gardées dans le téléphone ou l'ordinateur. Pour les protéger, faites une <strong>sauvegarde</strong> : un fichier <strong>.db</strong> qui contient tout.",
@@ -207,7 +228,7 @@ const GES_GUIDE = (function () {
       points: [
         "<strong>1.</strong> Connectez-vous avec le compte du camp",
         "<strong>2.</strong> Enregistrez chaque SORTIE (vert) et chaque RETOUR",
-        "<strong>3.</strong> Surveillez les lignes rouges : alerte après 3 h dehors",
+        "<strong>3.</strong> Surveillez les lignes rouges : alerte après 10 h (aide), 15 h (moniteur), 18 h (enfant), 20 h (visiteur)",
         "<strong>4.</strong> Le soir : imprimez les statistiques pour la réunion",
         "<strong>5.</strong> Terminez par une sauvegarde du fichier .db",
       ],

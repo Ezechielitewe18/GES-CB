@@ -63,7 +63,7 @@ textarea:focus {
   width: 100%;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 3px 12px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 3px 12px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .btn:hover {
@@ -141,12 +141,26 @@ textarea:focus {
 
 /* ====== CARTES / PANNEAUX ====== */
 .carte {
+  position: relative;
   background: linear-gradient(180deg, var(--bleu-nuit-2), var(--bleu-nuit));
   border: 1px solid var(--bleu-nuit-3);
-  border-radius: 14px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 22px;
   margin-bottom: 16px;
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.4);
+}
+
+.carte::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 18px;
+  right: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--or), transparent);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .carte h2 {
@@ -162,8 +176,15 @@ textarea:focus {
 }
 
 .carte h2 .h2-icone {
-  color: var(--or);
+  color: var(--or-clair);
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 9px;
   margin-right: 2px;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.15);
 }
 
 /* ----- Barre de choix de date (historique par jour) ----- */
@@ -330,10 +351,11 @@ table.tableau th {
   text-transform: uppercase;
   letter-spacing: 0.8px;
   white-space: nowrap;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.35);
 }
 
 table.tableau td {
-  padding: 10px 12px;
+  padding: 12px 14px;
   border-top: 1px solid var(--bleu-nuit-3);
   font-size: 14px;
   vertical-align: middle;
@@ -342,7 +364,11 @@ table.tableau td {
 /* Lignes cliquables (sélection) */
 table.tableau tbody tr {
   cursor: pointer;
-  transition: background 0.12s;
+  transition: background 0.12s, transform 0.12s;
+}
+
+table.tableau tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 table.tableau tbody tr:hover {
@@ -351,21 +377,183 @@ table.tableau tbody tr:hover {
 
 table.tableau tbody tr.selectionnee {
   background: var(--bleu-nuit-3);
-  box-shadow: inset 0 0 0 2px var(--or);
+  box-shadow: inset 0 0 0 2px var(--or), 0 0 14px rgba(212, 175, 55, 0.18);
 }
 
 table.tableau tbody tr.ligne-dehors {
-  background: rgba(231, 76, 60, 0.1);
+  background: rgba(231, 76, 60, 0.12);
 }
 
-.badge-statut {
-  display: inline-block;
-  padding: 2px 8px;
+/* Ligne en alerte (dépassement du seuil de durée) */
+table.tableau tbody tr.ligne-alerte {
+  background: linear-gradient(90deg, rgba(231, 76, 60, 0.22), rgba(231, 76, 60, 0.08));
+  animation: ligneAlertePulse 1.4s ease-in-out infinite;
+}
+
+@keyframes ligneAlertePulse {
+  0%, 100% { box-shadow: inset 3px 0 0 0 var(--rouge); }
+  50% { box-shadow: inset 3px 0 0 0 var(--rouge), inset 0 0 18px 0 rgba(231, 76, 60, 0.25); }
+}
+
+/* Badge « alarme » dans une ligne de tableau */
+.alarme-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  padding: 3px 9px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 800;
-  margin-left: 8px;
+  color: #FFB3B3;
+  background: rgba(231, 76, 60, 0.18);
+  border: 1px solid var(--rouge);
+  white-space: nowrap;
+  animation: clignote 1.2s infinite;
+}
+
+/* Avatar à initiales */
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--or-clair);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35), inset 0 0 10px rgba(212, 175, 55, 0.12);
   vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.avatar-m {
+  background: linear-gradient(135deg, #2E4A78, #0F1B30);
+}
+
+.avatar-f {
+  background: linear-gradient(135deg, #5E3A7E, #241432);
+}
+
+.avatar-n {
+  background: linear-gradient(135deg, #4A5874, #182940);
+}
+
+.cell-nom {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.cell-nom strong {
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+/* Pastille de statut avec point lumineux */
+.pill-statut {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+.pill-statut .point {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pill-vert {
+  background: rgba(46, 204, 113, 0.13);
+  color: #3ADB82;
+  border: 1px solid rgba(46, 204, 113, 0.45);
+}
+
+.pill-vert .point {
+  background: #2ECC71;
+  box-shadow: 0 0 7px rgba(46, 204, 113, 0.9);
+  animation: pointPulse 2s infinite;
+}
+
+.pill-rouge {
+  background: rgba(231, 76, 60, 0.13);
+  color: #FF8378;
+  border: 1px solid rgba(231, 76, 60, 0.5);
+}
+
+.pill-rouge .point {
+  background: #E74C3C;
+  box-shadow: 0 0 7px rgba(231, 76, 60, 0.9);
+  animation: pointPulse 0.9s infinite;
+}
+
+@keyframes pointPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.55; }
+}
+
+/* Sexe */
+.sexe-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.sexe-m {
+  background: rgba(66, 133, 244, 0.16);
+  color: #7FB2FF;
+  border: 1px solid rgba(66, 133, 244, 0.4);
+}
+
+.sexe-f {
+  background: rgba(232, 115, 176, 0.15);
+  color: #F09BC9;
+  border: 1px solid rgba(232, 115, 176, 0.4);
+}
+
+.sexe-n {
+  background: rgba(147, 166, 196, 0.15);
+  color: #A6B4CE;
+  border: 1px solid rgba(147, 166, 196, 0.4);
+}
+
+/* Commission */
+.commission-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--or-clair);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  white-space: nowrap;
+}
+
+/* Ligne vide (aucun résultat) */
+table.tableau tr.ligne-vide td {
+  text-align: center;
+  padding: 22px 16px;
+  color: var(--texte-muet);
+  font-size: 13px;
+  cursor: default;
 }
 
 .badge {
@@ -392,6 +580,69 @@ table.tableau tbody tr.ligne-dehors {
   background: rgba(230, 126, 34, 0.15);
   color: var(--orange);
   border: 1px solid var(--orange);
+}
+
+.badge-or {
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--or-clair);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  white-space: nowrap;
+}
+
+/* Compteur à côté d'un titre de carte */
+.compteur {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--or-clair);
+  background: rgba(212, 175, 55, 0.14);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 20px;
+  padding: 3px 12px;
+  white-space: nowrap;
+}
+
+/* Menu déroulant compact dans un tableau */
+select.select-compact {
+  width: auto;
+  min-width: 130px;
+  padding: 7px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+  color: var(--texte);
+}
+
+/* Bouton icône (supprimer) */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  border: 1px solid rgba(231, 76, 60, 0.4);
+  background: rgba(231, 76, 60, 0.1);
+  color: var(--rouge);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-icon:hover {
+  background: rgba(231, 76, 60, 0.2);
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.25);
+}
+
+.btn-icon.confirmer {
+  width: auto;
+  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: linear-gradient(180deg, #E94F3D, #C0392B);
+  color: var(--blanc);
+  border-color: transparent;
+  box-shadow: 0 3px 12px rgba(231, 76, 60, 0.35);
 }
 
 /* ====== STATISTIQUES ====== */
@@ -458,14 +709,16 @@ table.tableau tbody tr.ligne-dehors {
 }
 
 .toast {
-  background: linear-gradient(180deg, var(--bleu-nuit-2), var(--bleu-nuit));
+  background:
+    radial-gradient(260px 40px at 50% 0%, rgba(212, 175, 55, 0.1), transparent 80%),
+    linear-gradient(180deg, var(--bleu-nuit-2), var(--bleu-nuit));
   border: 2px solid var(--or);
   color: var(--texte);
   padding: 12px 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 700;
   text-align: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 0 4px rgba(212, 175, 55, 0.08);
   animation: toastIn 0.25s ease-out;
 }
 
@@ -602,9 +855,11 @@ table.tableau tbody tr.ligne-dehors {
 .recap-zone {
   margin-top: 16px;
   padding: 16px;
-  background: var(--bleu-nuit);
-  border: 1px dashed var(--or);
-  border-radius: 10px;
+  background:
+    radial-gradient(200px 60px at 50% 0%, rgba(212, 175, 55, 0.08), transparent 80%),
+    var(--bleu-nuit);
+  border: 1px dashed rgba(212, 175, 55, 0.65);
+  border-radius: 12px;
   font-size: 14px;
   color: var(--texte);
   display: none;

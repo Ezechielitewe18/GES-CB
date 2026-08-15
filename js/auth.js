@@ -10,6 +10,7 @@ const AUTH = (function () {
         "accueil.html",
         "moniteurs.html",
         "aides.html",
+        "gestion.html",
         "enfants.html",
         "visiteurs.html",
         "statistiques.html",

@@ -25,20 +25,40 @@
   let selectionSortie = null;
   let selectionRetour = null;
 
-  function ligneTableau(m, pourSortie, dejaSelectionne) {
+  function ligneTableau(m, pourSortie, dejaSelectionne, info) {
     const tr = document.createElement("tr");
     if (m.statut === "DEHORS") tr.className = "ligne-dehors";
     if (dejaSelectionne) tr.classList.add("selectionnee");
     const parts = DB.decomposerNom(m.nom_prenom);
+    const initials =
+      m.initials ||
+      (
+        (parts.prenom.charAt(0) || "") +
+        (parts.nom.charAt(0) || parts.postnom.charAt(0) || "")
+      ).toUpperCase();
+    const classeAvatar = "avatar avatar-" + (m.sexe === "M" ? "m" : "f");
+    const dehors = m.statut === "DEHORS";
+    const etat = dehors ? "DEHORS" : "PRÉSENT";
+    const classeEtat = dehors ? "rouge" : "vert";
+    let alarme = "";
+    if (dehors && info && info.enAlerte) {
+      tr.classList.add("ligne-alerte");
+      alarme = '<span class="alarme-badge">⏰ Dehors depuis ' + info.duree + "</span>";
+    }
     tr.innerHTML =
-      "<td><strong>" + (parts.prenom || "—") + "</strong>" +
-      '<span class="badge-statut badge-' + (m.statut === "DEHORS" ? "rouge" : "vert") +
-      '">' + (m.statut === "DEHORS" ? "DEHORS" : "PRÉSENT") + "</span></td>" +
+      "<td>" +
+        '<span class="' + classeAvatar + '">' + initials + "</span>" +
+        '<span class="cell-nom">' +
+          "<strong>" + (parts.prenom || "—") + "</strong>" +
+          '<span class="pill-statut pill-' + classeEtat + '"><span class="point"></span>' + etat + "</span>" +
+          alarme +
+        "</span>" +
+      "</td>" +
       "<td>" + (parts.nom || "—") + "</td>" +
       "<td>" + (parts.postnom || "—") + "</td>" +
-      "<td>" + (m.sexe === "M" ? "M" : "F") + "</td>" +
+      '<td><span class="sexe-badge sexe-' + (m.sexe === "M" ? "m" : "f") + '">' + (m.sexe === "M" ? "M" : "F") + "</span></td>" +
       "<td>" + (m.telephone || "—") + "</td>" +
-      "<td>" + (m.commission || "—") + "</td>";
+      '<td><span class="commission-badge">' + (m.commission || "—") + "</span></td>";
 
     tr.addEventListener("click", function () {
       if (pourSortie) {
@@ -165,22 +185,19 @@
     const dehors = DB.personnesDehors().filter(function (d) {
       return d.type_profil === "MONITEUR" && ids.indexOf(d.personne.id) !== -1;
     });
-    const longs = dehors.filter(function (d) {
-      return (
-        d.sortie &&
-        DB.dureeSortie(d.sortie) >= DB.SEUIL_ALERTE_SEC
-      );
-    });
+    const longs = dehors.filter(DB.enAlerte);
 
     zoneAlertes.innerHTML = "";
     longs.forEach(function (d) {
       const dur = DB.formaterDuree(DB.dureeSortie(d.sortie));
+      const seuil = DB.formaterDuree(DB.seuilAlertePour(d.type_profil, d.personne));
       const div = document.createElement("div");
       div.className = "alerte-longue";
       div.innerHTML =
         "⏰ <span>" + d.personne.nom_prenom +
         " est dehors depuis <strong>" + dur +
-        "</strong> — " + (d.sortie.motif || "") + "</span>";
+        "</strong> (alerte après " + seuil +
+        ") — " + (d.sortie.motif || "") + "</span>";
       zoneAlertes.appendChild(div);
     });
   }
@@ -197,7 +214,7 @@
       });
     if (!moniteurs.some(function (m) { return m.statut === "PRESENT"; })) {
       tbodySortie.innerHTML =
-        '<tr><td colspan="6" style="color:#888; text-align:center; padding:16px;">' +
+        '<tr class="ligne-vide"><td colspan="6">' +
         "Aucun moniteur présent" + (rechercheMoniteur.value ? " pour cette recherche" : "") + ".</td></tr>";
     }
 
@@ -206,11 +223,20 @@
     const dehors = moniteurs.filter(function (m) { return m.statut === "DEHORS"; });
     if (dehors.length === 0) {
       tbodyRetour.innerHTML =
-        '<tr><td colspan="6" style="color:#888; text-align:center; padding:16px;">' +
+        '<tr class="ligne-vide"><td colspan="6">' +
         "Aucun moniteur dehors pour le moment ✅</td></tr>";
     }
+    const infosDehors = DB.personnesDehors()
+      .filter(function (d) { return d.type_profil === "MONITEUR"; })
+      .reduce(function (acc, d) {
+        acc[d.personne.id] = {
+          duree: DB.formaterDuree(DB.dureeSortie(d.sortie)),
+          enAlerte: DB.enAlerte(d),
+        };
+        return acc;
+      }, {});
     dehors.forEach(function (m) {
-      tbodyRetour.appendChild(ligneTableau(m, false, selectionRetour && selectionRetour.id === m.id));
+      tbodyRetour.appendChild(ligneTableau(m, false, selectionRetour && selectionRetour.id === m.id, infosDehors[m.id]));
     });
 
     majBoutonSortie();

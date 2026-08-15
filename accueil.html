@@ -76,7 +76,7 @@
         document.getElementById("rappel-sauvegarde").style.display = "flex";
       }
 
-      // Psaume du jour : visible pour Tantine Nadicha
+      
       const psaume = DB.psaumeDuJour();
       document.getElementById("psaume-du-jour").innerHTML =
         '<div class="psaume">' +
@@ -90,6 +90,7 @@
       const cartes = [
         { href: "moniteurs.html", icone: "users", titre: "Moniteurs", desc: "Sorties et retours des moniteurs" },
         { href: "aides.html", icone: "helpers", titre: "Aides-Moniteurs", desc: "Sorties et retours des aides" },
+        { href: "gestion.html", icone: "usersPlus", titre: "Gestion du personnel", desc: "Ajouter moniteurs & aides, affecter les commissions" },
         { href: "enfants.html", icone: "child", titre: "Enfants", desc: "Mouvements des enfants" },
         { href: "visiteurs.html", icone: "door", titre: "Visiteurs", desc: "Arrivées et départs" },
         { href: "statistiques.html", icone: "chart", titre: "Statistiques", desc: "Présences en temps réel" },
@@ -109,7 +110,7 @@
         })
         .join("");
 
-      // Splash de bienvenue : une seule fois par session (ou au clic)
+      
       const splash = document.getElementById("splash");
       function fermerSplash() {
         if (!splash) return;

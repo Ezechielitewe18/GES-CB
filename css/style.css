@@ -301,12 +301,21 @@ body.flash-retour::after {
   display: flex;
   flex-direction: column;
   background:
-    radial-gradient(420px 300px at 50% 0%, rgba(56, 88, 140, 0.35) 0%, transparent 60%),
+    radial-gradient(500px 220px at 50% 100%, rgba(212, 175, 55, 0.09) 0%, transparent 60%),
+    radial-gradient(420px 300px at 50% 0%, rgba(56, 88, 140, 0.4) 0%, transparent 60%),
     linear-gradient(180deg, rgba(15, 27, 48, 0.98), rgba(8, 14, 26, 0.99));
   border-right: 2px solid var(--or);
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.55);
   overflow-y: auto;
   animation: sidebarEntree 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--bleu-nuit-4);
 }
 
 @keyframes sidebarEntree {
@@ -367,8 +376,30 @@ body.flash-retour::after {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 14px 12px;
+  padding: 12px 12px 14px;
   flex: 1;
+}
+
+/* Titres de sections dans le menu */
+.sidebar nav.menu .menu-titre {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(147, 166, 196, 0.78);
+  padding: 14px 14px 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: menuEntree 0.5s ease-out both;
+}
+
+.sidebar nav.menu .menu-titre::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.35), transparent);
 }
 
 .sidebar nav.menu a {
@@ -395,8 +426,20 @@ body.flash-retour::after {
 }
 
 .sidebar nav.menu a .icone {
-  color: var(--or);
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(212, 175, 55, 0.07);
+  border: 1px solid rgba(212, 175, 55, 0.22);
   transition: all 0.2s;
+}
+
+.sidebar nav.menu a .icone svg {
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.35));
 }
 
 .sidebar nav.menu a:hover {
@@ -407,20 +450,32 @@ body.flash-retour::after {
 }
 
 .sidebar nav.menu a:hover .icone {
-  color: var(--or-clair);
+  background: rgba(212, 175, 55, 0.16);
+  border-color: rgba(212, 175, 55, 0.55);
   transform: scale(1.12);
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.35);
+}
+
+.sidebar nav.menu a:hover .icone svg {
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
 }
 
 .sidebar nav.menu a.active {
-  background: linear-gradient(90deg, rgba(212, 175, 55, 0.16), rgba(212, 175, 55, 0.04));
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.18), rgba(212, 175, 55, 0.05));
   color: var(--or-clair);
   font-weight: 800;
   border-left: 3px solid var(--or);
-  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.25);
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.3);
 }
 
 .sidebar nav.menu a.active .icone {
-  color: var(--or-clair);
+  background: rgba(212, 175, 55, 0.22);
+  border-color: var(--or);
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.45), inset 0 0 8px rgba(212, 175, 55, 0.2);
+}
+
+.sidebar nav.menu a.active .icone svg {
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.9));
 }
 
 .sidebar nav.menu a.active::after {
@@ -443,7 +498,7 @@ body.flash-retour::after {
 }
 
 .sidebar-pied {
-  padding: 16px 20px;
+  padding: 14px 14px 18px;
   border-top: 1px solid var(--bleu-nuit-3);
   display: flex;
   flex-direction: column;
@@ -460,19 +515,61 @@ body.flash-retour::after {
 .sidebar-pied .utilisateur {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 12px;
+  gap: 8px;
+}
+
+.sidebar-pied .user-ligne {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.03));
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.sidebar-pied .user-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--or-clair), var(--or-fonce));
+  color: var(--bleu-nuit);
+  font-weight: 800;
+  font-size: 14px;
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
+  flex-shrink: 0;
+}
+
+.sidebar-pied .user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sidebar-pied .user-info strong {
+  color: var(--or-clair);
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-pied .user-info span {
+  font-size: 11px;
   color: var(--texte-muet);
 }
 
-.sidebar-pied .utilisateur strong {
-  color: var(--or-clair);
-  font-size: 13px;
-}
-
 .sidebar-pied .btn-deconnexion {
-  align-self: flex-start;
-  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  margin-top: 0;
 }
 
 /* Fond sombre derriÃ¨re la sidebar (mobile) */
@@ -491,7 +588,18 @@ body.flash-retour::after {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 6px 2px 20px;
+  padding: 6px 2px 22px;
+  position: relative;
+}
+
+.en-tete-page::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 8px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.55), rgba(212, 175, 55, 0.05) 70%, transparent);
 }
 
 .en-tete-page .en-tete-icone {
@@ -500,11 +608,15 @@ body.flash-retour::after {
   justify-content: center;
   width: 56px;
   height: 56px;
-  border-radius: 14px;
-  background: linear-gradient(180deg, var(--bleu-nuit-3), var(--bleu-nuit-2));
-  border: 1px solid var(--bleu-nuit-4);
-  color: var(--or);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 0 18px rgba(212, 175, 55, 0.06);
+  border-radius: 16px;
+  background: radial-gradient(circle at 30% 22%, var(--bleu-nuit-4), var(--bleu-nuit-3) 70%, var(--bleu-nuit-2));
+  border: 1px solid rgba(212, 175, 55, 0.55);
+  color: var(--or-clair);
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.45),
+    0 0 0 5px rgba(212, 175, 55, 0.08),
+    0 0 24px rgba(212, 175, 55, 0.22),
+    inset 0 0 18px rgba(212, 175, 55, 0.08);
   flex-shrink: 0;
 }
 
@@ -514,6 +626,10 @@ body.flash-retour::after {
   font-weight: 700;
   letter-spacing: 0.5px;
   line-height: 1.2;
+  background: linear-gradient(180deg, var(--blanc) 0%, #E9E2CE 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .en-tete-page p {
@@ -692,9 +808,11 @@ body.revele .grille-menu .carte-menu.animer {
 }
 
 .carte-menu {
-  background: linear-gradient(180deg, var(--bleu-nuit-2), var(--bleu-nuit));
+  background:
+    radial-gradient(240px 130px at 50% 0%, rgba(212, 175, 55, 0.07), transparent 70%),
+    linear-gradient(180deg, var(--bleu-nuit-2), var(--bleu-nuit));
   border: 1px solid var(--bleu-nuit-3);
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 26px 20px;
   text-align: center;
   text-decoration: none;
@@ -719,23 +837,43 @@ body.revele .grille-menu .carte-menu.animer {
 .carte-menu:hover {
   border-color: var(--or);
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(212, 175, 55, 0.25);
 }
 
 .carte-menu:hover::before {
   opacity: 1;
 }
 
-.carte-menu .icone {
-  font-size: 38px;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
-  color: var(--or);
+.carte-menu > .icone {
+  width: 66px;
+  height: 66px;
+  margin: 0 auto 14px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
+  color: var(--bleu-nuit);
+  background: radial-gradient(circle at 30% 25%, #F3DE8B 0%, var(--or) 55%, var(--or-fonce) 100%);
+  box-shadow:
+    0 10px 24px rgba(212, 175, 55, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.28);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.carte-menu .icone svg {
+  width: 34px;
+  height: 34px;
+}
+
+.carte-menu:hover > .icone {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow:
+    0 16px 32px rgba(212, 175, 55, 0.5),
+    0 0 22px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.28);
 }
 
 .carte-menu h3 {

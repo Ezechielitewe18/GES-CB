@@ -1,12 +1,13 @@
 /* GES-CB · Service worker — rend l'app disponible hors-ligne.
    Incrementez VERSION ci-dessous apres chaque modification des fichiers. */
-const VERSION = "ges-cb-v4";
+const VERSION = "ges-cb-v6";
 
 const FICHIERS = [
   "index.html",
   "accueil.html",
   "moniteurs.html",
   "aides.html",
+  "gestion.html",
   "enfants.html",
   "visiteurs.html",
   "statistiques.html",
@@ -25,6 +26,7 @@ const FICHIERS = [
   "js/charts.js",
   "js/guide.js",
   "js/moniteurs.js",
+  "js/gestion.js",
   "js/enfants.js",
   "js/visiteurs.js",
   "js/statistiques.js",
