@@ -12,6 +12,7 @@
   UI.installerNavbar("enfants.html");
 
   const nomEnfant = document.getElementById("nom-enfant");
+  const ageEnfant = document.getElementById("age-enfant");
   const typeEnfant = document.getElementById("type-enfant");
   const blocMotifCreation = document.getElementById("bloc-motif-creation");
   const motifEnfant = document.getElementById("motif-enfant");
@@ -95,6 +96,7 @@
     const externe = typeEnfant.value === "EXTERNE";
     const motif = valeurMotif(motifEnfant, motifAutreEnfant);
     const accompagnant = accompagnantEnfant.value.trim();
+    const age = ageEnfant.value.trim() ? Number(ageEnfant.value.trim()) : null;
 
     if (!nom) {
       UI.toast("Le nom de l'enfant est obligatoire.", "erreur");
@@ -117,7 +119,7 @@
 
     if (externe) {
       /* EXTERNE : il arrive le matin (présent au camp) */
-      const e = DB.ajouterEnfant({ nom_prenom: nom, type_enfant: "EXTERNE", statut: "PRESENT" });
+      const e = DB.ajouterEnfant({ nom_prenom: nom, age: age, type_enfant: "EXTERNE", statut: "PRESENT" });
       DB.ajouterMouvement({
         type_profil: "ENFANT",
         personne_id: e.id,
@@ -130,7 +132,7 @@
       UI.toast("Arrivée du matin enregistrée · " + nom, "ok");
     } else {
       /* INTERNE : il est créé et sorti du camp */
-      const e = DB.ajouterEnfant({ nom_prenom: nom, type_enfant: "INTERNE", statut: "DEHORS" });
+      const e = DB.ajouterEnfant({ nom_prenom: nom, age: age, type_enfant: "INTERNE", statut: "DEHORS" });
       DB.ajouterMouvement({
         type_profil: "ENFANT",
         personne_id: e.id,
@@ -144,6 +146,7 @@
     }
 
     nomEnfant.value = "";
+    ageEnfant.value = "";
     accompagnantEnfant.value = "";
     reinitialiserMotif(motifEnfant, motifAutreEnfant, blocAutreEnfant);
     rafraichirListe();
@@ -315,7 +318,7 @@
     let html =
       '<h3 style="margin-bottom:8px;">Tous les enfants</h3>' +
       '<div class="tableau-enveloppe"><table class="tableau"><thead><tr>' +
-      "<th>Enfant</th><th>Type</th><th>Statut</th><th>Actions</th></tr></thead><tbody>";
+      "<th>Enfant</th><th>Âge</th><th>Type</th><th>Statut</th><th>Actions</th></tr></thead><tbody>";
 
     enfants.slice().reverse().forEach(function (e) {
       const info = infosDehors[e.id];
@@ -343,6 +346,7 @@
       html +=
         "<tr" + (enAlerte ? ' class="ligne-alerte"' : "") +
         "><td><strong>" + e.nom_prenom + "</strong></td>" +
+        "<td>" + (e.age ? e.age + " ans" : "—") + "</td>" +
         "<td>" + typeBadge(e) + "</td>" +
         "<td>" + badge + "<br>" + alarme + "</td>" +
         '<td><button class="btn btn-gris btn-petit" data-hist="' + e.id + '">Historique</button> ' +

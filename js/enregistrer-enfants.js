@@ -11,6 +11,7 @@
   const typeEnfant = document.getElementById("type-enfant");
   const sexeEnfant = document.getElementById("sexe-enfant");
   const nomEnfant = document.getElementById("nom-enfant");
+  const ageEnfant = document.getElementById("age-enfant");
   const btnEnregistrer = document.getElementById("btn-enregistrer");
   const statutEnregistrement = document.getElementById("statut-enregistrement");
   const recherche = document.getElementById("recherche");
@@ -23,6 +24,7 @@
     const nom = nomEnfant.value.trim();
     const sexe = sexeEnfant.value;
     const type = typeEnfant.value;
+    const age = ageEnfant.value.trim();
 
     if (!nom) {
       UI.toast("Le nom de l'enfant est obligatoire.", "erreur");
@@ -42,12 +44,14 @@
     DB.ajouterEnfant({
       nom_prenom: nom,
       sexe: sexe,
+      age: age ? Number(age) : null,
       type_enfant: type,
       statut: type === "EXTERNE" ? "DEHORS" : "PRESENT",
     });
 
     UI.toast("Enfant enregistré · " + nom, "ok");
     nomEnfant.value = "";
+    ageEnfant.value = "";
     rafraichirListe();
   });
 
@@ -71,14 +75,16 @@
 
     let html =
       '<div class="tableau-enveloppe"><table class="tableau"><thead><tr>' +
-      "<th>Enfant</th><th>Type</th><th>Sexe</th><th></th></tr></thead><tbody>";
+      "<th>Enfant</th><th>Âge</th><th>Type</th><th>Sexe</th><th></th></tr></thead><tbody>";
 
     enfants.slice().reverse().forEach(function (e) {
       const typeLabel = e.type_enfant === "EXTERNE" ? "Externe" : "Interne";
       const typeClass = e.type_enfant === "EXTERNE" ? "badge-orange" : "badge-or";
       const sexeLabel = e.sexe === "M" ? "M" : e.sexe === "F" ? "F" : "—";
+      const ageLabel = e.age ? e.age + " ans" : "—";
       html +=
         "<tr><td><strong>" + e.nom_prenom + "</strong></td>" +
+        "<td>" + ageLabel + "</td>" +
         '<td><span class="badge ' + typeClass + '">' + typeLabel + "</span></td>" +
         "<td>" + sexeLabel + "</td>" +
         '<td><button class="btn btn-danger btn-petit" data-suppr="' + e.id + '">' +
