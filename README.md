@@ -24,6 +24,7 @@ Fonctionne **sans internet** : toutes les données sont enregistrées dans le na
 - **Moniteurs** : cliquer sur l'initiale du moniteur, saisir le motif de sortie, puis [Enregistrer la sortie]. Au retour, cliquer sur le moniteur "DEHORS" puis [Valider le retour]. *Double-clic sur un nom → historique de la journée (bouton « Annuler » sur une ligne pour corriger une saisie).*
 - **Aides-Moniteurs** : mêmes actions pour les aides.
 - **Enfants** : créer + sortir un nouvel enfant (motif optionnel : RDV médical, Cours, Formation, Autre...), ou rechercher un enfant existant (retour / nouvelle sortie). Bouton **Supprimer** (double confirmation) pour retirer un enfant et son historique.
+- **Inscrire enfants** : inscrire les enfants à l'avance (nom, sexe, type) sans enregistrer de sortie. Les enfants pré-inscrits apparaissent ensuite dans la page Enfants pour les opérations quotidiennes.
 - **Visiteurs** : enregistrer les arrivées et les départs.
 
 ### Direction
@@ -90,7 +91,8 @@ GES-CB/
 ├── accueil.html         # Menu principal
 ├── moniteurs.html       # Moniteurs
 ├── aides.html           # Aides-Moniteurs
-├── enfants.html         # Enfants
+├── enfants.html         # Enfants (sorties / retours)
+├── enregistrer-enfants.html  # Inscription des enfants (avant le camp)
 ├── visiteurs.html       # Visiteurs
 ├── gestion.html         # Gestion du personnel
 ├── statistiques.html    # Statistiques (rapport + journal + historique par jour)

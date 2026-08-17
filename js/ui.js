@@ -9,6 +9,7 @@ const UI = (function () {
     { href: "moniteurs.html", label: "Moniteurs", icone: "users", role: "ADMIN", section: "Porte" },
     { href: "aides.html", label: "Aides-Moniteurs", icone: "helpers", role: "ADMIN", section: "Porte" },
     { href: "enfants.html", label: "Enfants", icone: "child", role: "ADMIN", section: "Porte" },
+    { href: "enregistrer-enfants.html", label: "Inscrire enfants", icone: "child", role: "ADMIN", section: "Porte" },
     { href: "visiteurs.html", label: "Visiteurs", icone: "door", role: "ADMIN", section: "Porte" },
     { href: "gestion.html", label: "Gestion", icone: "usersPlus", role: "ADMIN", section: "Direction" },
     { href: "statistiques.html", label: "Statistiques", icone: "chart", role: "ADMIN", section: "Direction" },

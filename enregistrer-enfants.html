@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enregistrer les enfants · GES-CB</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#0F1B30" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="GES-CB" />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <div class="conteneur">
+
+    <div class="en-tete-page">
+      <span class="en-tete-icone">
+        <svg class="icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="6" r="3"/><path d="M9 9.5 12 11l3-1.5"/><path d="M12 11v5"/><path d="M9 21l1.5-5h3L15 21"/></svg>
+      </span>
+      <div>
+        <h1>Enregistrer les enfants</h1>
+        <p>Inscrire les enfants avant le début du camp. Ils seront ensuite visibles dans la page Enfants.</p>
+      </div>
+    </div>
+
+    <div class="deux-colonnes">
+
+      <!-- COLONNE 1 : INSCRIPTION -->
+      <div class="carte">
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          Nouvel enfant
+        </h2>
+
+        <div class="form-groupe">
+          <label class="champ-label" for="type-enfant">Type d'enfant</label>
+          <select id="type-enfant">
+            <option value="INTERNE">Interne — dort au camp</option>
+            <option value="EXTERNE">Externe — vient le matin, rentre le soir</option>
+          </select>
+        </div>
+
+        <div class="form-groupe">
+          <label class="champ-label" for="sexe-enfant">Sexe</label>
+          <select id="sexe-enfant">
+            <option value="M">Masculin</option>
+            <option value="F">Féminin</option>
+          </select>
+        </div>
+
+        <div class="form-groupe">
+          <label class="champ-label" for="nom-enfant">Nom et Prénom de l'enfant</label>
+          <input type="text" id="nom-enfant" placeholder="Ex. : Gloire KANKU" />
+        </div>
+
+        <button id="btn-enregistrer" class="btn">Enregistrer</button>
+        <p id="statut-enregistrement" style="color:#3BD581; font-size:14px; margin-top:10px; min-height:20px;"></p>
+      </div>
+
+      <!-- COLONNE 2 : LISTE -->
+      <div class="carte">
+        <h2>
+          <svg class="icone h2-icone" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          Enfants inscrits
+        </h2>
+        <div class="barre-recherche">
+          <span class="loupe">
+            <svg class="icone" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          </span>
+          <input type="search" id="recherche" placeholder="Rechercher un enfant..." autocomplete="off" />
+        </div>
+        <div id="liste-enfants" style="margin-top:12px;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/enregistrer-enfants.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>
